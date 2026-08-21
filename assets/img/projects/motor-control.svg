@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-  <rect width="800" height="600" fill="#e9ecef"/>
-  <rect x="20" y="20" width="760" height="560" fill="none" stroke="#adb5bd" stroke-width="2" stroke-dasharray="12 8"/>
-  <text x="400" y="285" font-family="Inconsolata, monospace" font-size="34" font-weight="600" fill="#495057" text-anchor="middle">DC Motor Control</text>
-  <text x="400" y="330" font-family="Inconsolata, monospace" font-size="20" fill="#868e96" text-anchor="middle">photo coming soon</text>
-</svg>

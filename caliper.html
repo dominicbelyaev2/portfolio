@@ -37,55 +37,8 @@
   <main class="main">
     <section class="section">
       <div class="container" data-aos="fade-up">
-<h1>Single-Pivot, Side-Pull Bicycle Brake Caliper</h1>
-<p class="text-muted">Role: 4-person team &mdash; I was <strong>Testing &amp; Validation Lead</strong> and <strong>FEA &amp; Topology Lead</strong>, ran the topology optimization, and redesigned both arms for the final version &middot; Tools: Siemens NX (CAD + Nastran FEA), Granta EduPack, SLS Nylon 12 &middot; Timeline: Mar &ndash; Jun 2026 (ME 240)</p>
-
-<div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/caliper/bike-close.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Printed Nylon 12 caliper installed on the test bicycle"><img src="assets/img/projects/caliper/bike-close.jpg" class="img-fluid rounded" alt="SLS Nylon 12 brake caliper installed on the rear wheel of the test bicycle"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/caliper/bike-left-arm.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Cable-side arm with barrel adjuster and return spring"><img src="assets/img/projects/caliper/bike-left-arm.jpg" class="img-fluid rounded" alt="Cable-side caliper arm with brake cable and return spring hardware"></a></div>
-</div>
-
-<p><strong>Designed, analyzed, and physically validated a rear rim-brake caliper printed in SLS Nylon 12 against ISO 4210 braking requirements — the final test stopped the bike in 5.334 m against a 7.62 m ISO-adjusted limit, with FEA-predicted peak stress reduced from 48.66 to 40.81 MPa through a data-driven redesign.</strong></p>
-
-<h3>Problem</h3>
-<p>Design a single-pivot, side-pull caliper for the rear wheel of a real test bicycle: transmit cable tension into pad clamping force, fit a constrained design space around the frame and rim, release cleanly, and stop the bike within the braking distances of ISO 4210-2 / 4210-4 — in a polymer (Nylon 12, ~50 MPa ultimate strength) far weaker than the aluminum it substitutes for.</p>
-
-<h3>Hand analysis before FEA</h3>
-<p>An energy balance (<em>d</em> = <em>v</em>&sup2;/2&mu;<em>g</em>) connected braking distance to required rim friction, and a moment balance about the pivot (<em>N</em> = <em>F</em><sub>in</sub>&thinsp;<em>L</em><sub>1</sub>/<em>L</em><sub>2</sub>) set the arm lever ratio — more clamping force trades directly against pad travel. Section sizing at the arm root came from <em>&sigma;</em> = <em>P</em>/<em>A</em> + <em>Mc</em>/<em>I</em>, which correctly predicted where FEA would later find the peak stress.</p>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><a href="assets/img/projects/caliper/design-space-sketch.jpg" class="glightbox" data-gallery="analysis" data-glightbox="title: Design-space sketches — three planes with keep-out zones"><img src="assets/img/projects/caliper/design-space-sketch.jpg" class="img-fluid rounded" alt="Hand sketches of the caliper design space in three planes"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/caliper/fbd-moments.png" class="glightbox" data-gallery="analysis" data-glightbox="title: Free-body diagram — pad loads and internal moments at the arm root"><img src="assets/img/projects/caliper/fbd-moments.png" class="img-fluid rounded" alt="Free-body diagram of caliper arm with moment arms and internal loads"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/caliper/fbd-render.jpg" class="glightbox" data-gallery="analysis" data-glightbox="title: Free-body diagram — cable force, pad forces, pivot reactions"><img src="assets/img/projects/caliper/fbd-render.jpg" class="img-fluid rounded" alt="Free-body diagram showing cable input force, pad normal and friction forces, and pivot reactions"></a></div>
-</div>
-
-<h3>FEA (NX Nastran)</h3>
-<p>Each arm was meshed and solved separately: constrained at the pivot/mounting interfaces, loaded with the 89 N (20 lbf) cable force, stress read as element-nodal unaveraged von Mises. Singularities at constraints were excluded — reported maxima come from the physical load path. Pass criteria: peak stress under the 50 MPa static allowable, and total (left + right) deflection under 11 mm so the lever can't bottom out.</p>
-<div class="row g-3 mb-2">
-  <div class="col-md-6"><a href="assets/img/projects/caliper/stress-left.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Left arm von Mises stress — max 41.17 MPa"><img src="assets/img/projects/caliper/stress-left.jpg" class="img-fluid rounded" alt="Left caliper arm von Mises stress contour, maximum 41.17 MPa"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/caliper/stress-right.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Right arm von Mises stress — max 40.81 MPa"><img src="assets/img/projects/caliper/stress-right.jpg" class="img-fluid rounded" alt="Right caliper arm von Mises stress contour, maximum 40.81 MPa"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/caliper/disp-left.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Left arm displacement — max 2.733 mm"><img src="assets/img/projects/caliper/disp-left.jpg" class="img-fluid rounded" alt="Left caliper arm displacement contour, maximum 2.733 millimeters"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/caliper/disp-right.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Right arm displacement — max 4.848 mm"><img src="assets/img/projects/caliper/disp-right.jpg" class="img-fluid rounded" alt="Right caliper arm displacement contour, maximum 4.848 millimeters"></a></div>
-</div>
-
-<h3>Test failure &rarr; redesign &rarr; pass</h3>
-<p>The initial arms came out of a <strong>topology optimization I ran</strong> on the design-space solid — that's where the organic cutouts in the initial right arm (below) come from. The print had acceptable FEA numbers but <strong>failed its road test</strong>: it was built around incorrect bike design-space dimensions, so the pads rubbed at rest and never contacted the rim squarely. <strong>I redesigned both arms</strong> around the verified geometry — resized so the pads met the rim flat and symmetrically, thickened root sections, reoriented the cable hole so the cable seated vertically, and added hardware clearance. Every change traced to a specific observed failure, and the redesign also improved the analysis: peak stress fell ~16% and the deflection safety factor rose from 1.23 to 1.45.</p>
-<div class="row g-3 mb-3">
-  <div class="col-lg-8"><a href="assets/img/projects/caliper/fea-compare.png" class="glightbox" data-glightbox="title: Initial vs redesigned arms — von Mises stress comparison"><img src="assets/img/projects/caliper/fea-compare.png" class="img-fluid rounded border" alt="Four-panel comparison of initial and redesigned caliper arms with von Mises stress contours"></a></div>
-</div>
-<div class="table-responsive mb-4">
-<table class="table table-sm" style="max-width: 640px;">
-  <thead><tr><th></th><th>Initial design</th><th>Redesign</th><th>Requirement</th></tr></thead>
-  <tbody>
-    <tr><td>Peak stress, left arm</td><td>45.12 MPa (FS 1.11)</td><td>41.17 MPa (FS 1.21)</td><td rowspan="2">&lt; 50 MPa</td></tr>
-    <tr><td>Peak stress, right arm</td><td>48.66 MPa (FS 1.03)</td><td>40.81 MPa (FS 1.22)</td></tr>
-    <tr><td>Total deflection</td><td>8.953 mm (FS 1.23)</td><td>7.581 mm (FS 1.45)</td><td>&lt; 11 mm</td></tr>
-    <tr><td>Road test</td><td>Fail (pad misalignment)</td><td><strong>Pass — 5.334 m stop</strong></td><td>&lt; 7.62 m (ISO-adjusted)</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Validation on the bike</h3>
-<p>As testing lead I ran the physical program: rider accelerates to a stop line, brakes as hard as possible, and the stop distance is corrected to the ISO 4210-2 reference speed by <em>d</em><sub>max</sub> = <em>d</em><sub>ISO</sub>(<em>v</em><sub>test</sub>&sup2;/<em>v</em><sub>ISO</sub>&sup2;). The redesigned calipers stopped the bike in <strong>5.334 m against the 7.62 m allowable</strong>, at 40 g per arm and 140 N actuation force.</p>
+<h1>Bicycle Brake Caliper</h1>
+<p class="text-muted">Mechanical Design &amp; Manufacturing (ME 240) &mdash; Northwestern &middot; Spring 2026</p>
 <style>
   /* photo 3:4, video 9:16 — widths proportional to aspect ratios so heights match */
   .test-row { display: flex; gap: 12px; align-items: flex-start; }
@@ -95,7 +48,49 @@
   .test-row img, .test-row video { display: block; width: 100%; height: auto; }
   @media (max-width: 767px) { .test-row { flex-direction: column; } .test-row > div { width: 100%; } }
 </style>
-<div class="test-row mb-4">
+
+<div class="row g-3 mb-1">
+  <div class="col-md-6"><a href="assets/img/projects/caliper/bike-close.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Printed Nylon 12 caliper installed on the test bicycle"><img src="assets/img/projects/caliper/bike-close.jpg" class="img-fluid rounded" alt="SLS Nylon 12 brake caliper installed on the rear wheel of the test bicycle"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/caliper/bike-left-arm.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Cable-side arm with barrel adjuster and return spring"><img src="assets/img/projects/caliper/bike-left-arm.jpg" class="img-fluid rounded" alt="Cable-side caliper arm with brake cable and return spring hardware"></a></div>
+</div>
+<p class="text-muted small mb-4">The redesigned Nylon 12 arms on the test bike, and the cable-side arm.</p>
+
+<h3>Overview</h3>
+<p>For ME 240 our four-person team designed a single-pivot, side-pull brake caliper for the rear wheel of a real test bicycle, printed in SLS Nylon 12. I was testing &amp; validation lead and FEA &amp; topology lead, and redesigned both arms for the final version. Over the quarter I:</p>
+<ul>
+  <li>Ran the hand analysis &mdash; energy balance, moment balance, and section sizing at the arm root</li>
+  <li>Ran a topology optimization on the design-space solid to generate the initial arms</li>
+  <li>Meshed and solved both arms in NX Nastran</li>
+  <li>Redesigned both arms after the first road test failed</li>
+  <li>Ran the road-test program against the ISO braking-distance requirement</li>
+</ul>
+
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Fit the constrained design space around an actual frame and rim</li>
+  <li>Transmit cable tension into pad clamping force, then release cleanly</li>
+  <li>Stop the bike within the braking distances of ISO 4210-2 / 4210-4 &mdash; 7.62 m adjusted to our test speed</li>
+  <li>Keep peak stress under Nylon 12&rsquo;s ~50 MPa ultimate strength</li>
+  <li>Keep total deflection under 11 mm so the lever can&rsquo;t bottom out on the bar</li>
+</ul>
+
+<h3>Design</h3>
+<p>Hand analysis came first. An energy balance (<em>d</em> = <em>v</em>&sup2;/2&mu;<em>g</em>) set the rim friction the pads have to generate, a moment balance about the pivot set the lever ratio, and <em>&sigma;</em> = <em>P</em>/<em>A</em> + <em>Mc</em>/<em>I</em> sized the sections at the arm root &mdash; and correctly predicted where FEA would later find the peak stress, which is why I trusted the mesh.</p>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><a href="assets/img/projects/caliper/design-space-sketch.jpg" class="glightbox" data-gallery="analysis" data-glightbox="title: Design-space sketches — three planes with keep-out zones"><img src="assets/img/projects/caliper/design-space-sketch.jpg" class="img-fluid rounded" alt="Hand sketches of the caliper design space in three planes"></a><p class="text-muted small mt-1 mb-0">Design space in three planes</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/caliper/fbd-moments.png" class="glightbox" data-gallery="analysis" data-glightbox="title: Free-body diagram — pad loads and internal moments at the arm root"><img src="assets/img/projects/caliper/fbd-moments.png" class="img-fluid rounded" alt="Free-body diagram of caliper arm with moment arms and internal loads"></a><p class="text-muted small mt-1 mb-0">Internal moments at the arm root</p></div>
+</div>
+<p>The initial arms came out of a topology optimization I ran on the design-space solid. Each arm was meshed and solved separately in NX Nastran &mdash; constrained at the pivot and mounting interfaces, loaded with the 89 N (20 lbf) cable force, stress read as unaveraged von Mises with constraint singularities excluded. That design passed on paper: 45.12 MPa peak on the left arm, 48.66 MPa on the right, 8.953 mm total deflection.</p>
+<p>It failed the first road test anyway. The print was built around incorrect bike design-space dimensions, so the pads rubbed at rest and never contacted the rim squarely. I redesigned both arms around the verified geometry: pads meeting the rim flat and symmetrically, thickened root sections, a reoriented cable hole, and hardware clearance. The redesign also improved the numbers: peak stress fell about 16%, to 41.17 MPa on the left and 40.81 MPa on the right, and total deflection dropped from 8.953 mm to 7.581 mm against the 11 mm limit.</p>
+<div class="row g-3 mb-3">
+  <div class="col-lg-8"><a href="assets/img/projects/caliper/fea-compare.png" class="glightbox" data-glightbox="title: Initial vs redesigned arms — von Mises stress comparison"><img src="assets/img/projects/caliper/fea-compare.png" class="img-fluid rounded border" alt="Four-panel comparison of initial and redesigned caliper arms with von Mises stress contours"></a><p class="text-muted small mt-1 mb-0">Initial vs. redesigned arms, same load case</p></div>
+</div>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><a href="assets/img/projects/caliper/stress-left.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Left arm von Mises stress — max 41.17 MPa"><img src="assets/img/projects/caliper/stress-left.jpg" class="img-fluid rounded" alt="Left caliper arm von Mises stress contour, maximum 41.17 MPa"></a><p class="text-muted small mt-1 mb-0">Redesigned left arm von Mises &mdash; max 41.17 MPa</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/caliper/stress-right.jpg" class="glightbox" data-gallery="fea" data-glightbox="title: Right arm von Mises stress — max 40.81 MPa"><img src="assets/img/projects/caliper/stress-right.jpg" class="img-fluid rounded" alt="Right caliper arm von Mises stress contour, maximum 40.81 MPa"></a><p class="text-muted small mt-1 mb-0">Redesigned right arm von Mises &mdash; max 40.81 MPa</p></div>
+</div>
+<p>As testing lead I ran the validation &mdash; a rider braking as hard as possible from a stop line &mdash; with the stop distance corrected to the ISO 4210-2 reference speed by <em>d</em><sub>max</sub> = <em>d</em><sub>ISO</sub>(<em>v</em><sub>test</sub>&sup2;/<em>v</em><sub>ISO</sub>&sup2;); without that correction, a run at the wrong speed proves nothing. The redesigned caliper stopped the bike in 5.334 m against the 7.62 m allowable, at 40 g per arm and 140 N actuation force. A Granta EduPack screen selected 7075-T6 aluminum for production, and a fatigue check (Basquin S-N with Marin factors) showed the Nylon 12 part is a finite-life prototype.</p>
+<div class="test-row mb-1">
   <div class="test-photo"><a href="assets/img/projects/caliper/bike-wide.jpg" class="glightbox" data-gallery="test" data-glightbox="title: Both printed arms installed for the road test"><img src="assets/img/projects/caliper/bike-wide.jpg" class="rounded" alt="Both printed caliper arms installed on the test bicycle"></a></div>
   <div class="test-video" style="position: relative;">
     <video controls playsinline preload="metadata" class="rounded" poster="assets/img/projects/caliper/biketest-poster.jpg">
@@ -107,12 +102,16 @@
     </div>
   </div>
 </div>
+<p class="text-muted small mb-4">Both printed arms installed, and the braking run that produced the 5.334 m stop.</p>
 
-<h3>Materials &amp; production path</h3>
-<p>Beyond the printed prototype, a Granta EduPack screen (cost, salt-water corrosion, fracture toughness &gt; 30 ksi&radic;in, then strength- and stiffness-to-density) selected <strong>7075-T6 aluminum</strong> for production, with volume-dependent processes: die casting + finish machining at high volume, forged 7075 + CNC for performance bikes, billet 6061 CNC for a frame shop. A fatigue check (Basquin S-N with Marin factors, K<sub>f</sub> from notch sensitivity) showed the Nylon 12 part is a finite-life prototype — one reason the metal path matters.</p>
-
-<h3>What I'd change</h3>
-<p>Three metrics still failed at the final test: overall width (60.6 mm vs 55), released pad clearance (0.05 mm vs 0.3&ndash;2.0), and adjustment range (1 mm vs 2). The next iteration would narrow the arms ~6 mm, move the pad mounts outboard for real release clearance, and add a slotted pad boss — combining the corrected geometry with the more compact, material-efficient topology-optimized concept from my original design.</p>
+<h3>Outcomes</h3>
+<ul>
+  <li>Road-test pass: 5.334 m stop against the 7.62 m ISO-adjusted limit</li>
+  <li>Peak stress after the redesign: 48.66 &rarr; 40.81 MPa (right arm, ~16% lower) and 45.12 &rarr; 41.17 MPa (left); deflection safety factor 1.23 &rarr; 1.45</li>
+  <li>7075-T6 aluminum selected as the production material</li>
+  <li>Three requirements still fail: overall width 60.6 mm vs 55, released pad clearance 0.05 mm vs 0.3&ndash;2.0, adjustment range 1 mm vs 2</li>
+</ul>
+<p class="text-muted">Scope note: the printed caliper is a finite-life prototype &mdash; the FEA numbers are static checks against the ~50 MPa ultimate, not a fatigue clearance.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>

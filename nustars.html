@@ -38,51 +38,55 @@
     <section class="section">
       <div class="container" data-aos="fade-up">
 
-<h1>Battery Retention Sled &mdash; NUSTARS ATLAS Payload</h1>
-<p class="text-muted">Role: I designed the battery retention sled. The payload as a whole is the work of the NUSTARS payload team &middot; Tools: Onshape, FDM 3D printing &middot; Timeline: Jan 2026 &ndash; present &middot; Northwestern University Space Technology &amp; Rocketry Society, ESRA IREC 2025&ndash;26</p>
+<h1>NUSTARS Battery Retention Sled</h1>
+<p class="text-muted">NUSTARS Rocketry &mdash; ESRA IREC 2025&ndash;26 &middot; Jan 2026 &ndash; present</p>
 
-<div class="row g-3 mb-2">
+<div class="row g-3 mb-1">
   <div class="col-md-5"><a href="assets/img/projects/nustars/payload-assembly.png" class="glightbox" data-gallery="hero" data-glightbox="title: ATLAS payload assembly — bulkheads, standoffs, TeleMega, cells and camera hardware"><img src="assets/img/projects/nustars/payload-assembly.png" class="img-fluid rounded border bg-white" alt="Onshape assembly view of the ATLAS payload showing two bulkheads on threaded standoffs with the flight computer, battery holders and camera hardware between them"></a>
-    <p class="text-muted small mt-1">The ATLAS payload bay &mdash; team assembly. Two bulkheads on threaded standoffs carry the TeleMega flight computer, the cells, camera hardware and the antenna stack.</p></div>
+    <p class="text-muted small mt-1 mb-0">The ATLAS payload bay &mdash; team assembly. Two bulkheads on threaded standoffs carry the TeleMega flight computer, the cells, camera hardware and the antenna stack.</p></div>
   <div class="col-md-7"><a href="assets/img/projects/nustars/sled-closeup.png" class="glightbox" data-gallery="hero" data-glightbox="title: The sled installed — cross-shaped plate spanning the bay over the cells and flight computer"><img src="assets/img/projects/nustars/sled-closeup.png" class="img-fluid rounded border bg-white" alt="Close-up of the grey cross-shaped 3D printed retention sled installed over the battery holders and the green TeleMega board"></a>
-    <p class="text-muted small mt-1">My part, installed &mdash; the grey cross-shaped plate. Its long arm clamps the cells; the wide face passes over the TeleMega and holds it down as a secondary job.</p></div>
+    <p class="text-muted small mt-1 mb-0">My part, installed &mdash; the grey cross-shaped plate. Its long arm clamps the cells; the wide face passes over the TeleMega and holds it down as a secondary job.</p></div>
 </div>
 
-<p class="mt-3"><strong>Designed the battery retention sled for the ATLAS payload of NUSTARS&rsquo; ESRA IREC competition rocket &mdash; a 3D-printed cross-shaped plate that clamps the cells against flight loads on the way to roughly 7,500 ft, using heat-set threaded inserts in the printed body and nylon-insert lock nuts at the bulkhead so the joint cannot back itself off under sustained vibration.</strong></p>
+<h3>Overview</h3>
+<p>For NUSTARS&rsquo; ATLAS payload &mdash; flying on the team&rsquo;s ESRA IREC 2025&ndash;26 competition rocket to roughly 7,500 ft &mdash; I designed the battery retention sled: a 3D-printed plate that clamps the payload&rsquo;s cells so they cannot move under boost. The sled is my part; the payload as a whole is the work of the NUSTARS payload team. I:</p>
+<ul>
+  <li>Designed the cross-shaped plate in Onshape around the bay&rsquo;s fixed component stack</li>
+  <li>Packaged it into the volume left between the TeleMega flight computer, camera hardware, and antenna stack</li>
+  <li>Specified brass heat-set inserts in the print and nylon-insert lock nuts at the bulkhead</li>
+  <li>Laid out four fastening points at the lower bulkhead</li>
+  <li>Chose FDM printing so a revision is an overnight print, not a shop booking</li>
+</ul>
 
-<h3>Problem</h3>
-<p>Everything in a rocket payload bay has to survive boost without moving. Loose cells are the worst version of that problem: they carry real mass, they sit directly against the flight computer, and if they shift under acceleration they can break a connection or damage the board next to them. The bay is also densely packed &mdash; the retention had to fit the volume left over between the TeleMega, the camera hardware and the antenna stack, without blocking access to anything the team needs to reach between flights.</p>
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Nothing in the bay may move under boost &mdash; loose cells carry real mass and sit directly against the flight computer</li>
+  <li>Fit the volume left over in a densely packed bay</li>
+  <li>Block no access &mdash; the team has to reach everything between flights</li>
+  <li>Survive repeated removal and reinstallation without degrading</li>
+  <li>Stay fastened through sustained broadband boost vibration</li>
+</ul>
 
 <h3>Design</h3>
-<ul>
-  <li><strong>Cross-shaped footprint.</strong> The plate is only wide where it needs to press. The long arm runs across the battery holders; the broad face covers the flight computer. Everywhere else the material is cut away, which keeps the part light and leaves the neighbouring components reachable.</li>
-  <li><strong>Two jobs, one part.</strong> Its primary function is clamping the cells. Because it already spans that face of the bay, it also sits over the TeleMega and lightly restrains it &mdash; a secondary benefit rather than the board&rsquo;s main retention.</li>
-  <li><strong>Turned-down edges.</strong> The raised lips around the perimeter locate the plate against the components below it, so clamping load is reacted through the walls of the sled rather than by friction alone.</li>
-  <li><strong>Printed, not machined.</strong> FDM printing was the right call for a part this geometrically fussy in a team that iterates fast &mdash; a revision is an overnight print rather than a shop booking.</li>
-</ul>
-
-<h3>Retention and fastening</h3>
-<p><strong>Heat-set inserts, not tapped plastic.</strong> Screwing a machine screw straight into a printed hole means cutting threads into layer lines &mdash; they strip easily, and every disassembly makes them worse. On a part that comes out repeatedly between test fits and flights, that&rsquo;s a joint with a short life. Brass heat-set inserts melt into the print and give it real machine threads that carry load into the surrounding plastic instead of into a few layers, so the sled can be torn down and reinstalled without degrading.</p>
-<p>The sled lands on four fastening points at the lower bulkhead, circled below. All four use <strong>nylon-insert lock nuts</strong>. That matters more than it sounds: a rocket airframe under boost is a sustained broadband vibration environment, and a plain nut on a smooth thread will walk loose in it. The nylon collar deforms around the thread and gives a prevailing torque that doesn&rsquo;t depend on the joint staying in tension &mdash; so the retention survives the flight even if the clamped stack settles slightly.</p>
-<div class="row g-3 mb-4 justify-content-center">
+<p>The plate is only wide where it needs to press: the long arm runs across the battery holders, the broad face passes over the TeleMega and lightly restrains it as a secondary job, and everywhere else the material is cut away &mdash; which keeps the part light and leaves the neighbouring components reachable. Turned-down edges around the perimeter locate the plate against the components below it, so clamping load is reacted through the sled&rsquo;s walls rather than by friction alone.</p>
+<p>Threads in printed plastic are a lifetime problem: screwing a machine screw into a printed hole cuts threads into layer lines, and they strip a little more on every disassembly. Brass heat-set inserts melt into the print and give it real machine threads that carry load into the surrounding plastic, so the sled can be torn down and reinstalled without degrading. It fastens at four points on the lower bulkhead &mdash; two outboard on the threaded standoffs, two inboard through the bulkhead &mdash; all with nylon-insert lock nuts, because a plain nut on a smooth thread will walk loose in a boost vibration environment. The nylon collar&rsquo;s prevailing torque doesn&rsquo;t depend on the joint staying in tension, so retention survives the flight even if the clamped stack settles slightly.</p>
+<div class="row g-3 mb-3 justify-content-center">
   <div class="col-md-7"><a href="assets/img/projects/nustars/fasteners.png" class="glightbox" data-glightbox="title: The four fastening points at the lower bulkhead"><img src="assets/img/projects/nustars/fasteners.png" class="img-fluid rounded border bg-white" alt="Front view of the payload bay with four fastener locations circled in red at the lower bulkhead"></a>
-    <p class="text-muted small mt-1">The four fastening points, circled &mdash; two outboard on the threaded standoffs, two inboard through the bulkhead.</p></div>
+    <p class="text-muted small mt-1 mb-0">The four fastening points, circled &mdash; two outboard on the standoffs, two inboard through the bulkhead.</p></div>
+</div>
+<p>The assembled bay is genuinely dense: a LoRa radio and BMP585 barometer stacked on the printed structure, a Raspberry Pi and camera behind them, power distribution and harness through the middle, all captured between two machined bulkhead rings on threaded standoffs. Fitting retention into what volume remains, without blocking access to any of it, was most of the design problem &mdash; more of it than the clamping itself.</p>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-detail.jpg" class="glightbox" data-gallery="built" data-glightbox="title: The assembled ATLAS payload — avionics stack, harness and bulkhead rings"><img src="assets/img/projects/nustars/payload-built-detail.jpg" class="img-fluid rounded" alt="The assembled ATLAS payload on a workbench, showing the avionics stack, wiring harness, camera and machined bulkhead rings"></a><p class="text-muted small mt-1 mb-0">The assembled payload &mdash; team hardware, shown for context</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-bench.jpg" class="glightbox" data-gallery="built" data-glightbox="title: Payload on the bench during assembly"><img src="assets/img/projects/nustars/payload-built-bench.jpg" class="img-fluid rounded" alt="The payload during assembly on the NUSTARS workbench with tools and hardware around it"></a><p class="text-muted small mt-1 mb-0">On the bench during assembly &mdash; team hardware, shown for context</p></div>
 </div>
 
-<h3>As built</h3>
-<p>The payload as assembled on the bench &mdash; team hardware, shown for context. It is a genuinely dense bay: a LoRa radio and BMP585 barometer stacked on the printed structure, a Raspberry Pi and camera behind them, power distribution and harness routed through the middle, all captured between two machined bulkhead rings on threaded standoffs. Fitting retention into what volume remains, without blocking access to any of it, is most of the design problem.</p>
-<div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-detail.jpg" class="glightbox" data-gallery="built" data-glightbox="title: The assembled ATLAS payload — avionics stack, harness and bulkhead rings"><img src="assets/img/projects/nustars/payload-built-detail.jpg" class="img-fluid rounded" alt="The assembled ATLAS payload on a workbench, showing the avionics stack, wiring harness, camera and machined bulkhead rings"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-bench.jpg" class="glightbox" data-gallery="built" data-glightbox="title: Payload on the bench during assembly"><img src="assets/img/projects/nustars/payload-built-bench.jpg" class="img-fluid rounded" alt="The payload during assembly on the NUSTARS workbench with tools and hardware around it"></a></div>
-</div>
-
-<h3>Status and what I&rsquo;d change</h3>
+<h3>Outcomes</h3>
 <ul>
-  <li><strong>Loads are qualitative so far.</strong> The sled was sized by judgement and by what fits, not against a calculated boost load case. The honest next step is to take the vehicle&rsquo;s peak acceleration, work out the inertial load of the cells, and check the clamping arms against it &mdash; the kind of check I ran on the <a href="caliper.html">brake caliper</a>, applied here.</li>
-  <li><strong>Print orientation deserves a second look.</strong> The clamping arms are loaded in bending, and FDM parts are weakest across layer lines. Orienting the print so layers run along the arms rather than across them is free strength.</li>
-  <li><strong>No test data yet.</strong> Nothing here has been vibration-tested. A shaker or even a bench tap test before the next flight would turn this from a design into a verified one.</li>
+  <li>Sled designed, printed, and installed in the ATLAS bay, clamping the cells at four bulkhead fastening points</li>
+  <li>Removable and re-installable between flights without thread degradation, via the heat-set inserts and lock nuts</li>
+  <li>Next step is the missing number: peak acceleration &rarr; cell inertial load &rarr; arm stress &mdash; the kind of check I ran on the <a href="caliper.html">brake caliper</a>, applied here &mdash; plus reorienting the print so layers run along the loaded arms</li>
 </ul>
-
+<p class="text-muted">Scope note: sized by judgement and by what fits &mdash; no calculated boost load case and no vibration test yet. The payload as a whole is the NUSTARS payload team&rsquo;s work; team hardware appears in the photos for context.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>

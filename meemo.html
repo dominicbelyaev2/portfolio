@@ -38,69 +38,66 @@
     <section class="section">
       <div class="container" data-aos="fade-up">
 
-<h1>Button Actuation Mechanism &mdash; Meemo Wristbuddy</h1>
-<p class="text-muted">Role: mechanical design intern at <strong>Meemo</strong> &mdash; I designed the button mechanism and integrated the status indicator into the existing enclosure &middot; Tools: Onshape, SOLIDWORKS, FDM printing &middot; Timeline: Summer 2025 &middot; Product: the Wristbuddy parent&ndash;child locating device</p>
+<h1>Button Actuation Mechanism</h1>
+<p class="text-muted">Mechanical Design Internship &mdash; Meemo &middot; Summer 2025</p>
 
-<div class="row g-3 mb-2">
-  <div class="col-12"><a href="assets/img/projects/meemo/section-annotated.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Section through the button stack — cap, stem, retention collar, tactile switch"><img src="assets/img/projects/meemo/section-annotated.jpg" class="img-fluid rounded border bg-white" alt="Annotated section view through the button mechanism showing the cap, stem guided through the shell wall, retention collar and the tactile switch beneath"></a>
-    <p class="text-muted small mt-1">Section through the button stack. The whole mechanism lives between the inside face of the shell and the top of a switch.</p></div>
+<div class="row g-3 mb-1">
+  <div class="col-12"><a href="assets/img/projects/meemo/section-annotated.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Section through the button stack — cap, stem, retention collar, tactile switch"><img src="assets/img/projects/meemo/section-annotated.jpg" class="img-fluid rounded border bg-white" alt="Annotated section view through the button mechanism showing the cap, stem guided through the shell wall, retention collar and the tactile switch beneath"></a></div>
 </div>
+<p class="text-muted small mb-4">Section through the button stack. The whole mechanism lives between the inside face of the shell and the top of a switch.</p>
 
-<p class="mt-3"><strong>Designed the three-button input mechanism for the Meemo Wristbuddy, a parent&ndash;child locating device &mdash; working inside an enclosure and a circuit board that were both already fixed. Each button is a capped plunger passing through the top shell, retained from below and travel-matched to the tactile switch on the board &mdash; then verified in assembly against the populated PCB model.</strong></p>
-
-<h3>The constraint</h3>
-<p>The Wristbuddy is a wearable that lets a parent locate a child, so it gets used one-handed, in a hurry, often without looking at it. This was the opposite of a clean-sheet problem, and that&rsquo;s what made it interesting. The enclosure existed. The board existed, with its switches already placed. The product needed three front-panel inputs and a status light, and neither the shell&rsquo;s outer form nor the board layout was mine to move.</p>
-<p>So the entire design space was the few millimetres between the inside face of the top shell and the top of a tactile switch. Everything had to be solved in that gap: how the button is held in, how far it travels, how it stays square, and how it feels.</p>
-
-<h3>How the mechanism works</h3>
+<h3>Overview</h3>
+<p>As a mechanical design intern at Meemo I designed the three-button input mechanism and the status-indicator integration for the Wristbuddy, a parent&ndash;child locating device worn and used one-handed, often without looking. It was the opposite of a clean-sheet problem: the enclosure existed, the board existed with its switches already placed, and neither the shell&rsquo;s outer form nor the board layout was mine to move &mdash; so the entire design space was the few millimetres between the inside face of the top shell and the top of a tactile switch. I:</p>
 <ul>
-  <li><strong>Cap.</strong> Sits proud of the shell so it can be found and pressed without looking &mdash; this is a device used one-handed, often without attention.</li>
-  <li><strong>Stem through the shell wall.</strong> The through-hole guides the plunger and keeps it square, so an off-centre press still actuates cleanly instead of binding.</li>
-  <li><strong>Retention collar below the shell face.</strong> Larger than the through-hole, so the button cannot fall out through the front. It also sets the rest position, which is what fixes the travel.</li>
-  <li><strong>Travel matched to the switch.</strong> The gap from plunger tip to switch dome sets how far the cap moves before actuation, and the collar bottoming out limits over-travel so the user can&rsquo;t drive the plunger into the switch past its rated stroke.</li>
-  <li><strong>Three in an array</strong>, on the same pitch as the switches on the board.</li>
+  <li>Designed a capped-plunger button stack through the top shell</li>
+  <li>Arrayed three buttons on the same pitch as the switches on the board</li>
+  <li>Integrated an addressable RGB status indicator into the shell</li>
+  <li>Verified the packaging in assembly against the fully populated board model</li>
+  <li>Printed the mechanism and tested it by hand against the switches</li>
 </ul>
 
-<div class="row g-3 mb-4">
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Three front-panel inputs findable by feel and pressed one-handed</li>
+  <li>Work entirely within the fixed enclosure and board &mdash; switch placement frozen</li>
+  <li>Retention from below, so the button cannot fall out through the front</li>
+  <li>Travel matched to the switch, with over-travel limited so a press can&rsquo;t exceed the switch&rsquo;s rated stroke</li>
+  <li>One status-light opening driving all the device&rsquo;s status colours</li>
+</ul>
+
+<h3>Design</h3>
+<p>Each button is a capped plunger. The cap sits proud of the shell so it can be found and pressed without looking. The stem passes through a through-hole in the shell wall that guides it and keeps it square, so an off-centre press still actuates cleanly instead of binding. A retention collar below the shell face is larger than the through-hole, so the button cannot fall out through the front &mdash; and it also sets the rest position, which is what fixes the travel. The gap from plunger tip to switch dome sets how far the cap moves before actuation, and the collar bottoming out limits over-travel. Three of these sit in an array on the same pitch as the switches on the board.</p>
+<div class="row g-3 mb-3">
   <div class="col-md-6"><a href="assets/img/projects/meemo/buttons-exterior.jpg" class="glightbox" data-gallery="design" data-glightbox="title: The three-button array on the top shell"><img src="assets/img/projects/meemo/buttons-exterior.jpg" class="img-fluid rounded" alt="The top shell exterior showing the three button caps in an array"></a>
-    <p class="text-muted small mt-1">The array as the user sees it.</p></div>
+    <p class="text-muted small mt-1 mb-0">The array as the user sees it.</p></div>
   <div class="col-md-6"><a href="assets/img/projects/meemo/buttons-interior.jpg" class="glightbox" data-gallery="design" data-glightbox="title: The button pockets and retention features from inside the shell"><img src="assets/img/projects/meemo/buttons-interior.jpg" class="img-fluid rounded" alt="The button pockets and retention features seen from inside the top shell"></a>
-    <p class="text-muted small mt-1">The same features from inside &mdash; pockets, guides and retention.</p></div>
+    <p class="text-muted small mt-1 mb-0">The same features from inside &mdash; pockets, guides and retention.</p></div>
 </div>
-
-<h3>Status indicator</h3>
-<p>Alongside the buttons I integrated an addressable RGB indicator into the top shell &mdash; a single package driving all the device&rsquo;s status colours from one opening rather than a separate LED per state. The work was placing the emitter and its aperture where the light reads clearly from outside without fouling anything already occupying that volume inside.</p>
-<div class="row g-3 mb-4 justify-content-center">
-  <div class="col-md-7"><a href="assets/img/projects/meemo/led-pocket.jpg" class="glightbox" data-glightbox="title: The indicator recess in the shell"><img src="assets/img/projects/meemo/led-pocket.jpg" class="img-fluid rounded" alt="The shell with the recess for the addressable RGB indicator"></a></div>
+<p>The status indicator is one addressable RGB package driving all the device&rsquo;s status colours from a single opening, rather than a separate LED per state. The work there was placement, not electronics: putting the emitter and its aperture where the light reads clearly from outside without fouling anything already occupying that volume inside.</p>
+<div class="row g-3 mb-3 justify-content-center">
+  <div class="col-md-7"><a href="assets/img/projects/meemo/led-pocket.jpg" class="glightbox" data-glightbox="title: The indicator recess in the shell"><img src="assets/img/projects/meemo/led-pocket.jpg" class="img-fluid rounded" alt="The shell with the recess for the addressable RGB indicator"></a>
+    <p class="text-muted small mt-1 mb-0">The indicator recess in the shell.</p></div>
 </div>
-
-<h3>Verification</h3>
-<p>A mechanism that works in isolation isn&rsquo;t worth much, so the shell went into an assembly with the fully populated board model &mdash; every connector, module and passive in place. That&rsquo;s where a packaging design actually gets tested: whether the plungers land on their switches, whether anything collides through the travel, and whether the connectors are still reachable once the shell is closed.</p>
-<div class="row g-3 mb-4 align-items-center">
+<p>Verification came in two steps. First, the shell went into an assembly with the fully populated board model &mdash; every connector, module and passive in place &mdash; to check that the plungers land on their switches, nothing collides through the travel, and the connectors stay reachable with the shell closed. Then the mechanism was 3D printed and pressed by hand against the switches, to check the things CAD can&rsquo;t: whether the plunger actuates without binding off-centre, whether the collar retains it, and whether the press feels like a button rather than pushing on a wall.</p>
+<div class="row g-3 mb-3 align-items-center">
   <div class="col-md-5">
     <video controls playsinline preload="metadata" class="rounded w-100 border" poster="assets/img/projects/meemo/poster-assembly.jpg">
       <source src="assets/video/meemo-assembly.mp4" type="video/mp4">
       Your browser doesn&rsquo;t support embedded video.
     </video>
-    <p class="text-muted small mt-1">Motion study of the two halves closing &mdash; the board carries the plungers down onto the base.</p>
+    <p class="text-muted small mt-1 mb-0">Motion study of the two halves closing &mdash; the board carries the plungers down onto the base.</p>
   </div>
   <div class="col-md-7"><a href="assets/img/projects/meemo/assembly-pcb.jpg" class="glightbox" data-glightbox="title: The shell assembled over the populated board model"><img src="assets/img/projects/meemo/assembly-pcb.jpg" class="img-fluid rounded" alt="The housing assembled over the fully populated circuit board model"></a>
-    <p class="text-muted small mt-1">Closed, against the populated board.</p></div>
+    <p class="text-muted small mt-1 mb-0">Closed, against the populated board.</p></div>
 </div>
 
-<h3>Printed and pressed</h3>
-<p>The mechanism was 3D printed and tested by hand against the switches &mdash; the point being to check the things CAD can&rsquo;t tell you: whether the plunger actuates without binding when pressed off-centre, whether the collar retains it, and whether the press feels like a button rather than like pushing on a wall. <em>(No photos of that build survive, which is the one thing I&rsquo;d do differently &mdash; photograph every prototype.)</em></p>
-
-<h3>What this is, and isn&rsquo;t</h3>
-<p>This is mechanism design and packaging. <strong>I did no wiring and no firmware</strong> &mdash; the indicator is placed and integrated mechanically, not driven. Validation was functional hand-testing of a printed part, not instrumented measurement.</p>
-
-<h3>What I&rsquo;d change</h3>
+<h3>Outcomes</h3>
 <ul>
-  <li><strong>Run a tolerance stack.</strong> Plunger travel is the sum of shell thickness, collar position, board standoff height and switch height &mdash; four tolerances stacking into one clearance. I set it nominally and confirmed it worked on one printed part. That&rsquo;s not the same as confirming it works at the tolerance extremes, where the button could fail to actuate at one end or sit pre-loaded on the switch at the other.</li>
-  <li><strong>Measure the actuation force.</strong> The switch has a rated actuation force, but what the user feels also includes friction in the guide. I judged it by hand; a gauge would turn that into a number and let it be tuned deliberately.</li>
-  <li><strong>Cycle it.</strong> A press-and-release test to a few thousand cycles would show whether the collar or the guide bore wears, which is the failure mode a printed part hides and a moulded one inherits.</li>
+  <li>Three-button mechanism travel-matched to the board&rsquo;s tactile switches, verified in assembly against the fully populated board model</li>
+  <li>Single-opening addressable RGB status indicator integrated into the existing shell</li>
+  <li>Printed part actuated cleanly when pressed off-centre, retained by its collar, and felt like a button under hand testing</li>
 </ul>
-
+<p class="text-muted">Scope note: this is mechanism design and packaging &mdash; I did no wiring and no firmware; the indicator is placed and integrated mechanically, not driven. Validation was functional hand-testing of one printed part, with no instrumented measurement and no tolerance stack, and no photos of that printed build survive.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>

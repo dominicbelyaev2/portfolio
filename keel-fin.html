@@ -37,8 +37,8 @@
   <main class="main">
     <section class="section">
       <div class="container" data-aos="fade-up">
-<h1>Retractable Keel Fin &mdash; A Passive Mechanism With Contradictory Orders</h1>
-<p class="text-muted">Role: Mechanical Engineering Intern, Levanta Technologies &mdash; owned the fin mechanism end-to-end under the engineering lead&rsquo;s direction &middot; Tools: Fusion 360, ANSYS Fluent (2D + 3D CFD), CadQuery, Shigley spring design, FDM prototyping &middot; Timeline: Jun &ndash; Aug 2026</p>
+<h1>Retractable Keel Fin</h1>
+<p class="text-muted">Mechanical Engineering Internship &mdash; Levanta Technologies &middot; Summer 2026</p>
 <style>
   .pair-row { display: flex; gap: 12px; align-items: flex-start; max-width: 900px; }
   .pair-row > div { min-width: 0; }
@@ -48,7 +48,7 @@
   @media (max-width: 767px) { .pair-row { flex-direction: column; } .pair-row > div { width: 100%; } }
 </style>
 <div class="pair-row mb-1">
-  <div class="pair-photo"><img src="assets/img/projects/keelfin/final-twinfin-hand.jpg" class="rounded" alt="The final twin-fin keel unit held in hand: two blades on a single shaft with torsion springs and no crossbar"></div>
+  <div class="pair-photo"><img src="assets/img/projects/keelfin/final-twinfin-hand.jpg" class="rounded" alt="The final twin-fin keel unit: two blades on a single spring-loaded shaft"></div>
   <div class="pair-video">
     <video controls playsinline preload="metadata" class="rounded" poster="assets/img/projects/keelfin/final-demo-poster.jpg">
       <source src="assets/video/keelfin-final-demo.mp4" type="video/mp4">
@@ -56,93 +56,61 @@
     </video>
   </div>
 </div>
-<p class="text-muted small mb-4">The final twin-fin unit, and the kick-up demo: the blades fold away on contact, then spring back to deployed.</p>
+<p class="text-muted small mb-4">Final twin-fin design and kick-up demo</p>
 
-<p><strong>A passive, spring-loaded keel fin that has to stay rigid against a 50-knot water load &mdash; and then fold flat when the vehicle drives itself up onto a recovery platform. No electronics, no motors, no actuators.</strong> The requirement contradicts itself on its face; this project is the architecture that makes both true at once, and the analysis chain that sized it. Delivered as a demonstrated prototype and a design package.</p>
-
-<h3>The brief &mdash; and the contradiction inside it</h3>
-<p>The vehicle is an autonomous maritime drone that loiters at sea and later recovers itself by swimming nose-first onto a raft or deck. A keel fin at the tail gives it directional stability underway. That fin is exactly what you do <em>not</em> want protruding when the hull slides up onto a flat platform.</p>
-<p>The requirements I was handed, essentially verbatim: a simple system with minimal failure points; spring-loaded and passive; <strong>separate the drag force from the lateral stability force</strong>; corrosion-resistant components; hundreds to thousands of load cycles; <strong>must not retract under normal load in the water, must retract when hitting the raft to climb on</strong>; a maximum speed of about 50 knots; and it must survive the impact of getting up onto the raft. Two constraints came with it &mdash; keep the specified NACA 16-006 section, and keep the part manufacturable in composites.</p>
-<p class="text-muted">One number on this page is mine rather than the brief&rsquo;s: the stated cycle requirement is &ldquo;hundreds/thousands,&rdquo; but a multi-week loiter at wave frequency implies something nearer a million reversals, which makes it a corrosion-fatigue problem rather than a static one. I designed against my own harsher assumption, and I label it as an assumption.</p>
-
-<h3>The architecture that resolves it: decouple the loads</h3>
-<p>The reason a passive spring is feasible at all is that the two loads on this fin are wildly different sizes and do not have to share a path. At yaw, the lateral force on the blade is roughly <strong>35&times;</strong> the drag force. If that lateral force reaches the spring, the spring is fighting the ocean continuously and nothing closes.</p>
-<p>So it doesn&rsquo;t. The blade pivots about a spanwise axis at its root. Lateral force acts <em>along</em> that axis and gets reacted by the hinge pin and load-bearing knuckles as shear and bending &mdash; producing essentially <strong>no moment about the pivot</strong>. Only drag makes the fin want to fold. The spring therefore only has to beat the much smaller drag moment while the structure quietly eats the big one. The fin also sits at <strong>zero angle of incidence</strong> when deployed, which minimizes drag and maximizes directional stability at the same time.</p>
-<p>The springs are a matched left-hand/right-hand torsion pair flanking a keyed collar, sitting at their <strong>free angle when deployed</strong> &mdash; no preload, near-zero torque at rest. Folding toward stowed winds them up through the full <strong>80&deg; sweep</strong>. A shaft that merely passes through a coil transmits nothing, so torque is routed deliberately: hull &rarr; fixed leg &rarr; coil &rarr; moving leg &rarr; keyed collar &rarr; shaft &rarr; fin.</p>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/concept-flow-sketch.jpg" class="glightbox" data-gallery="concept" data-glightbox="title: Working the load paths — which force folds the fin, and which one must never reach the spring"><img src="assets/img/projects/keelfin/concept-flow-sketch.jpg" class="img-fluid rounded border" alt="CAD sketch of the fin with flow direction arrows used to reason about load paths"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/mech-springs-shaft.jpg" class="glightbox" data-gallery="concept" data-glightbox="title: The torque path — matched LH/RH torsion springs flanking the keyed collar on the hinge shaft"><img src="assets/img/projects/keelfin/mech-springs-shaft.jpg" class="img-fluid rounded border" alt="CAD view of the hinge shaft with two torsion springs flanking the central collar"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/cad-pivot.jpg" class="glightbox" data-gallery="concept" data-glightbox="title: The barrel, bore, and spring-leg engagement at the fin root"><img src="assets/img/projects/keelfin/cad-pivot.jpg" class="img-fluid rounded border" alt="CAD detail of the fin root barrel, bore, and spring leg seats"></a></div>
-</div>
-
-<h3>Putting a number on the load &mdash; then correcting it twice</h3>
-<p>The spring rate follows from one number: the hinge moment the water applies to the deployed fin. First pass was a hand calculation &mdash; dynamic pressure in seawater at 25.72&nbsp;m/s is about <strong>339&nbsp;kPa</strong>, drag is <em>q&middot;S&middot;C<sub>D</sub></em>, and the moment is that force acting through the taper&rsquo;s drag centroid. I deliberately assumed a very conservative <strong>C<sub>D</sub> = 0.10</strong> to get a bounding value: roughly <strong>220&nbsp;N</strong> of drag and a hinge moment near <strong>12&nbsp;N&middot;m</strong>.</p>
-<p>Two corrections landed on that number. The first was mine to catch and embarrassing in the best way: my calculator was in radian mode, so <em>sin 70</em> evaluated to 0.774 instead of 0.940. Two mistakes had been partially cancelling &mdash; I had also used half-span as the moment arm instead of the taper&rsquo;s actual drag centroid at <strong>53.5&nbsp;mm</strong>. Corrected, the installed moment is about <strong>1.26&nbsp;N&middot;m</strong>. The second correction was the CFD, which showed the &ldquo;conservative&rdquo; bound wasn&rsquo;t conservative so much as wrong by an order of magnitude.</p>
-
-<h3>CFD: replacing a guess with a number, then checking the number</h3>
-<p>I built a 2D case for the section: NACA 16-006 at a 57&nbsp;mm chord, seawater (&rho;&nbsp;=&nbsp;1025&nbsp;kg/m&sup3;, &mu;&nbsp;=&nbsp;0.00107&nbsp;Pa&middot;s) at 25.72&nbsp;m/s, <strong>Re&nbsp;&asymp;&nbsp;1.4&times;10<sup>6</sup></strong>, k-&omega;&nbsp;SST, steady and pressure-based, domain to &plusmn;12 chords with roughly 32 inflation layers and 200 chordwise divisions. Wall resolution came out at <strong>y<sup>+</sup> = 1.58</strong> &mdash; under the target of 5 and near the ideal of 1, so the boundary layer is genuinely resolved rather than modeled. Result: <strong>C<sub>d</sub> = 0.0111 at zero incidence</strong>, <strong>214&nbsp;N per meter of span</strong>, split <strong>76% viscous / 24% pressure</strong>.</p>
-<p>Getting there taught the setup more than the answer did. Setting the farfield to &ldquo;normal to boundary&rdquo; instead of explicit velocity components produced colliding jets and a confident, absurd result &mdash; <strong>C<sub>d</sub> = 0.234 with C<sub>l</sub> = &minus;7.16</strong> on a symmetric foil at zero incidence. An answer that wrong is easy to catch. The dangerous ones are the plausible ones, which is why the next step mattered.</p>
-<p><strong>I validated the solver against something it could not have known.</strong> Turbulent flat-plate skin friction is closed-form and carries no pressure drag, making it a pure friction benchmark: <em>C<sub>f</sub> = 0.074/Re<sup>0.2</sup></em> gives 0.00436 per side, 0.0087 for two sides &mdash; against the CFD&rsquo;s viscous <strong>C<sub>d</sub> = 0.0086</strong>. A <strong>2% match</strong>, where a laminar assumption would have sat four times lower. That agreement is why I trust the drag number at all.</p>
-<p>I did have to walk back one claim about my own result. I&rsquo;d argued that because XFOIL&rsquo;s panel method bottoms out below my value, the flow must be fully turbulent. That&rsquo;s a non-sequitur &mdash; XFOIL simply doesn&rsquo;t model bypass or roughness transition. The honest position: fully-turbulent is a <em>conservative bound</em>, with the true C<sub>d</sub> bracketed between roughly 0.005 and 0.0115, plus physical reasons to expect the turbulent end &mdash; the hydraulically-smooth limit is about 4&nbsp;&mu;m, a molded surface runs 5&ndash;15&nbsp;&mu;m, and biofouling over a long deployment exceeds it by orders of magnitude.</p>
-<div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/keelfin/cfd-domain.jpg" class="glightbox" data-gallery="cfd" data-glightbox="title: The 3D fluid domain — box around the fin, Boolean subtracted"><img src="assets/img/projects/keelfin/cfd-domain.jpg" class="img-fluid rounded border" alt="ANSYS view of the fluid domain box surrounding the fin geometry"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/keelfin/cfd-mesh-quality.jpg" class="glightbox" data-gallery="cfd" data-glightbox="title: The 3D mesh and its element-quality histogram — the trade, documented before the run"><img src="assets/img/projects/keelfin/cfd-mesh-quality.jpg" class="img-fluid rounded border" alt="Tetrahedral mesh around the fin with the ANSYS element metrics histogram below it"></a></div>
-</div>
-<p><strong>The headline: the conservative guess was about 9&times; too big.</strong> A measured C<sub>d</sub> of 0.0111 against the assumed 0.10 turns 220&nbsp;N of drag into roughly 25&nbsp;N, and drops the hinge moment from about 12&nbsp;N&middot;m to <strong>~1.3&nbsp;N&middot;m</strong>. That is not a rounding difference &mdash; a spring sized for 12&nbsp;N&middot;m could not have packaged into the hinge at all. Three independent routes (2D CFD, the corrected hand calc, and the first 3D run) landed in the same band, so I moved the design point to the measurement with normal margin instead of staying anchored to a bound I already knew was false.</p>
-
-<h3>Auditing my own results</h3>
-<p>The first 3D run produced three separate reporting bugs, each of which would have handed me a confident wrong number:</p>
+<h3>Overview</h3>
+<p>During my internship at Levanta Technologies, I designed a passive retractable keel fin for an autonomous maritime drone. The fin acts as a rigid yaw stabilizer at speed, but folds out of the way when the vehicle drives onto its recovery platform. Over the summer I:</p>
 <ul>
-  <li><strong>The drag-coefficient monitor read 5.37&times;10<sup>&minus;5</sup></strong> &mdash; meaningless, because the reference area was left at Fluent&rsquo;s 1&nbsp;m&sup2; default. The proof is arithmetic: dividing the drag force by that coefficient returns exactly the freestream dynamic pressure. Corrected against real planform area, C<sub>d</sub> = 0.0083.</li>
-  <li><strong>The hinge-moment monitor read exactly zero on every iteration.</strong> Not physics &mdash; when I created the report I zeroed only the Z field of the moment axis and never set Y to 1, leaving a null axis vector. A one-field fix, but a monitor that reads a clean 0.0000 for 53 iterations is exactly the kind of output that gets quoted.</li>
-  <li><strong>About 30&nbsp;N of side force on a symmetric foil at zero incidence</strong>, where the answer should be zero. That&rsquo;s a mesh-asymmetry flag. It doesn&rsquo;t contaminate the hinge moment, but it disqualifies this mesh for the sideslip sweep &mdash; 30&nbsp;N of phantom force would drown the signal I&rsquo;d be looking for.</li>
-</ul>
-<p>The mesh itself was a deliberate trade I wrote down before running it. Wall-resolved inflation layers on a 0.5&nbsp;mm blunt trailing edge and sharp tip corners destroyed element quality, and a properly resolved 3D boundary layer blows past the 512,000-cell student solver limit before spanwise cells even exist. So I dropped inflation, kept a healthy tetrahedral mesh, and stated the cost up front: y<sup>+</sup> in the hundreds, and the viscous share &mdash; which is 76% of total drag &mdash; under-resolved. The run came in 26% below the 2D-scaled prediction, which is exactly the direction and roughly the magnitude that trade predicts. A bounded answer from a healthy mesh beats a precise-looking answer from a broken one.</p>
-
-<h3>Roads not taken</h3>
-<p>Before the plain spring won, several mechanisms got sketched and killed &mdash; each on a specific reason rather than taste:</p>
-<ul>
-  <li><strong>A flush trigger button in the airfoil&rsquo;s lower surface</strong>, latching the fin rigid until the platform pressed it. Killed on failure modes: the button can miss the raft entirely, and it can jam. It did leave behind a principle I kept &mdash; decouple the water-flow force direction from the release-force direction.</li>
-  <li><strong>Ratchet-and-pawl auto-relock</strong> with asymmetric sawtooth teeth. Genuinely workable, and kept as the fallback in case a plain spring couldn&rsquo;t both hold at speed and release on contact. It stopped being justifiable once the real hinge moment came in 9&times; lower.</li>
-  <li><strong>A torsion bar instead of coil springs</strong> &mdash; killed by arithmetic. A bar of the available diameter twists about <strong>17&deg; in the 60&nbsp;mm</strong> of hinge length on offer; the mechanism needs 80&deg;. Getting there wants a 300&ndash;440&nbsp;mm bar. A coil spring <em>is</em> the packaging solution: roughly 600&nbsp;mm of wire folded into a 45&nbsp;mm body.</li>
-  <li><strong>Four small springs instead of two</strong>, to shrink the housing. Halving per-spring torque thins the wire only as the cube root, while coil diameter is floored at shaft plus two wire diameters &mdash; so it saves about a millimetre of diameter and costs 25% more axial length, which was already the binding dimension.</li>
+  <li>Developed the mechanism concept and load-path architecture</li>
+  <li>Ran hand calculations and 2D/3D CFD in ANSYS Fluent to size the loads</li>
+  <li>Sized the torsion springs using Shigley's method</li>
+  <li>Designed the parts in Fusion 360 and built working printed prototypes</li>
+  <li>Iterated through a design review and two redesigns to the final twin-fin configuration</li>
 </ul>
 
-<h3>Spring sizing &mdash; and reporting that my own prototype springs were disqualifying</h3>
-<p>Torsion-spring wire works in bending, so sizing followed Shigley&rsquo;s method: stress from 32M/&pi;d&sup3; with the curvature correction, rate from E&middot;d<sup>4</sup>/(10.8&middot;D&middot;N), allowable at 0.61&middot;S<sub>ut</sub> for stainless. Accepting about <strong>10&deg; of bend-back</strong> at the operating moment fixes the total rate, which then splits across the matched pair. The binding constraint turned out to be neither stress nor rate but <strong>axial stack-up</strong>: every variant that made the required torque wanted 37&ndash;50&nbsp;mm of coil body per spring, on a hinge about 60&nbsp;mm long.</p>
-<p>The catalog springs I had been demonstrating with top out near 0.85&nbsp;N&middot;m &mdash; roughly <strong>six times too weak</strong> for the stowed condition. Worth stating plainly rather than letting a working desk demo imply a working design: with those springs installed, the fin blows flat at speed. The flight part is a custom-wound left/right pair. Material selection got its own correction &mdash; I had 17-7 PH written down as the strong, marine-friendly escalation until I checked corrosion literature instead of vendor copy. Precipitation-hardened grades in aged spring temper are susceptible to chloride pitting and stress-corrosion cracking under sustained stress, which is precisely this service condition. Held at 302/304 stainless, with Elgiloy or MP35N as the real escalation path.</p>
-<p class="text-muted">The single biggest lever on size turned out to be an inherited number: the hinge shaft diameter came from the bore of a catalog placeholder spring, not from any load calculation, and it had propagated into every downstream dimension. If the knuckles and pin carry the side load and the shaft is torque-only, it shrinks by nearly half &mdash; pulling coil diameter and the housing bulge down with it.</p>
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Fully passive &mdash; no electronics, motors, or actuators</li>
+  <li>Must not retract under normal water load at up to 50 knots</li>
+  <li>Must retract when hitting the recovery platform</li>
+  <li>Separate the drag force from the lateral stability force</li>
+  <li>Corrosion-resistant, and durable for long deployments in salt water</li>
+  <li>Keep the specified NACA 16-006 airfoil and composite manufacturability</li>
+</ul>
 
-<h3>Prototypes: v1, a fracture, and the redesign it forced</h3>
-<p>The first printed prototype proved the kinematics &mdash; fold through the full sweep, no coil bind, clean spring-back.</p>
-<div class="row g-3 mb-4">
+<h3>Design</h3>
+<p>The requirements conflict &mdash; rigid under one load, compliant under another. The architecture that resolves it: the blade pivots on a spanwise hinge, so the large lateral force (roughly 35&times; the drag) passes through the hinge pin as shear and creates no moment about the pivot. Only drag tries to fold the fin, so the torsion springs only need to resist the much smaller drag moment.</p>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><a href="assets/img/projects/keelfin/nb-4-moment-calc.jpg" class="glightbox" data-gallery="design" data-glightbox="title: Hinge-moment hand calculation"><img src="assets/img/projects/keelfin/nb-4-moment-calc.jpg" class="img-fluid rounded border" alt="Notebook page working the hinge moment calculation"></a><p class="text-muted small mt-1 mb-0">Hinge-moment hand calculation</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/keelfin/mech-springs-shaft.jpg" class="glightbox" data-gallery="design" data-glightbox="title: Torsion spring pair on the hinge shaft in Fusion 360"><img src="assets/img/projects/keelfin/mech-springs-shaft.jpg" class="img-fluid rounded border" alt="CAD view of the hinge shaft with two torsion springs flanking the collar"></a><p class="text-muted small mt-1 mb-0">Matched LH/RH torsion springs flanking the keyed collar</p></div>
+</div>
+<p>I first estimated the drag with a conservative assumed C<sub>d</sub> of 0.10, giving ~220&nbsp;N. To replace the guess, I ran a 2D simulation of the airfoil in ANSYS Fluent: NACA 16-006 at a 57&nbsp;mm chord in seawater at 25.7&nbsp;m/s (Re &asymp; 1.4&times;10<sup>6</sup>), k-&omega; SST, with the wall resolved to y<sup>+</sup> = 1.58. The result &mdash; C<sub>d</sub> = 0.0111, 214&nbsp;N per meter of span, 76% viscous &mdash; showed the hand estimate was ~9&times; conservative. The real hinge moment is about 1.3&nbsp;N&middot;m instead of 12, which is the difference between a spring that packages into the hinge and one that doesn't. As a sanity check, flat-plate skin-friction theory predicts a friction coefficient of 0.0087 versus the CFD's 0.0086 &mdash; a 2% match.</p>
+<div class="row g-3 mb-3">
+  <div class="col-12"><a href="assets/img/projects/keelfin/cfd-fluent-mesh.jpg" class="glightbox" data-gallery="design" data-glightbox="title: The 2D mesh in Fluent with the converged force report"><img src="assets/img/projects/keelfin/cfd-fluent-mesh.jpg" class="img-fluid rounded border" alt="Fluent window showing the mesh around the NACA 16-006 section with the force report"></a><p class="text-muted small mt-1 mb-0">2D mesh in Fluent; converged force report: C<sub>d</sub> = 0.0111, 76% viscous</p></div>
+</div>
+<p>The springs are a matched left/right torsion pair sized with Shigley's method, set at their free angle when deployed so they hold zero preload at rest and wind up through the 80&deg; fold. The catalog springs used in the prototypes are ~6&times; too weak for flight &mdash; the real part is a custom-wound 302/304 stainless pair (I ruled out 17-7 PH after checking its chloride stress-corrosion behavior).</p>
+<div class="row g-3 mb-3">
   <div class="col-md-4">
     <video controls playsinline preload="metadata" class="rounded" style="width:100%; display:block;" poster="assets/img/projects/keelfin/v1-demo-poster.jpg">
       <source src="assets/video/keelfin-v1-demo.mp4" type="video/mp4">
       Your browser doesn't support embedded video.
     </video>
-    <p class="text-muted small mt-1 mb-0">v1 prototype &mdash; fold and spring-back</p>
+    <p class="text-muted small mt-1 mb-0">v1 prototype demo</p>
   </div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/proto-v2-single.jpg" class="glightbox" data-gallery="proto" data-glightbox="title: The v2 single-fin prototype — printed blade on its shaft with the torsion pair and leg seat"><img src="assets/img/projects/keelfin/proto-v2-single.jpg" class="img-fluid rounded" alt="Grey printed single-fin prototype held in hand with torsion springs on the shaft"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/fin-blade-hand.jpg" class="glightbox" data-gallery="proto" data-glightbox="title: A printed blade — NACA 16-006 section on a tapered planform"><img src="assets/img/projects/keelfin/fin-blade-hand.jpg" class="img-fluid rounded" alt="A single printed fin blade held in hand showing the tapered airfoil section"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/keelfin/proto-v2-single.jpg" class="glightbox" data-gallery="proto" data-glightbox="title: v2 single-fin prototype"><img src="assets/img/projects/keelfin/proto-v2-single.jpg" class="img-fluid rounded" alt="Printed single-fin prototype with torsion springs on the shaft"></a><p class="text-muted small mt-1 mb-0">v2 single-fin prototype</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/keelfin/final-pair-deployed.jpg" class="glightbox" data-gallery="proto" data-glightbox="title: Final twin-fin units"><img src="assets/img/projects/keelfin/final-pair-deployed.jpg" class="img-fluid rounded" alt="Two black twin-fin keel assemblies with blades deployed"></a><p class="text-muted small mt-1 mb-0">Final twin-fin units</p></div>
 </div>
-<p>The second one broke &mdash; and it was the most useful result of the summer. The blade fractured at the barrel-to-root neck, cleanly along a layer plane. The cause was orientation, not material: layers had been stacked spanwise, so root bending pulled in tension <em>across</em> the layer welds, where PETG holds only 50&ndash;70% of its in-plane strength. Delamination, not material failure. Two fixes came out of it &mdash; reprint with the build direction perpendicular to the span, and add a 2&ndash;3&nbsp;mm fillet at the neck, which the real metal part wants anyway regardless of how it&rsquo;s made. The process fix solves the print; the geometry fix solves the part.</p>
-<p class="text-muted">Standing caveat I kept attached to every printed part: no FDM component validates this structure. The best in-plane strength available is around 100&nbsp;MPa against a real side-force case several times higher. Plastic prototypes here prove mechanism and geometry, never strength.</p>
+<p>The design went through three major iterations. A v2 prototype fractured at the blade root along a print-layer plane, which drove a reprint orientation change and a fillet at the neck that the final metal part keeps. After a design review, I split the single blade into two smaller fins &mdash; same total area, lower stress per blade, added redundancy &mdash; and removed all flow-disrupting features, including the crossbar, by bending the spring legs directly into the shaft.</p>
 
-<h3>Structures: the load that sizes the blade</h3>
-<p>Drag sizes the spring; the lateral force sizes the blade &mdash; and it is what drives material selection. At a moderate sideslip the blade sees roughly <strong>880&nbsp;N</strong>, and because the section is thin, that load bends it about its weak axis, more than an order of magnitude worse than the strong one. Root stress lands where 6061 aluminum and 316 stainless both fail outright and 7075 has essentially no margin, leaving titanium or 17-4 PH as the credible options.</p>
-<p>That is what drove the final configuration change: <strong>splitting one blade into two smaller ones</strong>. Total area is preserved, so directional authority is largely retained &mdash; about 85&ndash;90% of the single-fin yaw stiffness &mdash; while root bending per blade drops sharply, moving titanium from marginal to comfortable and adding redundancy if one blade is damaged. I did pick the less structurally optimal of two options here: a lower aspect ratio would have relieved more stress and opened up cheap aluminum, but it falls outside the aspect-ratio band the lead specified, so I stayed inside the requirement rather than optimizing my own metric.</p>
-<div class="row g-3 mb-4">
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/final-pair-deployed.jpg" class="glightbox" data-gallery="final" data-glightbox="title: Two finished twin-fin units, blades deployed"><img src="assets/img/projects/keelfin/final-pair-deployed.jpg" class="img-fluid rounded" alt="Two black twin-fin keel assemblies with blades deployed"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/final-pair-standing.jpg" class="glightbox" data-gallery="final" data-glightbox="title: The final pair — one-piece fin and shaft, blades folded down"><img src="assets/img/projects/keelfin/final-pair-standing.jpg" class="img-fluid rounded" alt="Two black twin-fin keel assemblies standing with blades folded"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/keelfin/final-pair-angle.jpg" class="glightbox" data-gallery="final" data-glightbox="title: Final configuration — crossbar deleted, spring legs bent directly into the shaft"><img src="assets/img/projects/keelfin/final-pair-angle.jpg" class="img-fluid rounded" alt="Angled view of the final twin-fin keel assemblies"></a></div>
-</div>
-<p>The last iteration deleted every feature that disturbed flow &mdash; most importantly the crossbar at the top of the fin, replaced by bending the spring legs directly into the shaft. That change carries a risk I flagged rather than buried: a hole in the shaft is a stress concentration, and a tight leg bend is a classic torsion-spring fatigue initiation site, so the bend radius wants to stay at least twice the wire diameter.</p>
-
-<h3>Where it actually stands</h3>
-<p><strong>Bench-proven kinematics and a design package &mdash; no vehicle integration, no on-water testing.</strong> That sentence is the honest boundary of this project and I won&rsquo;t stretch it. What was demonstrated is the mechanism folding, deploying, and resetting through its full sweep without binding. What was <em>not</em> measured is torque, fold force, cycle life, or anything in water. The one quantitative bench result is the negative one: the fracture, and its root cause.</p>
-<p>Handed off at internship end: the parametric mechanism CAD, the geometry generators, the validated 2D case plus the 3D case with a written post-mortem of what run&nbsp;1 does and doesn&rsquo;t prove, the twin-fin planform, and the spring specification with its procurement path. The named next steps are a boundary-layer-resolved 3D mesh to replace the estimated hinge moment with a measured one, a sideslip sweep on a mesh clean enough to trust, and confirming the cavitation margin &mdash; a first-pass minimum pressure coefficient exists and shows no cavitation at zero incidence, but the margin is thin enough to deserve the better mesh before anyone believes it.</p>
-<p>The composites side of the same internship is written up separately: <a href="composites.html">plug to mold to part</a>.</p>
+<h3>Outcomes</h3>
+<ul>
+  <li>Working twin-fin prototype demonstrating the full fold&ndash;deploy&ndash;reset cycle</li>
+  <li>Validated 2D CFD case (C<sub>d</sub> = 0.0111, y<sup>+</sup> = 1.58) and a 3D case with a documented fix list</li>
+  <li>Spring specification and procurement path for the custom-wound pair</li>
+  <li>Full design package handed off at internship end: parametric CAD, CFD cases, and calcs</li>
+</ul>
+<p class="text-muted">Scope note: kinematics were proven on the bench; the design was handed off before vehicle integration or on-water testing.</p>
+<p>The composites side of the same internship: <a href="composites.html">Composites Manufacturing</a>.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>

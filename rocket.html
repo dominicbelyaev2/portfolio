@@ -37,8 +37,8 @@
   <main class="main">
     <section class="section">
       <div class="container" data-aos="fade-up">
-<h1>NAR Level 1 High-Power Rocket Certification</h1>
-<p class="text-muted">Role: sole builder &amp; flyer &middot; Tools: OpenRocket, fiberglass kit build &middot; Timeline: Spring 2026, certified June 2026</p>
+<h1>NAR Level 1 High-Power Rocket</h1>
+<p class="text-muted">Personal Project &middot; Spring 2026, certified June 2026</p>
 <style>
   /* split-screen pair: flex-grow set to each item's aspect ratio (w/h) makes
      the rendered heights come out exactly equal at any container width */
@@ -49,7 +49,7 @@
   .pair-row img, .pair-row video { display: block; width: 100%; height: auto; }
   @media (max-width: 767px) { .pair-row { flex-direction: column; } .pair-row > div { width: 100%; } }
 </style>
-<div class="pair-row mb-4">
+<div class="pair-row mb-1">
   <div class="pair-photo"><img src="assets/img/projects/rocket/rocket-finished.jpg" class="rounded" alt="Finished L1 certification rocket, painted navy with BELYAEV on the airframe"></div>
   <div class="pair-video">
     <video controls playsinline preload="metadata" class="rounded" poster="assets/img/projects/rocket/launch-liftoff.jpg">
@@ -58,53 +58,59 @@
     </video>
   </div>
 </div>
-<p><strong>Built and flew a 3-inch fiberglass rocket on an Aerotech H182R, earning my NAR Level 1 high-power certification with a nominal deployment and recovery.</strong> Built from a Wildman kit flown in stock configuration &mdash; the goal of this flight was disciplined execution, not modification.</p>
+<p class="text-muted small mb-4">The finished airframe, and the certification flight leaving the rail on the H182R.</p>
+
+<h3>Overview</h3>
+<p>I earned my NAR Level 1 high-power certification by building a 3-inch fiberglass rocket from a Wildman kit and flying it to a successful, recovered flight on an AeroTech H182R. The kit flew in stock configuration, so the flight tested my workmanship and flight planning, not a design of mine. Over this project I:</p>
+<ul>
+  <li>Built the motor mount, fin can, and recovery anchor</li>
+  <li>Injected carbon-filled epoxy fin fillets through holes drilled at each fin root</li>
+  <li>Simulated the flight in OpenRocket</li>
+  <li>Drilled the motor&rsquo;s ejection delay down to the simulated coast time</li>
+  <li>Flew the certification flight at Bong Recreation Area, WI</li>
+</ul>
+
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Meet the NAR Level 1 requirement: build a high-power rocket and fly it to a successful, recovered flight</li>
+  <li>Stock kit configuration &mdash; the goal was disciplined execution, not modification</li>
+  <li>Recovery load path anchored into airframe structure, not a surface bond</li>
+  <li>Fins jig-aligned during bonding with filleted internal root joints</li>
+  <li>Deployment timed as close to apogee as the motor delay allows</li>
+</ul>
 
 <h3>Build</h3>
-<ul>
-  <li>Motor mount tube epoxied into G10 fiberglass centering rings; Kevlar shock cord anchored beneath the forward ring with an internal fillet.</li>
-  <li>Fins jig-aligned during bonding, then attached with <strong>syringe-injected carbon-fiber-filled epoxy fillets</strong> through holes drilled at each fin root &mdash; fillet geometry you can't reach with a stick on an internal joint.</li>
-  <li>Single-deploy parachute recovery via motor ejection.</li>
-</ul>
-
+<p>The motor mount tube is epoxied into G10 fiberglass centering rings, with the Kevlar shock cord anchored beneath the forward ring under an internal fillet so recovery loads run into the airframe structure rather than a surface bond. The fins were jig-aligned while the epoxy cured, and the root fillets are carbon-fiber-filled epoxy injected by syringe through holes drilled at each fin root &mdash; a fillet geometry hand tooling cannot reach on an internal joint. Recovery is single-deploy on motor ejection, the simplest scheme that satisfies the certification.</p>
 <div class="row g-3 mb-4">
-  <div class="col-md-4"><a href="assets/img/projects/rocket/motor-mount.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Motor mount tube with centering ring"><img src="assets/img/projects/rocket/motor-mount.jpg" class="img-fluid rounded" alt="Motor mount tube with epoxied centering ring"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/rocket/shock-cord-fillet.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Kevlar shock cord anchored with internal epoxy fillet"><img src="assets/img/projects/rocket/shock-cord-fillet.jpg" class="img-fluid rounded" alt="Kevlar shock cord anchored under centering ring with internal epoxy fillet"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/rocket/fin-can-dryfit.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Fin can dry fit with injection holes drilled"><img src="assets/img/projects/rocket/fin-can-dryfit.jpg" class="img-fluid rounded" alt="G10 fins dry-fitted to the booster with injection holes drilled"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/rocket/injected-fillets.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Injecting carbon-filled epoxy fillets by syringe"><img src="assets/img/projects/rocket/injected-fillets.jpg" class="img-fluid rounded" alt="Injecting carbon-fiber-filled epoxy at the fin root with a syringe"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/rocket/aft-fin-can.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Finished fin can and motor retainer"><img src="assets/img/projects/rocket/aft-fin-can.jpg" class="img-fluid rounded" alt="Aft view of finished fin can with motor retainer"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/rocket/nosecone-stock.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Filament-wound fiberglass nosecone"><img src="assets/img/projects/rocket/nosecone-stock.jpg" class="img-fluid rounded" alt="Stock filament-wound fiberglass nosecone"></a></div>
+  <div class="col-md-3"><a href="assets/img/projects/rocket/motor-mount.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Motor mount tube with centering ring"><img src="assets/img/projects/rocket/motor-mount.jpg" class="img-fluid rounded" alt="Motor mount tube with epoxied centering ring"></a><p class="text-muted small mt-1 mb-0">Motor mount tube with centering ring</p></div>
+  <div class="col-md-3"><a href="assets/img/projects/rocket/shock-cord-fillet.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Kevlar shock cord anchored with internal epoxy fillet"><img src="assets/img/projects/rocket/shock-cord-fillet.jpg" class="img-fluid rounded" alt="Kevlar shock cord anchored under centering ring with internal epoxy fillet"></a><p class="text-muted small mt-1 mb-0">Shock cord anchored under the forward ring</p></div>
+  <div class="col-md-3"><a href="assets/img/projects/rocket/injected-fillets.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Injecting carbon-filled epoxy fillets by syringe"><img src="assets/img/projects/rocket/injected-fillets.jpg" class="img-fluid rounded" alt="Injecting carbon-fiber-filled epoxy at the fin root with a syringe"></a><p class="text-muted small mt-1 mb-0">Injecting carbon-filled epoxy at the fin root</p></div>
+  <div class="col-md-3"><a href="assets/img/projects/rocket/aft-fin-can.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Finished fin can and motor retainer"><img src="assets/img/projects/rocket/aft-fin-can.jpg" class="img-fluid rounded" alt="Aft view of finished fin can with motor retainer"></a><p class="text-muted small mt-1 mb-0">Finished fin can and motor retainer</p></div>
 </div>
 
-<h3>Launch — Bong Recreation Area, WI</h3>
+<h3>Simulation &amp; flight</h3>
+<p>OpenRocket predicted a 2,461&nbsp;ft (750&nbsp;m) apogee at 11.7&nbsp;s, a 158&nbsp;m/s (Mach 0.46) peak, about 14.7&nbsp;g of max acceleration, and a 16&nbsp;m/s launch rod exit velocity. The one number I could still design on a stock kit was the ejection delay: the simulated burnout-to-apogee coast was 10.45&nbsp;s, so I drilled the motor&rsquo;s delay down to match rather than flying the delay it shipped with &mdash; in the sim, deployment comes 0.05&nbsp;s after apogee at ~2&nbsp;m/s, minimizing shock load on the chute and airframe.</p>
 <div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/rocket/launch-liftoff.jpg" class="glightbox" data-gallery="launch" data-glightbox="title: Ignition and liftoff"><img src="assets/img/projects/rocket/launch-liftoff.jpg" class="img-fluid rounded" alt="Rocket lifting off the rail under thrust"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/rocket/launch-ascent.jpg" class="glightbox" data-gallery="launch" data-glightbox="title: Ascent under H182R thrust"><img src="assets/img/projects/rocket/launch-ascent.jpg" class="img-fluid rounded" alt="Rocket ascending with flame and smoke column"></a></div>
+  <div class="col-lg-6"><img src="assets/img/projects/rocket/sim-altitude.png" class="img-fluid rounded border" alt="Simulated altitude versus time, apogee 750 meters at 11.7 seconds"><p class="text-muted small mt-1 mb-0">Simulated altitude &mdash; apogee 750 m at 11.7 s</p></div>
+  <div class="col-lg-6"><img src="assets/img/projects/rocket/sim-velocity.png" class="img-fluid rounded border" alt="Simulated vertical velocity versus time with burnout and ejection markers"><p class="text-muted small mt-1 mb-0">Simulated vertical velocity, burnout and ejection marked</p></div>
 </div>
-
-<h3>Flight simulation (OpenRocket)</h3>
-<ul>
-  <li>Predicted apogee: <strong>2,461 ft (750 m)</strong> on the H182R</li>
-  <li>Max velocity: 158 m/s (Mach 0.46) &middot; max acceleration &approx; 14.7 g</li>
-  <li>Launch rod exit velocity: 16 m/s &middot; time to apogee: 11.7 s</li>
-  <li><strong>Ejection timing set from the sim:</strong> the simulated burnout-to-apogee coast was 10.45 s, so I drilled the motor's ejection delay down to match &mdash; simulated deployment happens 0.05 s after apogee at ~2 m/s vertical velocity, minimizing shock load on the chute and airframe.</li>
-  <li>Flight result: stable ascent, ejection at apogee, clean recovery &mdash; certification signed off. The cert flight carried no altimeter (single-deploy, motor ejection), so these are predictions; Flight 2 adds instrumentation to close the predicted-vs-actual loop.</li>
-</ul>
-
+<p>The certification flight at Bong Recreation Area, WI flew a stable ascent with ejection at apogee and a clean recovery, and the certification was signed off in June 2026.</p>
 <div class="row g-3 mb-4">
-  <div class="col-lg-6"><img src="assets/img/projects/rocket/sim-altitude.png" class="img-fluid rounded border" alt="Simulated altitude versus time, apogee 750 meters at 11.7 seconds"></div>
-  <div class="col-lg-6"><img src="assets/img/projects/rocket/sim-velocity.png" class="img-fluid rounded border" alt="Simulated vertical velocity versus time with burnout and ejection markers"></div>
-  <div class="col-lg-6"><img src="assets/img/projects/rocket/sim-thrust.png" class="img-fluid rounded border" alt="AeroTech H182R thrust curve from the simulation"></div>
-</div>
-<div class="row mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/rocket/launch-ascent.jpg" class="glightbox" data-gallery="launch" data-glightbox="title: Ascent under H182R thrust"><img src="assets/img/projects/rocket/launch-ascent.jpg" class="img-fluid rounded" alt="Rocket ascending with flame and smoke column"></a><p class="text-muted small mt-1 mb-0">Ascent under H182R thrust</p></div>
   <div class="col-md-5">
     <a href="assets/img/projects/rocket/nar-card.jpg" class="glightbox" data-glightbox="title: NAR membership card, HPR Level 1"><img src="assets/img/projects/rocket/nar-card.jpg" class="img-fluid rounded" alt="NAR membership card showing HPR Certification Level 1"></a>
-    <p class="text-muted small mt-1">NAR #126690 &middot; HPR Cert. Level 1</p>
+    <p class="text-muted small mt-1 mb-0">NAR #126690 &middot; HPR Cert. Level 1</p>
   </div>
 </div>
 
-<h3>What came next &mdash; the instrumented campaign</h3>
-<p>The follow-on grew into its own vehicle: a smaller 2.3-inch airframe carrying a <a href="nosecone.html">molded carbon nosecone</a> and a <a href="telemetry.html">custom flight computer</a>, flown twice in one afternoon on 15 Aug 2026 &mdash; a parachute failure diagnosed from the logged data, then a clean reflight, with boost repeating to ~2% across the pair. Full story, data, and an interactive 3D replay of both flights: <a href="flights.html">Two Flights, One Afternoon</a>.</p>
+<h3>Outcomes</h3>
+<ul>
+  <li>NAR Level 1 high-power certification signed off June 2026 &middot; NAR #126690</li>
+  <li>Stable ascent, ejection at apogee, clean recovery on the H182R</li>
+  <li>Ejection delay drilled to the simulated 10.45&nbsp;s coast &mdash; predicted deployment 0.05&nbsp;s after apogee at ~2&nbsp;m/s</li>
+</ul>
+<p class="text-muted">Scope note: the cert flight carried no altimeter (single-deploy, motor ejection), so every flight figure here is a prediction, not a measurement.</p>
+<p>The follow-on became its own vehicle &mdash; a smaller 2.3-inch airframe carrying a <a href="nosecone.html">molded carbon nosecone</a> and a <a href="telemetry.html">custom flight computer</a>, flown twice on 15 Aug 2026 to close the predicted-vs-actual loop: <a href="flights.html">Two Flights, One Afternoon</a>.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>

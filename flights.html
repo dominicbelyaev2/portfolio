@@ -38,7 +38,7 @@
     <section class="section">
       <div class="container" data-aos="fade-up">
 <h1>Two Flights, One Afternoon</h1>
-<p class="text-muted">Role: solo &mdash; integration, launch ops, data recovery &amp; analysis &middot; Vehicle: 2.3-in airframe, AeroTech F67W-4, <a href="nosecone.html">molded carbon nosecone</a>, <a href="telemetry.html">custom flight computer</a> &middot; Flown: 15 Aug 2026</p>
+<p class="text-muted">Personal Project &middot; Flown 15 Aug 2026</p>
 <style>
   /* one video is portrait, the other landscape: give both the same square box
      and letterbox inside it so the two players render at identical size */
@@ -66,65 +66,60 @@
 </div>
 <p class="text-muted small mb-4">Left: flight 1 &mdash; the chute never opened. Right: flight 2, an hour later &mdash; clean deploy and recovery.</p>
 
-<p><strong>Two flights of the same rocket in one afternoon: flight 1&rsquo;s parachute jammed and the airframe came down ballistic at 17&nbsp;m/s &mdash; flight 2, after a repack, deployed cleanly and landed at 5.1&nbsp;m/s. The flight computer logged both end-to-end, the data diagnosed the failure between flights, and boost repeated to about 2% across the pair.</strong> That repeatability is the real result: airframe, avionics, and analysis chain all did their jobs twice.</p>
+<h3>Overview</h3>
+<p>I flew the same 2.3-inch rocket twice in one afternoon at a club launch, carrying the <a href="nosecone.html">carbon nosecone</a> and <a href="telemetry.html">flight computer</a> I built, to come home with measurements instead of estimates. Over the campaign I:</p>
+<ul>
+  <li>Integrated the nose section &mdash; carbon shell, printed coupler, and instrument housing, about 250&nbsp;g</li>
+  <li>Flew both flights on the AeroTech F67W-4 from a club pad and rail</li>
+  <li>Diagnosed the flight 1 deployment failure from the logged data</li>
+  <li>Recovered the flight 1 log from a reformatted flash volume</li>
+  <li>Repacked the chute and reflew within the hour</li>
+  <li>Reconstructed both trajectories in 3D from the raw logs</li>
+</ul>
 
-<h3>The campaign in one table</h3>
-<div class="table-responsive mb-3">
-<table class="table table-sm" style="max-width: 720px;">
-  <thead><tr><th></th><th>Flight 1 (chute failed)</th><th>Flight 2 (chute worked)</th></tr></thead>
-  <tbody>
-    <tr><td>Boost peak accel</td><td>6.0 g</td><td>6.1 g</td></tr>
-    <tr><td>Max velocity</td><td>37.9 m/s</td><td>38.5 m/s</td></tr>
-    <tr><td>Apogee (barometric)</td><td>84.6 m</td><td>76.9 m</td></tr>
-    <tr><td>Descent</td><td><strong>17.2 m/s</strong> ballistic</td><td><strong>5.1 &plusmn; 0.3 m/s</strong> under canopy</td></tr>
-    <tr><td>Landing</td><td>&ge;21.2 g impact (one axis clipped)</td><td>~5 m/s touchdown</td></tr>
-  </tbody>
-</table>
-</div>
-<p>The descent-rate pair &mdash; 17.2 vs 5.1&nbsp;m/s, measured by the same instrument on the same day &mdash; is the direct proof the repack fixed deployment. And flight 2&rsquo;s lower apogee on an identical boost isn&rsquo;t a performance gap: the reconstruction below shows it weathercocked into wind and spent the same energy arcing downrange.</p>
+<h3>Goals &amp; Requirements</h3>
+<ul>
+  <li>Fly the complete stack &mdash; airframe, molded nosecone, custom avionics &mdash; end to end</li>
+  <li>Measure boost acceleration, top speed, and apogee onboard rather than simulate them</li>
+  <li>Hold 100&nbsp;Hz IMU / 50&nbsp;Hz barometer logging through every flight phase</li>
+  <li>Recover the vehicle and the data from both flights</li>
+  <li>Fly twice in one session to test flight-to-flight repeatability</li>
+</ul>
 
-<h3>Assembly &amp; launch ops</h3>
-<p>Everything upstream converges here: the <a href="nosecone.html">carbon shell</a> seats over the printed coupler, the <a href="telemetry.html">flight computer</a> rides in its printed housing on the eye-bolt recovery load path, and the whole nose section comes in around 250&nbsp;g. Flown at a club launch &mdash; flight card filed, RSO inspection, club pad and rail.</p>
+<h3>Flight day</h3>
+<p>The nose section is where the other builds converge: the carbon shell seats over the printed coupler, and the flight computer rides in its printed housing on the eye-bolt recovery load path. Flight card, RSO inspection, then the rail.</p>
 <div class="row g-3 mb-4">
-  <div class="col-md-4"><a href="assets/img/projects/flights/assembly-coupler.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: The nose section assembled — carbon shell over the printed coupler"><img src="assets/img/projects/flights/assembly-coupler.jpg" class="img-fluid rounded" alt="Carbon nosecone assembled with the printed tube coupler"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/flights/electronics-inserted.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Flight computer housing inserted into the airframe"><img src="assets/img/projects/flights/electronics-inserted.jpg" class="img-fluid rounded" alt="Electronics housing inserted into the rocket body tube"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/flights/flight-card.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Filing the flight card at the RSO table before flight 1"><img src="assets/img/projects/flights/flight-card.jpg" class="img-fluid rounded" alt="Filling out the flight card at the club range safety table"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/flights/recovery-harness.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Rigging the recovery harness at the field"><img src="assets/img/projects/flights/recovery-harness.jpg" class="img-fluid rounded" alt="Packing the parachute and rigging the recovery harness beside the car"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/flights/electronics-test-fit.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Powered test fit of the electronics before closing out the bay"><img src="assets/img/projects/flights/electronics-test-fit.jpg" class="img-fluid rounded" alt="Powered flight computer during a test fit before assembly"></a></div>
-  <div class="col-md-4"><a href="assets/img/projects/flights/rocket-on-pad.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Vertical on the rail"><img src="assets/img/projects/flights/rocket-on-pad.jpg" class="img-fluid rounded" alt="The rocket vertical on the launch rail before flight"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/flights/assembly-coupler.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: The nose section assembled — carbon shell over the printed coupler"><img src="assets/img/projects/flights/assembly-coupler.jpg" class="img-fluid rounded" alt="Carbon nosecone assembled with the printed tube coupler"></a><p class="text-muted small mt-1 mb-0">Carbon shell over the printed coupler</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/flights/electronics-inserted.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Flight computer housing inserted into the airframe"><img src="assets/img/projects/flights/electronics-inserted.jpg" class="img-fluid rounded" alt="Electronics housing inserted into the rocket body tube"></a><p class="text-muted small mt-1 mb-0">Housing into the airframe</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/flights/rocket-on-pad.jpg" class="glightbox" data-gallery="assembly" data-glightbox="title: Vertical on the rail"><img src="assets/img/projects/flights/rocket-on-pad.jpg" class="img-fluid rounded" alt="The rocket vertical on the launch rail before flight"></a><p class="text-muted small mt-1 mb-0">Vertical on the rail</p></div>
 </div>
-
-<h3>Flight 1: the charge fired &mdash; the chute never left the tube</h3>
-<p>The ejection charge fired 4.0&nbsp;s after burnout, 0.1&nbsp;s after barometric apogee &mdash; a +31&nbsp;hPa pressure spike in the bay makes the timing unambiguous. So the failure was mechanical, not timing: the chute stayed packed in the tube, and the rocket came down tumbling at 17&nbsp;m/s. The impact number is a floor, not a measurement &mdash; one accelerometer axis hit its &plusmn;16&nbsp;g ceiling, so &ge;21.2&nbsp;g is as much as the data can honestly claim. The airframe survived reflyable, which is its own small validation of the build.</p>
+<p>Flight 1&rsquo;s ejection charge fired on time &mdash; 4.0&nbsp;s after burnout, 0.1&nbsp;s after barometric apogee, with a +31&nbsp;hPa pressure spike in the bay to prove it &mdash; but the chute never left the tube and the rocket came down tumbling. The failure was mechanical, not timing, and the airframe survived reflyable. Eight minutes after landing I cut power while the logger was still committing; the FAT corrupted and the board reformatted its drive on the next boot. Because a reformat rewrites allocation tables rather than data blocks, I raw-imaged the volume read-only and carved the log back out of the image.</p>
 <div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/flights/flight1-post-recovery.jpg" class="glightbox" data-gallery="flight1" data-glightbox="title: Flight 1 as found — sections separated, chute still in its packed wad"><img src="assets/img/projects/flights/flight1-post-recovery.jpg" class="img-fluid rounded" alt="Flight 1 recovery: rocket sections on the grass with the parachute still packed and unopened"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/flights/flight-comparison.png" class="glightbox" data-gallery="flight1" data-glightbox="title: Raw-data comparison of the two flights — boost, altitude, and bay pressure"><img src="assets/img/projects/flights/flight-comparison.png" class="img-fluid rounded border" alt="Side-by-side data plots of both flights showing boost acceleration, altitude, and ejection pressure spikes"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/flights/flight1-post-recovery.jpg" class="glightbox" data-gallery="flight1" data-glightbox="title: Flight 1 as found — sections separated, chute still in its packed wad"><img src="assets/img/projects/flights/flight1-post-recovery.jpg" class="img-fluid rounded" alt="Flight 1 recovery: rocket sections on the grass with the parachute still packed and unopened"></a><p class="text-muted small mt-1 mb-0">Flight 1 as found &mdash; chute still in its packed wad</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/flights/flight-comparison.png" class="glightbox" data-gallery="flight1" data-glightbox="title: Raw-data comparison of the two flights — boost, altitude, and bay pressure"><img src="assets/img/projects/flights/flight-comparison.png" class="img-fluid rounded border" alt="Side-by-side data plots of both flights showing boost acceleration, altitude, and ejection pressure spikes"></a><p class="text-muted small mt-1 mb-0">Both flights raw &mdash; boost, altitude, bay pressure</p></div>
 </div>
-
-<h3>The data almost died with the landing</h3>
-<p>Eight minutes after landing I cut power while the logger was still committing; the FAT corrupted, and on the next boot the board reformatted itself &mdash; the drive mounted factory-fresh. A reformat rewrites allocation tables, not data blocks, so I raw-imaged the 3&nbsp;MB volume read-only before any writes and carved the log back out of the image: 47,000 IMU and 24,000 barometer records recovered, with the decoder&rsquo;s pressure cross-check passing at +0.27&nbsp;hPa. The rule that saved the flight: image first, experiment on the copy.</p>
-
-<h3>Flight 2: repack, refly, full success</h3>
-<p>Same rocket, same motor, about an hour later. Clean deploy, 5.1&nbsp;m/s under canopy, and a boost profile that matched flight 1 to ~2% &mdash; the flight-to-flight repeatability that makes the rest of the numbers trustworthy. The opening shock logged 15.5&nbsp;g, captured unclipped &mdash; but only because the charge fired 1.1&nbsp;s past apogee at ~10&nbsp;m/s of descent. Opening shock scales roughly with speed squared, so that 15.5&nbsp;g is the load at a 10&nbsp;m/s deploy, not a constant of the rocket.</p>
+<p>Flight 2 flew the same rocket and motor about an hour later after a repack: clean deploy and a 5.1&nbsp;m/s descent under canopy. The opening shock logged 15.5&nbsp;g, captured unclipped &mdash; the load at a ~10&nbsp;m/s deploy, since the charge fired 1.1&nbsp;s past apogee.</p>
 <div class="row g-3 mb-4">
-  <div class="col-md-6"><a href="assets/img/projects/flights/flight2-recovery.jpg" class="glightbox" data-gallery="flight2" data-glightbox="title: Flight 2 as found — canopy out, lines stretched, airframe intact"><img src="assets/img/projects/flights/flight2-recovery.jpg" class="img-fluid rounded" alt="Flight 2 recovery: rocket laid out on the field with the parachute deployed and lines stretched"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/flights/trajectory-3d.png" class="glightbox" data-gallery="flight2" data-glightbox="title: Reconstructed 3D paths, ground tracks, and nose-tilt histories for both flights"><img src="assets/img/projects/flights/trajectory-3d.png" class="img-fluid rounded border" alt="Reconstructed 3D trajectory plots with ground tracks and nose tilt histories for both flights"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/flights/flight2-recovery.jpg" class="glightbox" data-gallery="flight2" data-glightbox="title: Flight 2 as found — canopy out, lines stretched, airframe intact"><img src="assets/img/projects/flights/flight2-recovery.jpg" class="img-fluid rounded" alt="Flight 2 recovery: rocket laid out on the field with the parachute deployed and lines stretched"></a><p class="text-muted small mt-1 mb-0">Flight 2 as found &mdash; canopy out, airframe intact</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/flights/trajectory-3d.png" class="glightbox" data-gallery="flight2" data-glightbox="title: Reconstructed 3D paths, ground tracks, and nose-tilt histories for both flights"><img src="assets/img/projects/flights/trajectory-3d.png" class="img-fluid rounded border" alt="Reconstructed 3D trajectory plots with ground tracks and nose tilt histories for both flights"></a><p class="text-muted small mt-1 mb-0">Reconstructed paths, ground tracks, nose tilt</p></div>
 </div>
 
-<h3>Reconstructing the flights in 3D</h3>
-<p>Both trajectories were rebuilt from the raw logs: gyro bias re-estimated from 60&nbsp;s of still pad data, attitude integrated at 100&nbsp;Hz, body acceleration rotated to the world frame and double-integrated, with the barometer held out as an independent validation channel. The IMU-only altitude &mdash; never shown the barometer &mdash; agreed with it to +1.3&nbsp;m (flight 1) and +3.3&nbsp;m (flight 2) at apogee, which is the license to read the attitude results quantitatively. They settle the apogee question: flight 2&rsquo;s nose was <strong>27.6&deg; off vertical at burnout vs flight 1&rsquo;s 4.6&deg;</strong> &mdash; weathercocking into wind, arcing ~30&nbsp;m downrange on the same energy. The solutions are only quoted from launch to ejection/deploy (the tumble and the near-clip opening shock corrupt the attitude after that), and with no magnetometer aboard, headings are relative, not compass bearings.</p>
+<h3>Reconstruction</h3>
+<p>I rebuilt both flights from the raw logs: gyro bias re-estimated from 60&nbsp;s of still pad data, attitude integrated at 100&nbsp;Hz, body acceleration rotated to the world frame and double-integrated. The barometer was held out as an independent check &mdash; IMU-only altitude agreed with it to +1.3&nbsp;m (flight 1) and +3.3&nbsp;m (flight 2) at apogee. It settles the apogee gap: flight 2&rsquo;s nose was 27.6&deg; off vertical at burnout versus flight 1&rsquo;s 4.6&deg; &mdash; weathercocking into wind, arcing ~30&nbsp;m downrange on the same energy.</p>
+<p class="text-muted">The solutions are quoted from launch to ejection/deploy only, and with no magnetometer aboard, headings are relative, not compass bearings.</p>
 <div class="ratio mb-1" style="--bs-aspect-ratio: 130%; max-width: 720px;">
   <iframe src="flight-replay.html" title="Interactive 3D replay of both flights" loading="lazy" style="border: 1px solid #dee2e6; border-radius: 8px;"></iframe>
 </div>
 <p class="text-muted small mb-4">Interactive replay of both reconstructed flights &mdash; drag to orbit, scroll to zoom, PLAY runs both on a shared clock. <a href="flight-replay.html" target="_blank">Open full-screen &rarr;</a></p>
 
-<h3>What the data changed for v2</h3>
+<h3>Outcomes</h3>
 <ul>
-  <li><strong>The logger goes blind for ~3 s at t+6.00</strong> while the pre-launch ring buffer flushes to flash &mdash; flight 2&rsquo;s deployment event cleared that window by 0.47&nbsp;s. The v2 firmware flushes incrementally so no flight event can land in a gap.</li>
-  <li><strong>Finalize the log file after landing is detected.</strong> The filesystem corruption window existed because the logger kept committing for eight minutes after touchdown; closing the file at LANDED plus a &ldquo;safe to power off&rdquo; LED removes it.</li>
-  <li><strong>Deployment loads get quoted with deploy speed attached</strong> &mdash; motor delay scatter alone can push the opening shock past the &plusmn;16&nbsp;g accelerometer range.</li>
+  <li>Boost 6.0 / 6.1&nbsp;g and max velocity 37.9 / 38.5&nbsp;m/s &mdash; repeatable to about 2% flight-to-flight</li>
+  <li>Barometric apogees 84.6 / 76.9&nbsp;m &mdash; the gap is weathercocking, not performance</li>
+  <li>Descent 17.2&nbsp;m/s ballistic vs 5.1&nbsp;&plusmn;&nbsp;0.3&nbsp;m/s under canopy &mdash; direct proof the repack fixed deployment</li>
+  <li>47,000 IMU + 24,000 barometer records recovered from the reformatted flash; pressure cross-check +0.27&nbsp;hPa</li>
 </ul>
-
+<p class="text-muted">Scope note: flight 1&rsquo;s landing impact is &ge;21.2&nbsp;g &mdash; a floor, not a measurement, because one accelerometer axis clipped at &plusmn;16&nbsp;g.</p>
 <p>This campaign is the capstone of three builds: the <a href="rocket.html">L1 certification</a> that started the program, the <a href="nosecone.html">molded carbon nosecone</a>, and the <a href="telemetry.html">flight computer</a> that measured all of it.</p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
