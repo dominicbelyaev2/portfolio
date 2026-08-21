@@ -1,0 +1,9 @@
+# Raw source material — solver output, CAD dumps, original media.
+# 6+ GB, and nothing on the site links to it. Stays local.
+uploads/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp

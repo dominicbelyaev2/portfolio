@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Flight Telemetry Computer — Dominic Belyaev</title>
+  <meta name="description" content="">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="starter-page-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/db-emblem.svg" alt="DB emblem" style="height: 46px; margin-right: 12px;">
+        <h1 class="sitename" style="text-transform: uppercase; letter-spacing: 1px;">Dominic Belyaev&rsquo;s Portfolio</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#portfolio">Projects</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <section class="section">
+      <div class="container" data-aos="fade-up">
+<h1>Flight Telemetry Computer &mdash; Custom Logger for Rocket Flight 2</h1>
+<p class="text-muted">Role: solo &mdash; architecture, soldering, calibration, firmware, validation &middot; Tools: Raspberry Pi Pico 2 (RP2350), CircuitPython, MPU6050 IMU, BMP388 barometer, perfboard, Python tooling &middot; Timeline: Jul &ndash; Aug 2026 &middot; flew twice 15 Aug 2026</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/board-sensors.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: The flight board — Pico 2 with both sensors socketed on the soldered perfboard"><img src="assets/img/projects/telemetry/board-sensors.jpg" class="img-fluid rounded" alt="Soldered perfboard flight computer with Raspberry Pi Pico 2 and socketed IMU and barometer breakouts"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/firmware-bench.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Hardware-validating the flight firmware over the USB console"><img src="assets/img/projects/telemetry/firmware-bench.jpg" class="img-fluid rounded" alt="Flight board connected to a laptop running the firmware validation session"></a></div>
+</div>
+
+<p><strong>A from-scratch flight computer that logs 100&nbsp;Hz IMU + 50&nbsp;Hz barometer data to onboard flash to recover a rocket&rsquo;s top speed and apogee &mdash; designed, soldered, calibrated, and hardware-validated end-to-end: the flight firmware held full rate with zero sample skips, and the decoder&rsquo;s pressure math cross-checks the sensor&rsquo;s own compensation to 0.021&nbsp;hPa. Then it <a href="flights.html">flew twice on 15 Aug 2026</a>: full-rate logging through boost on both flights, zero I&sup2;C errors through a &ge;21&nbsp;g ground impact, and the data diagnosed flight 1&rsquo;s recovery failure between flights.</strong></p>
+
+<h3>Architecture: each quantity gets the sensor that measures it best</h3>
+<div class="table-responsive mb-3">
+<table class="table table-sm" style="max-width: 720px;">
+  <thead><tr><th>Quantity</th><th>Sensor</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>Apogee</td><td>BMP388 barometer @ 50 Hz</td><td>Pressure altitude resolves ~0.13 m on the bench &mdash; GPS vertical error is 10&ndash;30&times; worse</td></tr>
+    <tr><td>Top speed</td><td>MPU6050 accelerometer @ 100 Hz</td><td>Integrated over the ~2 s boost; GPS updates too slowly and drops lock under acceleration</td></tr>
+    <tr><td>Position</td><td>GPS (parked)</td><td>Recovery aid only &mdash; and the carbon nosecone blocks L1 from inside the bay, so it moved out of the flight build</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The error budget drove the design: integrating acceleration for velocity works over a 2-second boost window precisely because bias contributes only <em>b&middot;t</em> (~1&nbsp;m/s) there, while a 3% scale error contributes ~4.5&nbsp;m/s at 150&nbsp;m/s &mdash; so calibration effort went into scale factor, not offset, and position was never attempted from the IMU at all (bias double-integrates to ~900&nbsp;m of drift in a minute).</p>
+
+<h3>The build &mdash; and the three bugs that weren&rsquo;t solder</h3>
+<p>The perfboard layout is generated by a Python script that emits the wiring diagram as SVG and validates itself &mdash; every Pico hole cross-checked against an independently derived pinout, plus net-clash and adjacency checks. That mattered because the map went through three corrections, each caught on the bench: the Pico&rsquo;s two socket rows were swapped in the original orientation reasoning; both sensor breakouts were seated 180&deg; reversed; and the 3.3&nbsp;V rail was initially fed from <code>3V3_EN</code> (the regulator&rsquo;s enable pin) instead of <code>3V3_OUT</code> &mdash; which produced a board that enumerated perfectly bare and died the instant any sensor drew current through the enable&rsquo;s weak pull-up. Diagnosing that &ldquo;works unloaded, collapses under load&rdquo; signature down to a datasheet pin function is the debugging story I&rsquo;d tell in any interview.</p>
+<p>A quirk worth knowing: the RP2350&rsquo;s internal pull-downs are broken (erratum E9), which turned my first software continuity test into 676 false faults. The tell was structure &mdash; <em>every</em> pin reading high is a silicon signature, not a solder one. The test was rewritten pull-ups-only and passed clean on all 26 GPIO.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/wiring-v7.svg" class="glightbox" data-gallery="build" data-glightbox="title: Script-generated perfboard wiring map (v7) — the version soldered from"><img src="assets/img/projects/telemetry/wiring-v7.svg" class="img-fluid rounded border" alt="Generated perfboard wiring diagram showing every hole assignment, rails, and jumpers"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/bench-desk.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Bench session — soldering and bring-up, one sensor at a time"><img src="assets/img/projects/telemetry/bench-desk.jpg" class="img-fluid rounded" alt="Workbench during the perfboard soldering and bring-up sessions"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/board-frontside.jpg" class="glightbox" data-gallery="build" data-glightbox="title: The flight board, component side — Pico 2 and both sensors socketed"><img src="assets/img/projects/telemetry/board-frontside.jpg" class="img-fluid rounded" alt="Front side of the soldered flight board with Pico 2 and sensor breakouts socketed"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/board-backside.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Solder side — the hand-wired point-to-point nets from the generated map"><img src="assets/img/projects/telemetry/board-backside.jpg" class="img-fluid rounded" alt="Solder side of the perfboard showing the hand-soldered wiring"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/arming-switch.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Battery harness — 1100 mAh pack through a JST header and arming slide switch into VSYS"><img src="assets/img/projects/telemetry/arming-switch.jpg" class="img-fluid rounded" alt="Battery harness with JST connector and arming slide switch wired to the flight board"></a></div>
+</div>
+
+<h3>Calibration: a tilt-immune 6-position solve</h3>
+<p>Accelerometer calibration ran on the finished rigid board in the flight range (&plusmn;16&nbsp;g), since sensitivity trim is per-range. Instead of the naive per-axis solve &mdash; which my off-vertical hand-holds would have corrupted by up to 0.9% &mdash; I solved bias and scale from the <em>magnitude</em> equation |(a&nbsp;&minus;&nbsp;b)/s|&nbsp;=&nbsp;g on all six face means with Newton&rsquo;s method: six equations, six unknowns, and tilt drops out of the math. Result: scale factor known to ~0.2% (vs the &plusmn;3% datasheet bound), taking the top-speed error contribution from ~4.5&nbsp;m/s down to under 1&nbsp;m/s.</p>
+
+<h3>Firmware built around the failure modes</h3>
+<ul>
+  <li><strong>Pad wait can&rsquo;t exhaust flash:</strong> pre-launch samples circulate in a RAM chunk-ring &mdash; unlimited wait, zero flash wear &mdash; committed to flash only when launch is detected, so boost is recorded with no filesystem activity at all until a barrier sync at +6&nbsp;s.</li>
+  <li><strong>Ground impact can&rsquo;t lose the data:</strong> fsync every 4&nbsp;s after the barrier; the decoder treats a torn tail as data to drop, never to fabricate &mdash; a path that got exercised live when a Ctrl-C&rsquo;d session truncated 157 records and the decoder dropped them cleanly.</li>
+  <li><strong>Per-transaction I&sup2;C and file fault tolerance, hardware watchdog, LED status language</strong> for the pad.</li>
+</ul>
+<p>Validation ran in layers: a synthetic-flight regression (generated binary log with known answers &mdash; decoder recovered apogee within 0.4&nbsp;m and velocity exactly), then hardware: a dry-run rate test that held 100/50&nbsp;Hz with zero skips and 4.4&nbsp;ms worst-case loop time (settling the &ldquo;do I need to port this to C++&rdquo; question &mdash; no), then a 92-second end-to-end flight-mode log on the real board, decoded with a compensation cross-check that agreed with the sensor&rsquo;s own math to &minus;0.021&nbsp;hPa. The review process also surfaced an upstream bug in the Adafruit MPU6050 driver &mdash; its <code>filter_bandwidth</code> property writes the wrong register bits &mdash; confirmed against the register map and worked around in my init code.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/log001-plot.png" class="glightbox" data-gallery="validation" data-glightbox="title: The real 92 s hardware-validation log — |a| at 100 Hz, baro altitude at 50 Hz"><img src="assets/img/projects/telemetry/log001-plot.png" class="img-fluid rounded border" alt="Two-panel plot of the hardware validation log showing acceleration magnitude and barometric altitude"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/test-flight-plot.png" class="glightbox" data-gallery="validation" data-glightbox="title: Synthetic-flight regression — decoder output vs known truth"><img src="assets/img/projects/telemetry/test-flight-plot.png" class="img-fluid rounded border" alt="Synthetic flight regression test plot comparing decoded values against ground truth"></a></div>
+</div>
+
+<h3>Mechanical integration: the printed housing and its load path</h3>
+<p>The first-rev printed sled (perfboard bosses, battery pocket, a scripted interference check reporting zero overlap across seven components) evolved into a printed housing that does double duty: it carries the boards <em>and</em> the recovery loads. The load path runs shock cord &rarr; quick link &rarr; #8-32 eye bolt &rarr; the housing&rsquo;s base flange &rarr; heat-set inserts and M2 lid screws &rarr; lid &rarr; threaded rod &rarr; the nosecone&rsquo;s metal tip &mdash; printed parts carrying recovery load at a uniform SF&nbsp;&asymp;&nbsp;2 against the ~300&nbsp;N deployment spike, consciously accepted because every link sits at the same margin. The detail I&rsquo;d defend in a review: the nylock that retains the eye bolt seats in a recess cut into a flange <em>grown</em> from 4 to 8&nbsp;mm rather than thinned &mdash; leaving a 3&nbsp;mm web at shear SF&nbsp;&asymp;&nbsp;5 &mdash; because you can&rsquo;t counterbore 5&nbsp;mm into a 4&nbsp;mm wall. One bench finding became a design input: the barometer&rsquo;s reading scatters ~6&times; worse in moving air than on the still bench, so the bay sees baffled static pressure rather than a straight shot of airflow.</p>
+<div class="row g-3 mb-2">
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/housing-exploded-iso.png" class="glightbox" data-gallery="housing" data-glightbox="title: Exploded assembly — eyebolt → housing → board stack → lid → rod → coupler and nosecone"><img src="assets/img/projects/telemetry/housing-exploded-iso.png" class="img-fluid rounded border" alt="Exploded CAD view of the electronics assembly from eyebolt through housing, boards, lid, and rod to the nosecone"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/telemetry/housing-assembly.jpg" class="glightbox" data-gallery="housing" data-glightbox="title: The printed housing assembled with the board stack inside"><img src="assets/img/projects/telemetry/housing-assembly.jpg" class="img-fluid rounded" alt="Printed electronics housing assembled with the flight boards mounted inside"></a></div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/housing-eyebolt.jpg" class="glightbox" data-gallery="housing" data-glightbox="title: The eye bolt on the base flange — the recovery attachment"><img src="assets/img/projects/telemetry/housing-eyebolt.jpg" class="img-fluid rounded" alt="Housing base with the recovery eye bolt installed through the flange"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/heatset-inserts.jpg" class="glightbox" data-gallery="housing" data-glightbox="title: Heat-set inserts going into the housing posts"><img src="assets/img/projects/telemetry/heatset-inserts.jpg" class="img-fluid rounded" alt="Installing brass heat-set inserts into the printed housing posts"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/electronics-in-housing.jpg" class="glightbox" data-gallery="housing" data-glightbox="title: Board stack seated in the housing, ready to close out"><img src="assets/img/projects/telemetry/electronics-in-housing.jpg" class="img-fluid rounded" alt="Flight electronics seated inside the printed housing before closing"></a></div>
+</div>
+
+<h3>Flown &mdash; and what two flights proved</h3>
+<p>Before flight day, the launch-detect path got its hardware test the cheap way: a windmill-swing on battery power (~3&nbsp;g sustained) fired LAUNCH&rarr;boost-hold&rarr;LANDED live on the board. Then both flights on 15 Aug 2026 exercised everything at once: 100/50&nbsp;Hz held through boost on both, the in-flight pressure cross-checks passed (+0.274 and +0.022&nbsp;hPa), the &plusmn;16&nbsp;g range decision held with margin (6&nbsp;g boost, 2.7&times;), and flight 2&rsquo;s 15.5&nbsp;g deployment shock was captured 0.4&nbsp;g under the ceiling. Flight 1 also delivered the failure the firmware was designed around &mdash; and one it wasn&rsquo;t: the ballistic landing didn&rsquo;t hurt the data, but cutting power eight minutes later mid-commit corrupted the filesystem, and the log survived only by <a href="flights.html">raw-imaging and carving the flash</a>.</p>
+<p>The v2 list is now flight-derived, not speculative: finalize the log file once LANDED is detected (the corruption window was the post-landing commits, not the flight); flush the pre-launch ring buffer incrementally (the current single flush blinds both sensors for ~3&nbsp;s at t+6.00 &mdash; flight 2&rsquo;s deployment cleared that window by 0.47&nbsp;s); and the KiCad carrier PCB in place of perfboard. This computer flew both flights of the <a href="flights.html">campaign</a> in the <a href="nosecone.html">carbon nosecone</a> it was built for.</p>
+<p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Dominic Belyaev</strong></p>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Flights, One Rocket</title>
+</head>
+<body>
+<style>
+  :root{
+    --bg:#10151A; --panel:rgba(22,28,34,.88); --panel-solid:#161C22;
+    --ink:#E6EDF3; --muted:#93A1AD; --faint:#5C6B77;
+    --grid:#253039; --hair:#2C3944;
+    --f1:#E8A33D; --f2:#45C0B0;
+    --mono:ui-monospace,"Cascadia Mono","Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+  body{line-height:1.55}
+
+  .stage{position:relative;height:72vh;min-height:480px;border-bottom:1px solid var(--hair);
+    touch-action:none;overflow:hidden}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  canvas:active{cursor:grabbing}
+
+  .hdr{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;
+    align-items:baseline;padding:14px 18px;pointer-events:none;font-family:var(--mono)}
+  .hdr h1{font-size:14px;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+  .hdr .sub{font-size:11px;color:var(--muted);letter-spacing:.08em}
+
+  .card{position:absolute;background:var(--panel);border:1px solid var(--hair);border-radius:6px;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:var(--mono)}
+  .flights{top:52px;left:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+  .frow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);
+    font:inherit;font-size:12px;cursor:pointer;text-align:left;padding:2px 0}
+  .frow:focus-visible{outline:1px solid var(--muted);outline-offset:3px}
+  .chip{width:10px;height:10px;border-radius:2px;flex:none}
+  .frow.off .chip{background:transparent !important;border:1px solid var(--faint)}
+  .frow.off{color:var(--faint)}
+  .frow b{font-weight:600}
+  .frow small{color:var(--muted);font-size:10.5px;display:block}
+  .frow.off small{color:var(--faint)}
+
+  .hud{bottom:14px;left:14px;right:14px;padding:10px 14px 12px}
+  .hudrows{display:grid;grid-template-columns:auto repeat(3,minmax(72px,auto));gap:2px 22px;
+    font-size:12px;font-variant-numeric:tabular-nums;margin-bottom:10px}
+  .hudrows .h{color:var(--faint);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+  .hudrows .nm{font-weight:600}
+  .tline{display:flex;align-items:center;gap:12px}
+  .tline button{background:var(--panel-solid);border:1px solid var(--hair);color:var(--ink);
+    font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:4px;cursor:pointer}
+  .tline button:hover{border-color:var(--muted)}
+  .tline button:focus-visible{outline:1px solid var(--muted);outline-offset:2px}
+  .scrubwrap{position:relative;flex:1;height:26px;display:flex;align-items:center}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:26px}
+  input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--grid);border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;
+    background:var(--ink);margin-top:-5px;cursor:pointer}
+  input[type=range]::-moz-range-track{height:3px;background:var(--grid);border-radius:2px}
+  input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:0;cursor:pointer}
+  input[type=range]:focus-visible{outline:1px solid var(--muted);outline-offset:2px}
+  .tick{position:absolute;top:1px;width:1px;height:8px;pointer-events:none}
+  .tval{font-size:12px;min-width:64px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  .note{position:absolute;right:14px;top:52px;max-width:210px;padding:9px 12px;font-size:10.5px;
+    color:var(--muted);line-height:1.5}
+
+  main{max-width:720px;margin:0 auto;padding:40px 20px 70px}
+  main h2{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted);margin:34px 0 12px}
+  main h2:first-child{margin-top:0}
+  main p{font-size:14.5px;color:var(--ink);max-width:62ch;margin-bottom:10px}
+  main p.dim,main li.dim{color:var(--muted)}
+  main .tablewrap{overflow-x:auto;margin:14px 0}
+  table{border-collapse:collapse;font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;min-width:430px}
+  th,td{text-align:right;padding:6px 16px 6px 0;border-bottom:1px solid var(--hair)}
+  th:first-child,td:first-child{text-align:left;color:var(--muted);font-weight:400}
+  thead th{color:var(--faint);font-weight:600;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+  td.c1{color:var(--f1)} td.c2{color:var(--f2)}
+  main ul{margin:8px 0 8px 18px}
+  main li{font-size:13.5px;color:var(--ink);margin-bottom:6px;max-width:62ch}
+  .sig{margin-top:44px;padding-top:14px;border-top:1px solid var(--hair);font-family:var(--mono);
+    font-size:10.5px;color:var(--faint);letter-spacing:.06em}
+  @media (max-width:640px){
+    .note{display:none}
+    .flights{top:46px}
+    .hudrows{gap:2px 12px;font-size:11px}
+  }
+</style>
+
+<div class="stage" id="stage">
+  <canvas id="cv"></canvas>
+  <div class="hdr">
+    <h1>Two Flights, One Rocket</h1>
+    <div class="sub">2026-08-15 · F67W-4 · pico flight computer</div>
+  </div>
+
+  <div class="card flights" id="flightcard">
+    <button class="frow" id="tog0" aria-pressed="true">
+      <span class="chip" style="background:var(--f1)"></span>
+      <span><b>FLIGHT 1</b> · chute no-deploy<br>
+      <small>84.6 m · 37.9 m/s · impact ≥21.2 g</small></span>
+    </button>
+    <button class="frow" id="tog1" aria-pressed="true">
+      <span class="chip" style="background:var(--f2)"></span>
+      <span><b>FLIGHT 2</b> · full success<br>
+      <small>76.9 m · 38.5 m/s · descent 5.1 m/s</small></span>
+    </button>
+  </div>
+
+  <div class="card note">drag to orbit · wheel / pinch to zoom.<br>
+    F2's canopy descent is drawn straight down —<br>
+    horizontal drift wasn't observable.<br>
+    compass bearing arbitrary — no magnetometer.<br>
+    data-validity notes below the viewer.</div>
+
+  <div class="card hud">
+    <div class="hudrows" id="hud"></div>
+    <div class="tline">
+      <button id="play" aria-label="Play replay">PLAY</button>
+      <div class="scrubwrap" id="scrubwrap">
+        <input type="range" id="scrub" min="0" max="18" step="0.02" value="18" aria-label="Flight time scrubber">
+      </div>
+      <div class="tval" id="tval">t+18.00 s</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <h2>What you are looking at</h2>
+  <p>Both flights of the nosecone telemetry unit on 15 August 2026, rebuilt in 3D from the raw
+  100&nbsp;Hz IMU and 50&nbsp;Hz barometer logs. Same rocket, same motor, launched about an hour apart.
+  Flight&nbsp;1's ejection charge fired 0.1&nbsp;s after apogee but the chute jammed in the tube —
+  ballistic return at ~17&nbsp;m/s. Flight&nbsp;2, after a repack, deployed cleanly and came down at
+  5.1&nbsp;m/s.</p>
+  <p class="dim">Attitude comes from integrating the gyro (bias re-estimated from 60&nbsp;s of still
+  pad data), position from double-integrating body acceleration rotated into the world frame, with
+  altitude anchored to the barometer. The nose axis is taken from the burn-averaged thrust direction,
+  which absorbs board-mount skew.</p>
+
+  <h2>Why the trajectories are believable</h2>
+  <p>The IMU-only altitude — integrated blind, never shown the barometer — is the validation channel:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Flight 1</th><th>Flight 2</th></tr></thead>
+    <tbody>
+      <tr><td>IMU-only altitude at apogee</td><td class="c1">85.9 m</td><td class="c2">80.1 m</td></tr>
+      <tr><td>Barometer apogee</td><td class="c1">84.6 m</td><td class="c2">76.9 m</td></tr>
+      <tr><td>Worst ascent disagreement</td><td class="c1">3.3 m</td><td class="c2">3.9 m</td></tr>
+      <tr><td>Max speed, world-frame integration</td><td class="c1">37.8 m/s</td><td class="c2">37.4 m/s</td></tr>
+      <tr><td>Max speed, independent 1-axis method</td><td class="c1">37.9 m/s</td><td class="c2">38.5 m/s</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>What the reconstruction settled</h2>
+  <p>Flight 2 reached 8&nbsp;m less apogee on an identical boost (6.1 vs 6.0&nbsp;g). The orientation
+  data answers why: its nose was <b style="color:var(--f2)">27.6° off vertical at burnout</b> versus
+  flight&nbsp;1's <b style="color:var(--f1)">4.6°</b> — it weathercocked into wind and spent the same
+  energy arcing ~30&nbsp;m downrange, crossing apogee nose-nearly-horizontal. Trajectory, not performance:
+  drag-free energy heights agree to 0.4&nbsp;m.</p>
+
+  <h2>Validity limits</h2>
+  <ul>
+    <li class="dim">Flight 1's solution is fully validated launch&nbsp;→&nbsp;ejection. The tumble
+    that follows corrupts the attitude, so on the ballistic descent altitude is barometer-true and
+    the horizontal path is qualitative.</li>
+    <li class="dim">Flight 2's solution is fully validated launch&nbsp;→&nbsp;deploy. The 15.5&nbsp;g
+    opening jerk sat essentially at the accelerometer's ±16&nbsp;g clip; under canopy only the
+    barometer is trusted, so the descent is drawn as a vertical drop — real horizontal drift was
+    not observable.</li>
+    <li class="dim">Both logs go blind for ~3&nbsp;s starting at exactly t+6.00 (the firmware's
+    ring-buffer flush blocks sampling), and the barometer reads the ejection-charge bay transient,
+    not altitude, for ~0.5&nbsp;s after the charge fires. The descents are interpolated straight
+    across both windows.</li>
+    <li class="dim">No magnetometer or GPS: ground tracks are shape-true but the compass heading of
+    each flight is arbitrary, including between the two flights.</li>
+  </ul>
+
+  <div class="sig">DOMINIC BELYAEV · NOSECONE TELEMETRY · RAW LOGS + RECONSTRUCTION SCRIPT IN THE BUILD FOLDER</div>
+</main>
+
+<script>
+"use strict";
+const DATA = [{"name": "F1", "events": {"burnout": 0.757, "apogee": 4.73, "ejection": 4.83, "impact": 10.9}, "t": [-0.293, -0.253, -0.213, -0.173, -0.133, -0.093, -0.053, -0.013, 0.027, 0.067, 0.108, 0.147, 0.187, 0.227, 0.267, 0.307, 0.347, 0.387, 0.427, 0.467, 0.507, 0.549, 0.587, 0.627, 0.667, 0.707, 0.747, 0.787, 0.827, 0.867, 0.907, 0.947, 0.991, 1.027, 1.067, 1.107, 1.147, 1.187, 1.227, 1.267, 1.307, 1.347, 1.387, 1.431, 1.467, 1.507, 1.547, 1.587, 1.627, 1.667, 1.707, 1.747, 1.787, 1.827, 1.869, 1.907, 1.947, 1.987, 2.027, 2.067, 2.107, 2.147, 2.187, 2.227, 2.267, 2.307, 2.347, 2.387, 2.427, 2.467, 2.507, 2.547, 2.587, 2.627, 2.667, 2.707, 2.747, 2.787, 2.83, 2.867, 2.907, 2.947, 2.987, 3.027, 3.067, 3.107, 3.147, 3.187, 3.227, 3.269, 3.307, 3.347, 3.387, 3.427, 3.467, 3.507, 3.547, 3.587, 3.627, 3.667, 3.707, 3.747, 3.787, 3.827, 3.867, 3.907, 3.947, 3.987, 4.027, 4.067, 4.107, 4.147, 4.187, 4.227, 4.267, 4.307, 4.347, 4.387, 4.427, 4.467, 4.507, 4.547, 4.587, 4.627, 4.671, 4.707, 4.747, 4.787, 5.627, 5.667, 5.707, 5.747, 5.787, 5.827, 5.867, 5.907, 5.947, 5.987, 8.905, 8.945, 8.985, 9.025, 9.065, 9.105, 9.145, 9.185, 9.225, 9.265, 9.305, 9.345, 9.385, 9.425, 9.465, 9.505, 9.545, 9.585, 9.625, 9.665, 9.705, 9.745, 9.785, 9.825, 9.865, 9.905, 9.945, 9.985, 10.297, 10.337, 10.377, 10.417, 10.457, 10.497, 10.537, 10.577, 10.617, 10.657, 10.697, 10.737, 10.777, 10.817, 10.857, 10.897], "x": [0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.01, -0.01, -0.03, -0.04, -0.05, -0.07, -0.1, -0.13, -0.17, -0.22, -0.27, -0.33, -0.4, -0.49, -0.58, -0.69, -0.81, -0.94, -1.08, -1.23, -1.38, -1.53, -1.69, -1.84, -1.99, -2.14, -2.31, -2.44, -2.59, -2.74, -2.89, -3.04, -3.18, -3.33, -3.48, -3.63, -3.78, -3.94, -4.07, -4.22, -4.37, -4.51, -4.66, -4.81, -4.95, -5.1, -5.25, -5.39, -5.54, -5.68, -5.83, -5.98, -6.12, -6.27, -6.41, -6.56, -6.7, -6.85, -6.99, -7.14, -7.28, -7.43, -7.57, -7.72, -7.86, -8.01, -8.15, -8.3, -8.44, -8.59, -8.73, -8.88, -9.03, -9.17, -9.31, -9.46, -9.6, -9.74, -9.89, -10.03, -10.18, -10.32, -10.46, -10.61, -10.75, -10.89, -11.03, -11.18, -11.32, -11.46, -11.6, -11.74, -11.89, -12.03, -12.17, -12.31, -12.45, -12.59, -12.73, -12.87, -13.01, -13.15, -13.29, -13.43, -13.57, -13.71, -13.84, -13.98, -14.12, -14.26, -14.39, -14.53, -14.66, -14.8, -14.93, -15.06, -15.2, -15.33, -15.47, -15.59, -15.72, -15.85, -19.8, -19.83, -19.81, -19.79, -19.77, -19.75, -19.73, -19.71, -19.69, -19.67, -13.09, -12.93, -12.77, -12.6, -12.43, -12.26, -12.08, -11.91, -11.73, -11.55, -11.36, -11.18, -11.0, -10.81, -10.62, -10.44, -10.25, -10.06, -9.86, -9.67, -9.47, -9.28, -9.08, -8.88, -8.68, -8.48, -8.28, -8.08, -6.44, -6.2, -5.94, -5.66, -5.37, -5.06, -4.75, -4.42, -4.09, -3.75, -3.41, -3.06, -2.7, -2.33, -1.95, -1.55], "y": [0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.01, 0.01, 0.02, 0.04, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.18, 0.18, 0.18, 0.17, 0.14, 0.1, 0.05, -0.0, -0.07, -0.13, -0.19, -0.25, -0.32, -0.38, -0.45, -0.5, -0.56, -0.62, -0.68, -0.74, -0.8, -0.86, -0.92, -0.98, -1.04, -1.1, -1.16, -1.22, -1.28, -1.35, -1.41, -1.47, -1.53, -1.6, -1.66, -1.72, -1.79, -1.84, -1.91, -1.97, -2.03, -2.09, -2.15, -2.21, -2.27, -2.33, -2.4, -2.46, -2.52, -2.58, -2.64, -2.7, -2.76, -2.82, -2.88, -2.94, -3.0, -3.06, -3.12, -3.18, -3.25, -3.3, -3.36, -3.42, -3.49, -3.55, -3.61, -3.67, -3.73, -3.79, -3.85, -3.91, -3.97, -4.03, -4.09, -4.15, -4.21, -4.27, -4.33, -4.39, -4.45, -4.5, -4.56, -4.62, -4.68, -4.74, -4.8, -4.85, -4.91, -4.97, -5.03, -5.08, -5.14, -5.2, -5.25, -5.31, -5.37, -5.42, -5.48, -5.53, -5.59, -5.64, -5.69, -5.75, -5.8, -5.85, -5.91, -5.95, -6.0, -6.05, -7.33, -7.36, -7.37, -7.38, -7.38, -7.39, -7.39, -7.39, -7.38, -7.38, -3.48, -3.38, -3.29, -3.21, -3.13, -3.05, -2.98, -2.91, -2.85, -2.79, -2.74, -2.69, -2.65, -2.62, -2.59, -2.56, -2.55, -2.53, -2.53, -2.52, -2.53, -2.54, -2.55, -2.57, -2.6, -2.62, -2.66, -2.69, -3.06, -3.12, -3.19, -3.27, -3.35, -3.43, -3.52, -3.61, -3.72, -3.83, -3.95, -4.09, -4.23, -4.39, -4.56, -4.75], "z": [-0.17, -0.18, -0.21, -0.22, -0.12, 0.01, 0.62, 1.36, 1.12, 1.03, 1.17, 1.48, 1.8, 2.24, 2.8, 3.46, 4.17, 5.08, 6.15, 7.34, 8.62, 10.12, 11.49, 12.91, 14.33, 15.7, 17.22, 18.19, 19.29, 19.96, 20.96, 22.21, 23.55, 24.67, 25.89, 27.25, 28.69, 30.09, 31.48, 32.76, 34.08, 35.43, 36.77, 38.19, 39.35, 40.51, 41.51, 42.68, 43.84, 44.8, 45.85, 46.93, 47.96, 49.0, 50.0, 50.96, 51.98, 52.98, 53.4, 54.53, 55.54, 56.51, 57.35, 58.13, 59.06, 59.71, 60.49, 61.31, 62.26, 62.95, 63.81, 64.54, 65.14, 66.0, 66.86, 67.67, 68.41, 69.01, 69.77, 70.38, 70.81, 71.4, 72.1, 72.73, 73.31, 73.78, 74.42, 74.67, 75.08, 75.67, 76.2, 76.83, 77.22, 77.65, 78.08, 78.31, 78.75, 79.12, 79.47, 79.88, 80.22, 80.65, 80.85, 81.07, 81.33, 81.63, 81.98, 82.1, 82.36, 82.57, 82.66, 82.79, 83.03, 83.19, 83.45, 83.54, 83.66, 83.93, 83.93, 84.09, 84.08, 84.3, 84.3, 84.44, 84.49, 84.62, 84.56, 84.5, 82.41, 82.2, 81.66, 81.05, 80.27, 79.55, 78.89, 78.71, 78.44, 79.41, 34.63, 34.31, 34.02, 33.61, 33.09, 32.29, 31.51, 30.72, 29.79, 29.04, 28.46, 27.82, 27.24, 26.64, 26.09, 25.46, 24.74, 23.91, 23.14, 22.3, 21.43, 20.57, 20.19, 19.16, 18.13, 17.58, 17.25, 16.87, 9.98, 8.71, 7.78, 7.01, 6.22, 5.92, 5.66, 5.48, 5.35, 4.45, 3.72, 3.25, 2.98, 2.53, 1.86, 4.2], "tilt": [2.9, 2.9, 2.9, 2.9, 3.0, 3.0, 2.8, 2.9, 3.1, 3.3, 3.3, 3.5, 3.6, 3.7, 4.1, 4.8, 5.9, 7.1, 8.4, 9.5, 10.3, 10.7, 10.6, 10.0, 8.9, 7.6, 6.2, 4.6, 3.3, 2.5, 2.4, 2.6, 3.0, 3.4, 4.2, 5.2, 6.2, 7.4, 8.5, 9.5, 10.3, 10.9, 11.4, 11.6, 11.6, 11.4, 11.0, 10.7, 10.3, 9.9, 9.7, 9.6, 9.6, 9.7, 9.9, 10.1, 10.4, 10.7, 11.0, 11.4, 11.8, 12.2, 12.6, 13.0, 13.4, 13.9, 14.3, 14.7, 15.0, 15.4, 15.6, 15.8, 16.0, 16.1, 16.2, 16.2, 16.2, 16.2, 16.1, 16.1, 16.0, 16.0, 16.0, 16.1, 16.2, 16.4, 16.6, 16.9, 17.2, 17.6, 18.0, 18.4, 18.9, 19.4, 20.0, 20.6, 21.2, 21.8, 22.5, 23.1, 23.8, 24.5, 25.2, 25.9, 26.7, 27.4, 28.2, 29.0, 29.8, 30.7, 31.5, 32.4, 33.3, 34.2, 35.1, 36.1, 37.0, 38.0, 39.0, 40.1, 41.1, 42.2, 43.3, 44.3, 45.4, 46.4, 47.4, 48.3, 80.2, 102.9, 93.5, 81.5, 68.7, 55.7, 43.5, 32.4, 22.3, 13.1, 26.6, 25.4, 24.4, 23.5, 22.8, 22.4, 21.9, 21.5, 21.0, 20.4, 19.7, 18.7, 17.4, 15.9, 14.4, 13.4, 12.9, 13.2, 14.1, 15.1, 16.5, 18.3, 20.5, 23.2, 26.6, 30.6, 35.1, 39.8, 78.2, 79.9, 80.8, 81.6, 83.2, 83.2, 81.1, 77.4, 71.4, 63.3, 54.7, 47.0, 41.0, 37.1, 35.3, 7.8], "speed": [0.0, 0.0, 0.0, 0.0, 0.2, 1.0, 2.5, 4.1, 5.7, 7.5, 9.4, 11.2, 13.1, 15.1, 17.0, 18.9, 20.9, 22.9, 24.8, 26.8, 28.7, 30.7, 32.5, 34.3, 36.0, 37.4, 37.8, 37.5, 37.1, 36.7, 36.2, 35.8, 35.4, 35.0, 34.6, 34.2, 33.7, 33.3, 32.9, 32.5, 32.1, 31.6, 31.2, 30.8, 30.4, 30.0, 29.6, 29.2, 28.8, 28.3, 27.9, 27.5, 27.1, 26.7, 26.3, 25.9, 25.5, 25.1, 24.7, 24.3, 23.9, 23.5, 23.1, 22.7, 22.3, 21.9, 21.5, 21.1, 20.7, 20.3, 19.9, 19.5, 19.1, 18.7, 18.3, 18.0, 17.6, 17.2, 16.8, 16.4, 16.0, 15.6, 15.3, 14.9, 14.5, 14.1, 13.7, 13.3, 13.0, 12.6, 12.2, 11.8, 11.5, 11.1, 10.7, 10.4, 10.0, 9.6, 9.3, 8.9, 8.5, 8.2, 7.8, 7.5, 7.2, 6.8, 6.5, 6.2, 5.9, 5.6, 5.3, 5.0, 4.8, 4.5, 4.3, 4.1, 3.9, 3.8, 3.7, 3.6, 3.6, 3.6, 3.7, 3.7, 3.9, 4.0, 4.2, 4.4, 8.1, 11.0, 11.7, 12.0, 12.3, 12.6, 12.8, 13.1, 13.3, 13.6, 36.0, 36.8, 37.5, 38.2, 38.8, 39.5, 40.3, 41.0, 41.7, 42.4, 43.1, 43.9, 44.7, 45.5, 46.2, 46.8, 47.5, 48.2, 48.9, 49.5, 50.1, 50.8, 51.3, 51.9, 52.5, 53.1, 53.6, 54.2, 59.5, 60.2, 61.0, 61.6, 62.3, 63.1, 63.7, 64.4, 65.1, 65.8, 66.3, 66.9, 67.4, 67.8, 68.3, 68.7], "i_ap": 125}, {"name": "F2", "events": {"burnout": 0.781, "apogee": 4.44, "deploy": 5.53}, "t": [-0.299, -0.259, -0.219, -0.179, -0.139, -0.099, -0.059, -0.019, 0.021, 0.061, 0.101, 0.141, 0.181, 0.221, 0.261, 0.301, 0.341, 0.381, 0.421, 0.461, 0.501, 0.541, 0.581, 0.621, 0.661, 0.701, 0.741, 0.781, 0.821, 0.861, 0.901, 0.941, 0.981, 1.021, 1.061, 1.101, 1.141, 1.181, 1.221, 1.261, 1.301, 1.341, 1.381, 1.421, 1.461, 1.501, 1.541, 1.581, 1.621, 1.661, 1.701, 1.741, 1.781, 1.821, 1.861, 1.901, 1.941, 1.981, 2.021, 2.061, 2.101, 2.141, 2.181, 2.221, 2.261, 2.301, 2.341, 2.381, 2.421, 2.461, 2.501, 2.541, 2.581, 2.621, 2.661, 2.701, 2.741, 2.781, 2.821, 2.861, 2.904, 2.941, 2.981, 3.021, 3.061, 3.101, 3.141, 3.181, 3.221, 3.261, 3.301, 3.341, 3.381, 3.421, 3.461, 3.501, 3.541, 3.581, 3.621, 3.661, 3.701, 3.741, 3.781, 3.821, 3.865, 3.901, 3.941, 3.981, 4.021, 4.061, 4.101, 4.141, 4.181, 4.221, 4.261, 4.304, 4.341, 4.381, 4.421, 4.461, 4.501, 4.541, 4.581, 4.621, 4.661, 4.701, 4.744, 4.781, 4.821, 4.861, 4.901, 4.941, 4.981, 5.021, 5.061, 5.101, 5.141, 5.184, 5.221, 5.261, 5.301, 5.341, 5.381, 5.421], "x": [0.0, 0.0, 0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.01, -0.02, -0.04, -0.05, -0.08, -0.12, -0.16, -0.2, -0.24, -0.29, -0.32, -0.35, -0.36, -0.35, -0.31, -0.23, -0.13, 0.02, 0.21, 0.41, 0.63, 0.84, 1.05, 1.27, 1.48, 1.69, 1.9, 2.1, 2.31, 2.51, 2.72, 2.92, 3.12, 3.32, 3.52, 3.71, 3.91, 4.11, 4.31, 4.51, 4.72, 4.92, 5.12, 5.32, 5.52, 5.72, 5.92, 6.12, 6.32, 6.52, 6.72, 6.92, 7.11, 7.31, 7.51, 7.7, 7.9, 8.09, 8.29, 8.48, 8.68, 8.87, 9.07, 9.26, 9.46, 9.65, 9.84, 10.04, 10.23, 10.43, 10.62, 10.81, 11.02, 11.2, 11.39, 11.59, 11.78, 11.97, 12.17, 12.36, 12.55, 12.74, 12.94, 13.13, 13.32, 13.51, 13.7, 13.89, 14.08, 14.27, 14.46, 14.65, 14.84, 15.03, 15.22, 15.41, 15.62, 15.78, 15.97, 16.16, 16.34, 16.53, 16.71, 16.9, 17.08, 17.27, 17.45, 17.65, 17.82, 18.0, 18.18, 18.36, 18.54, 18.72, 18.91, 19.08, 19.26, 19.44, 19.64, 19.8, 19.98, 20.15, 20.33, 20.51, 20.68, 20.86, 21.03, 21.21, 21.38, 21.57, 21.73, 21.91, 22.08, 22.25, 22.42, 22.6], "y": [0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.01, 0.01, 0.02, 0.04, 0.06, 0.08, 0.11, 0.14, 0.18, 0.23, 0.29, 0.37, 0.47, 0.59, 0.74, 0.92, 1.13, 1.36, 1.61, 1.86, 2.11, 2.36, 2.61, 2.86, 3.11, 3.36, 3.6, 3.85, 4.09, 4.34, 4.58, 4.82, 5.07, 5.31, 5.56, 5.8, 6.04, 6.29, 6.53, 6.78, 7.02, 7.27, 7.51, 7.76, 8.0, 8.24, 8.49, 8.73, 8.97, 9.21, 9.45, 9.7, 9.94, 10.18, 10.42, 10.66, 10.9, 11.14, 11.38, 11.62, 11.86, 12.1, 12.33, 12.57, 12.81, 13.05, 13.29, 13.52, 13.76, 14.0, 14.24, 14.49, 14.71, 14.94, 15.18, 15.42, 15.65, 15.88, 16.12, 16.35, 16.59, 16.82, 17.06, 17.29, 17.52, 17.75, 17.98, 18.21, 18.45, 18.68, 18.91, 19.14, 19.37, 19.6, 19.83, 20.08, 20.28, 20.51, 20.74, 20.97, 21.19, 21.42, 21.65, 21.87, 22.1, 22.32, 22.57, 22.77, 23.0, 23.22, 23.44, 23.66, 23.89, 24.11, 24.33, 24.55, 24.77, 25.01, 25.21, 25.43, 25.65, 25.87, 26.08, 26.3, 26.52, 26.74, 26.95, 27.17, 27.4, 27.6, 27.81, 28.03, 28.24, 28.45, 28.67], "z": [-0.06, -0.07, 0.04, 0.14, 0.19, -0.02, 0.05, 0.42, 0.69, 1.18, 1.85, 2.34, 2.67, 2.8, 3.34, 4.06, 4.47, 4.97, 5.59, 6.43, 7.2, 7.81, 8.59, 9.45, 10.56, 11.83, 13.25, 14.74, 16.42, 17.75, 18.85, 20.39, 22.03, 23.6, 25.2, 26.87, 28.16, 29.38, 30.49, 31.54, 32.39, 33.14, 34.2, 35.54, 36.62, 37.78, 38.42, 39.5, 40.54, 41.47, 42.43, 43.38, 44.33, 45.35, 46.51, 47.6, 48.4, 49.42, 50.38, 51.21, 52.05, 52.89, 53.78, 54.69, 55.41, 56.22, 57.16, 57.78, 58.52, 59.35, 60.18, 60.94, 61.44, 62.15, 62.82, 63.49, 64.07, 64.36, 65.22, 65.7, 66.49, 67.02, 67.5, 68.05, 68.44, 68.96, 69.39, 70.02, 70.5, 70.95, 71.33, 71.81, 72.12, 72.51, 72.95, 73.23, 73.58, 73.94, 74.33, 74.43, 74.62, 75.0, 75.18, 75.37, 75.57, 75.7, 75.86, 76.08, 76.28, 76.37, 76.43, 76.5, 76.59, 76.59, 76.67, 76.66, 76.62, 76.77, 76.84, 76.68, 76.52, 76.59, 76.57, 76.54, 76.48, 76.29, 76.2, 76.13, 76.06, 75.85, 75.66, 75.41, 75.22, 74.98, 74.75, 74.59, 74.29, 73.96, 73.55, 73.31, 72.97, 72.69, 72.23, 71.99], "tilt": [3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.7, 3.8, 3.8, 3.6, 3.6, 3.7, 3.6, 3.7, 4.7, 7.1, 10.5, 14.6, 18.9, 23.0, 26.7, 29.5, 31.0, 31.1, 29.9, 27.6, 24.0, 19.6, 15.1, 10.8, 7.2, 4.9, 4.1, 4.9, 6.7, 9.0, 11.7, 14.7, 17.7, 20.7, 23.3, 25.4, 27.0, 28.0, 28.3, 28.1, 27.4, 26.3, 25.1, 23.8, 22.5, 21.4, 20.5, 19.8, 19.6, 19.7, 20.1, 20.8, 21.7, 22.9, 24.1, 25.5, 26.9, 28.4, 29.9, 31.3, 32.6, 33.8, 34.8, 35.6, 36.4, 37.0, 37.6, 38.1, 38.6, 39.0, 39.3, 39.6, 39.9, 40.2, 40.4, 40.7, 41.0, 41.3, 41.8, 42.2, 42.7, 43.3, 44.0, 44.7, 45.4, 46.3, 47.2, 48.2, 49.3, 50.4, 51.5, 52.7, 54.0, 55.3, 56.6, 58.0, 59.6, 61.0, 62.5, 64.1, 65.7, 67.4, 69.1, 70.9, 72.7, 74.5, 76.4, 78.5, 80.2, 82.2, 84.2, 86.2, 88.2, 90.3, 92.4, 94.4, 96.6, 98.7, 101.0, 103.0, 105.1, 107.2, 109.4, 111.6, 113.7, 115.9, 118.0, 120.1, 122.2, 124.5, 126.4, 128.4, 130.3, 132.2, 134.1, 135.8], "speed": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 2.5, 4.2, 6.0, 7.9, 9.8, 11.7, 13.6, 15.6, 17.6, 19.6, 21.5, 23.4, 25.3, 27.2, 29.0, 30.8, 32.5, 34.2, 35.7, 37.2, 37.3, 36.9, 36.5, 36.0, 35.5, 35.1, 34.7, 34.2, 33.8, 33.4, 33.0, 32.6, 32.1, 31.7, 31.3, 30.8, 30.4, 30.0, 29.6, 29.2, 28.8, 28.3, 27.9, 27.5, 27.1, 26.7, 26.3, 25.9, 25.5, 25.2, 24.8, 24.4, 24.0, 23.6, 23.2, 22.8, 22.4, 22.1, 21.7, 21.3, 20.9, 20.5, 20.1, 19.8, 19.4, 19.0, 18.6, 18.3, 17.9, 17.5, 17.2, 16.8, 16.5, 16.1, 15.7, 15.4, 15.0, 14.7, 14.4, 14.0, 13.7, 13.4, 13.0, 12.7, 12.4, 12.1, 11.8, 11.5, 11.2, 10.9, 10.6, 10.3, 10.0, 9.7, 9.5, 9.2, 9.0, 8.8, 8.6, 8.4, 8.2, 8.0, 7.8, 7.7, 7.6, 7.5, 7.4, 7.3, 7.3, 7.2, 7.2, 7.2, 7.3, 7.3, 7.4, 7.5, 7.6, 7.7, 7.9, 8.0, 8.2, 8.4, 8.6, 8.8, 9.0, 9.3, 9.5, 9.8, 10.0, 10.3, 10.6, 10.9, 11.1, 11.4, 11.7, 12.0, 12.4], "i_ap": 118, "descent": {"t": [9.001, 9.081, 9.161, 9.241, 9.321, 9.401, 9.481, 9.561, 9.641, 9.721, 9.801, 9.881, 9.961, 10.301, 10.381, 10.461, 10.541, 10.621, 10.701, 10.781, 10.861, 10.941, 11.021, 11.101, 11.181, 11.261, 11.341, 11.421, 11.501, 11.581, 11.664, 11.741, 11.821, 11.901, 11.981, 12.061, 12.141, 12.221, 12.301, 12.381, 12.461, 12.541, 12.621, 12.701, 12.781, 12.861, 13.058, 13.138, 13.218, 13.298, 13.378, 13.458, 13.538, 13.618, 13.698, 13.778, 13.858, 13.938, 14.283, 14.363, 14.443, 14.523, 14.603, 14.683, 14.763, 14.843, 14.923, 15.003, 15.083, 15.163, 15.243, 15.323, 15.403, 15.483, 15.563, 15.643, 15.723, 15.803, 15.883, 15.963, 16.043, 16.123, 16.203, 16.283, 16.363, 16.443, 16.523, 16.603, 16.683, 16.763, 16.843, 17.085, 17.165, 17.245, 17.325, 17.405, 17.485, 17.565, 17.645, 17.725, 17.808, 17.885, 17.965], "z": [46.25, 45.48, 44.79, 44.28, 43.61, 43.02, 42.45, 41.93, 41.47, 41.41, 41.44, 41.09, 40.53, 37.79, 37.41, 37.43, 37.11, 36.46, 35.86, 35.23, 34.99, 34.62, 34.4, 33.89, 33.36, 32.75, 32.43, 32.19, 31.91, 31.43, 30.83, 30.5, 30.12, 29.85, 29.62, 29.09, 28.26, 27.63, 27.1, 26.97, 26.54, 26.19, 25.47, 24.92, 24.59, 24.49, 23.66, 23.35, 23.11, 22.94, 22.69, 22.35, 22.2, 21.25, 20.61, 19.82, 19.5, 18.98, 16.65, 16.35, 16.12, 15.69, 15.26, 14.83, 14.36, 13.98, 13.43, 13.06, 12.72, 12.35, 11.96, 11.52, 11.08, 10.63, 10.13, 9.58, 9.29, 8.7, 8.33, 7.72, 7.26, 6.91, 6.67, 6.3, 5.6, 5.23, 4.76, 4.52, 4.26, 3.67, 2.98, 1.75, 1.56, 1.13, 0.79, 0.36, -0.27, -0.77, -0.73, -1.17, -1.56, -2.05, -1.96]}}];
+
+const COL = {F1:"#E8A33D", F2:"#45C0B0"};
+const INK = "#E6EDF3", MUTED = "#93A1AD", FAINT = "#5C6B77", GRID = "#253039";
+
+/* ---------- per-flight model ---------- */
+function buildFlight(d, key){
+  const pts = d.t.map((t,i)=>({t, x:d.x[i], y:d.y[i], z:Math.max(d.z[i],0), tilt:d.tilt[i], sp:d.speed[i]}));
+  const cut = key==="F1" ? d.events.ejection : d.events.deploy;   // validity cut
+  const ascent = pts.filter(p=>p.t<=cut+0.06);
+  let descent;
+  if(key==="F1"){
+    descent = pts.filter(p=>p.t>cut+0.06);
+    descent.unshift(ascent[ascent.length-1]);
+  }else{
+    const last = ascent[ascent.length-1];
+    descent = d.descent.t.map((t,i)=>({t, x:last.x, y:last.y, z:Math.max(d.descent.z[i],0)}));
+    descent.unshift(last);
+  }
+  const tEnd = key==="F1" ? d.events.impact : descent[descent.length-1].t;
+  return {key, col:COL[key], ev:d.events, ascent, descent, cut, tEnd, all:pts};
+}
+const F = [buildFlight(DATA[0],"F1"), buildFlight(DATA[1],"F2")];
+const vis = [true,true];
+
+/* ---------- camera ---------- */
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+const target = {x:2, y:8, z:40};
+let yaw = -2.35, pitch = 0.42, dist = 150, focal = 900;
+let W=0, H=0, dpr=1;
+
+function resize(){
+  const r = cv.parentElement.getBoundingClientRect();
+  dpr = Math.min(window.devicePixelRatio||1, 2);
+  W = r.width; H = r.height;
+  cv.width = W*dpr; cv.height = H*dpr;
+  focal = Math.min(W,H)*1.15;
+  draw();
+}
+window.addEventListener("resize", resize);
+
+function project(p){
+  const cp=Math.cos(pitch), sp=Math.sin(pitch), cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const ex = target.x + dist*cp*cy, ey = target.y + dist*cp*sy, ez = target.z + dist*sp;
+  const vx = p.x-ex, vy = p.y-ey, vz = p.z-ez;
+  // basis: f toward target, r = normalize(cross(f,up)), u = cross(r,f), up=+z
+  const fx=-cp*cy, fy=-cp*sy, fz=-sp;
+  const rx=-sy, ry=cy;                       // cross(f,up) normalized
+  const ux = ry*fz, uy = -rx*fz, uz = rx*fy - ry*fx;
+  const px = vx*rx + vy*ry;
+  const py = vx*ux + vy*uy + vz*uz;
+  const pz = vx*fx + vy*fy + vz*fz;
+  if(pz < 5) return null;
+  return {x: W/2 + focal*px/pz, y: H*0.54 - focal*py/pz, d: pz};
+}
+
+/* ---------- drawing ---------- */
+function line3(pts, alpha){
+  ctx.beginPath();
+  let started=false;
+  for(const p of pts){
+    const s = project(p);
+    if(!s){started=false; continue;}
+    if(!started){ctx.moveTo(s.x,s.y); started=true;} else ctx.lineTo(s.x,s.y);
+  }
+  ctx.globalAlpha = alpha; ctx.stroke(); ctx.globalAlpha = 1;
+}
+function seg(a,b){ return [{x:a.x,y:a.y,z:a.z},{x:b.x,y:b.y,z:b.z}]; }
+
+function interp(pts, t){
+  if(t<=pts[0].t) return pts[0];
+  if(t>=pts[pts.length-1].t) return pts[pts.length-1];
+  let lo=0, hi=pts.length-1;
+  while(hi-lo>1){ const m=(lo+hi)>>1; (pts[m].t<=t?lo=m:hi=m); }
+  const a=pts[lo], b=pts[hi], f=(t-a.t)/(b.t-a.t||1);
+  const o={t, x:a.x+f*(b.x-a.x), y:a.y+f*(b.y-a.y), z:a.z+f*(b.z-a.z)};
+  if(a.tilt!==undefined && b.tilt!==undefined){o.tilt=a.tilt+f*(b.tilt-a.tilt); o.sp=a.sp+f*(b.sp-a.sp);}
+  return o;
+}
+function posAt(fl, t){
+  if(t<=fl.cut) return interp(fl.ascent, t);
+  return interp(fl.descent, Math.min(t, fl.tEnd));
+}
+
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,W,H);
+
+  // ground grid
+  ctx.strokeStyle = GRID; ctx.lineWidth = 1;
+  for(let x=-30;x<=40;x+=10) line3(seg({x,y:-20,z:0},{x,y:40,z:0}), x===0?0.9:0.45);
+  for(let y=-20;y<=40;y+=10) line3(seg({x:-30,y,z:0},{x:40,y,z:0}), y===0?0.9:0.45);
+
+  // altitude ruler at pad
+  ctx.strokeStyle = FAINT;
+  line3(seg({x:0,y:0,z:0},{x:0,y:0,z:90}), 0.55);
+  ctx.fillStyle = FAINT; ctx.font = `10px ${getComputedStyle(document.documentElement).getPropertyValue("--mono")}`;
+  for(let z=25;z<=75;z+=25){
+    const s = project({x:0,y:0,z});
+    const s2 = project({x:0,y:0,z:0});
+    if(s){ ctx.globalAlpha=.8; ctx.fillText(z+" m", s.x+6, s.y+3); ctx.globalAlpha=1; }
+    line3(seg({x:-1.2,y:0,z},{x:1.2,y:0,z}), 0.55);
+  }
+  // pad marker
+  const pad = project({x:0,y:0,z:0});
+  if(pad){ ctx.fillStyle=MUTED; ctx.beginPath();
+    ctx.moveTo(pad.x,pad.y-6); ctx.lineTo(pad.x-5,pad.y+3); ctx.lineTo(pad.x+5,pad.y+3);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=FAINT; ctx.fillText("pad", pad.x+8, pad.y+4); }
+
+  const tNow = +scrub.value;
+
+  for(let i=0;i<2;i++){
+    if(!vis[i]) continue;
+    const fl = F[i];
+    // ground shadows
+    ctx.strokeStyle = fl.col; ctx.lineWidth = 1; ctx.setLineDash([]);
+    line3(fl.ascent.map(p=>({x:p.x,y:p.y,z:0})), 0.14);
+
+    // ascent (clip to tNow)
+    const asc = fl.ascent.filter(p=>p.t<=tNow);
+    ctx.lineWidth = 2;
+    if(asc.length>1) line3(asc, 0.95);
+    if(tNow>fl.ascent[0].t && tNow<fl.cut){ const c=posAt(fl,tNow); const endSeg=[asc[asc.length-1]||c, c]; line3(endSeg,0.95); }
+
+    // descent — same solid line
+    if(tNow>fl.cut){
+      const des = fl.descent.filter(p=>p.t<=tNow);
+      if(tNow<fl.tEnd) des.push(posAt(fl,tNow));
+      ctx.lineWidth = 2;
+      if(des.length>1) line3(des, 0.95);
+    }
+
+    // event markers
+    ctx.fillStyle = fl.col;
+    const evPts = [];
+    for(const [name,te] of Object.entries(fl.ev)){
+      if(te>tNow) continue;
+      const p = te<=fl.cut+0.06 ? interp(fl.ascent,te) : posAt(fl,te);
+      evPts.push([name,p]);
+    }
+    for(const [name,p] of evPts){
+      const s = project(p); if(!s) continue;
+      ctx.globalAlpha=.95;
+      ctx.beginPath(); ctx.arc(s.x,s.y,2.6,0,7); ctx.fill();
+      if(name!=="burnout"){
+        ctx.globalAlpha=.85;
+        ctx.fillText(name, s.x+7, s.y-4);
+      }
+      ctx.globalAlpha=1;
+    }
+
+    // current marker
+    if(tNow>=fl.ascent[0].t && tNow<=fl.tEnd+0.3){
+      const c = posAt(fl, Math.min(tNow, fl.tEnd));
+      const s = project(c);
+      if(s){ ctx.strokeStyle=fl.col; ctx.lineWidth=1.6;
+        ctx.beginPath(); ctx.arc(s.x,s.y,5.5,0,7); ctx.stroke();
+        // drop line to ground
+        const g = project({x:c.x,y:c.y,z:0});
+        if(g){ ctx.setLineDash([2,4]); ctx.globalAlpha=.4;
+          ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(g.x,g.y); ctx.stroke();
+          ctx.setLineDash([]); ctx.globalAlpha=1; }
+      }
+    }
+  }
+  hudUpdate(tNow);
+}
+
+/* ---------- HUD ---------- */
+const hud = document.getElementById("hud");
+function fmt(v,unit,dec){ return v==null ? "—" : v.toFixed(dec)+unit; }
+function hudUpdate(t){
+  let html = `<span></span><span class="h">alt</span><span class="h">speed</span><span class="h">tilt</span>`;
+  for(let i=0;i<2;i++){
+    const fl=F[i];
+    let alt=null, sp=null, tilt=null;
+    if(vis[i] && t>=fl.ascent[0].t){
+      const c = posAt(fl, Math.min(t,fl.tEnd));
+      alt = c.z;
+      if(t<=fl.cut){ sp=c.sp; tilt=c.tilt; }
+      else if(fl.key==="F1"&&t>=fl.tEnd){ alt=0; }
+    }
+    const col = vis[i] ? fl.col : "var(--faint)";
+    html += `<span class="nm" style="color:${col}">${fl.key}</span>`+
+      `<span>${fmt(alt," m",1)}</span><span>${fmt(sp," m/s",1)}</span><span>${fmt(tilt,"°",0)}</span>`;
+  }
+  hud.innerHTML = html;
+}
+
+/* ---------- interaction ---------- */
+const scrub = document.getElementById("scrub"), tval = document.getElementById("tval");
+const playBtn = document.getElementById("play");
+scrub.addEventListener("input", ()=>{ stop(); sync(); });
+function sync(){ tval.textContent = "t+"+(+scrub.value).toFixed(2)+" s"; draw(); }
+
+let playing=false, raf=0, lastTs=0;
+function stop(){ playing=false; playBtn.textContent="PLAY"; cancelAnimationFrame(raf); }
+playBtn.addEventListener("click", ()=>{
+  if(playing){ stop(); return; }
+  playing=true; playBtn.textContent="PAUSE";
+  if(+scrub.value>=17.9) scrub.value=0;
+  lastTs=performance.now();
+  const step=(ts)=>{ if(!playing) return;
+    scrub.value = Math.min(18, +scrub.value + (ts-lastTs)/1000*0.9);
+    lastTs=ts; sync();
+    if(+scrub.value>=18){ stop(); return; }
+    raf=requestAnimationFrame(step); };
+  raf=requestAnimationFrame(step);
+});
+
+// event ticks on the scrubber
+const wrap=document.getElementById("scrubwrap");
+for(let i=0;i<2;i++) for(const te of Object.values(F[i].ev)){
+  const el=document.createElement("div"); el.className="tick";
+  el.style.left="calc("+(te/18*100)+"% )"; el.style.background=F[i].col; el.style.opacity=.7;
+  wrap.appendChild(el);
+}
+
+// toggles
+for(let i=0;i<2;i++){
+  const b=document.getElementById("tog"+i);
+  b.addEventListener("click", ()=>{ vis[i]=!vis[i];
+    b.classList.toggle("off",!vis[i]); b.setAttribute("aria-pressed",vis[i]); draw(); });
+}
+
+// orbit + zoom
+const ptrs=new Map();
+cv.addEventListener("pointerdown", e=>{ cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY}); });
+cv.addEventListener("pointermove", e=>{
+  if(!ptrs.has(e.pointerId)) return;
+  const prev=ptrs.get(e.pointerId);
+  if(ptrs.size===1){
+    yaw -= (e.clientX-prev.x)*0.007;
+    pitch = Math.min(1.35, Math.max(0.03, pitch + (e.clientY-prev.y)*0.005));
+    ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY}); draw();
+  }else if(ptrs.size===2){
+    const ids=[...ptrs.keys()], a=ptrs.get(ids[0]), b=ptrs.get(ids[1]);
+    const d0=Math.hypot(a.x-b.x,a.y-b.y);
+    ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    const a2=ptrs.get(ids[0]), b2=ptrs.get(ids[1]);
+    const d1=Math.hypot(a2.x-b2.x,a2.y-b2.y);
+    if(d0>0) { dist=Math.min(400,Math.max(60,dist*d0/d1)); draw(); }
+  }
+});
+const endPtr=e=>ptrs.delete(e.pointerId);
+cv.addEventListener("pointerup",endPtr); cv.addEventListener("pointercancel",endPtr);
+cv.addEventListener("wheel", e=>{ e.preventDefault();
+  dist=Math.min(400,Math.max(60,dist*(1+e.deltaY*0.0012))); draw(); },{passive:false});
+
+window.addEventListener("keydown", e=>{
+  if(e.target.tagName==="INPUT"&&e.key!==" ") return;
+  if(e.key==="ArrowRight"){ scrub.value=+scrub.value+0.1; stop(); sync(); }
+  if(e.key==="ArrowLeft"){ scrub.value=+scrub.value-0.1; stop(); sync(); }
+  if(e.key===" "){ e.preventDefault(); playBtn.click(); }
+});
+
+resize(); sync();
+</script>
+
+</body>
+</html>

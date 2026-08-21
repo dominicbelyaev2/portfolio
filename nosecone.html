@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Carbon Fiber Nosecone — Dominic Belyaev</title>
+  <meta name="description" content="">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="starter-page-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/db-emblem.svg" alt="DB emblem" style="height: 46px; margin-right: 12px;">
+        <h1 class="sitename" style="text-transform: uppercase; letter-spacing: 1px;">Dominic Belyaev&rsquo;s Portfolio</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#portfolio">Projects</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <section class="section">
+      <div class="container" data-aos="fade-up">
+<h1>Carbon Fiber Nosecone &mdash; Mandrel Failure to Molded Part</h1>
+<p class="text-muted">Role: solo &mdash; geometry, tooling design, mold fabrication, layup &middot; Tools: Fusion 360, QIDI Q2 FDM, West System 105/206, vacuum bagging &middot; Timeline: Jul &ndash; Aug 2026 &middot; flown twice 15 Aug 2026</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/shell-finished.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: The finished shell — trimmed, on its printed coupler, recovery eyebolt through the base"><img src="assets/img/projects/nosecone/shell-finished.jpg" class="img-fluid rounded" alt="Finished carbon fiber nosecone assembled on its blue printed coupler with the recovery eyebolt"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/shell-in-mold.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Opening the mold the morning after the one-shot closed-mold layup"><img src="assets/img/projects/nosecone/shell-in-mold.jpg" class="img-fluid rounded" alt="Opened split mold half with the cured carbon nosecone still seated in the cavity"></a></div>
+</div>
+
+<p><strong>A Von K&aacute;rm&aacute;n carbon fiber nosecone for my rocket&rsquo;s instrumented second flight &mdash; laid up in a split female mold I designed in code and 3D-printed, closed wet around an internal pressure bladder, and demolded as a seamless shell the next morning. The tooling exists because Plan&nbsp;A, a dissolvable printed mandrel, failed at demold and taught me why.</strong></p>
+
+<h3>Problem</h3>
+<p>Replace the rocket&rsquo;s stock plastic nosecone with a self-made composite one, sized to the real airframe: the profile is an equation-driven Von K&aacute;rm&aacute;n (Haack C&nbsp;=&nbsp;0) curve, 12.25&nbsp;in long, matched to the 2.289&nbsp;in body tube and a screw-retained metal tip. The interesting constraint isn&rsquo;t flight loads &mdash; laminate stress is ~1&ndash;2&nbsp;MPa against a &gt;200&nbsp;MPa laminate, so strength never sizes the wall. The whole project is a manufacturing problem: hitting the outer mold line, the tip-plug bore, and the body-tube fit with backyard tooling.</p>
+
+<h3>Plan A: dissolvable mandrel &mdash; and why it failed</h3>
+<p>The first build wrapped five plies of fiberglass around a 3D-printed mandrel: a ribbed PLA core inside a 0.05&nbsp;in PVA (water-soluble) shell, filled with sand so a 6&ndash;9&nbsp;inHg vacuum bag couldn&rsquo;t crush it. The layup itself worked &mdash; the bag consolidated cleanly. Demolding didn&rsquo;t. Dissolution physics beat me: water could only attack the PVA from the exposed base edge, advancing about an inch per half hour, and an overnight full-submersion soak still didn&rsquo;t release the core because water never reached the glass&ndash;PVA interface. The core came out destructively &mdash; boiling-water floods, snapping ribs through the sand pockets, peeling the skin in strips. <strong>Lesson: on a closed tapered part, plan for mechanical extraction; dissolution only clears the residual film afterward.</strong></p>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/mandrel-parts.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: Printed mandrel components — PVA shell halves, ribbed PLA core, metal tip hardware"><img src="assets/img/projects/nosecone/mandrel-parts.jpg" class="img-fluid rounded" alt="3D-printed PVA shell sections, PLA core cone, and metal tip hardware laid out on a table"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/glass-layup.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: Five-ply fiberglass wet layup on the vertical mandrel"><img src="assets/img/projects/nosecone/glass-layup.jpg" class="img-fluid rounded" alt="Wet fiberglass plies draped over the vertical mandrel during layup"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/glass-bagged.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: Tent-style vacuum bag over the mandrel — 6–9 inHg so the sand-filled core survives"><img src="assets/img/projects/nosecone/glass-bagged.jpg" class="img-fluid rounded" alt="Vacuum bag tented over the fiberglass layup on the mandrel"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/try1-work-area.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: The try-1 work area — mandrel, cut gores, and bagging consumables staged"><img src="assets/img/projects/nosecone/try1-work-area.jpg" class="img-fluid rounded" alt="Work area staged for the first layup with mandrel, cut fiberglass gores, and bagging supplies"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/try1-epoxy-station.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: West System 105/206 metering station on layup night"><img src="assets/img/projects/nosecone/try1-epoxy-station.jpg" class="img-fluid rounded" alt="Mixing West System 105/206 epoxy at the outdoor layup station"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/try1-peel-ply.jpg" class="glightbox" data-gallery="plana" data-glightbox="title: Peel ply going on over the wet glass"><img src="assets/img/projects/nosecone/try1-peel-ply.jpg" class="img-fluid rounded" alt="Peel ply layer applied over the wet fiberglass layup"></a></div>
+</div>
+
+<h3>Plan B: a split female mold, built in Fusion 360</h3>
+<p>The rebuild inverted the tooling: a two-half female mold whose cavity <em>is</em> the aero outer surface, so the OD comes off the mold and all ply-thickness scatter lands harmlessly on the ID. I designed the mold in Fusion 360 as a fully parametric model &mdash; the equation-driven cavity curve, bolted flanges (12&times;&nbsp;1/4-20), witness grooves at the trim stations, pry notches &mdash; and rebuilt it freely as the design evolved (the tip sections got 28% shallower in one dimension change, saving three hours of printing each). Each half prints in two sections on a 270&nbsp;mm bed, joined with dowels and adhesive, then the cavities got two skim coats of thin epoxy and a wet-sand pass to become mold surfaces.</p>
+<div class="row g-3 mb-2">
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mold-cad-full.png" class="glightbox" data-gallery="planb" data-glightbox="title: The mold as a named Fusion 360 assembly — two halves plus all 12 bolts, washers, and nuts as components"><img src="assets/img/projects/nosecone/mold-cad-full.png" class="img-fluid rounded border" alt="Fusion 360 view of the closed split mold assembly with bolt holes and parting line"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mold-cad-half.png" class="glightbox" data-gallery="planb" data-glightbox="title: One mold half in CAD — the cavity is the nosecone's aero outer surface"><img src="assets/img/projects/nosecone/mold-cad-half.png" class="img-fluid rounded border" alt="Fusion 360 view of one mold half showing the Von Karman cavity"></a></div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mold-halves.jpg" class="glightbox" data-gallery="planb" data-glightbox="title: Both mold halves, cavities epoxy-skimmed and sanded"><img src="assets/img/projects/nosecone/mold-halves.jpg" class="img-fluid rounded" alt="Two 3D-printed split mold halves standing open with black epoxy-skimmed cavities"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mold-assembled.jpg" class="glightbox" data-gallery="planb" data-glightbox="title: The bolted mold assembly — two halves, four print sections"><img src="assets/img/projects/nosecone/mold-assembled.jpg" class="img-fluid rounded" alt="Assembled split mold held in hand showing bolt holes along the flanges"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/mold-one-half.jpg" class="glightbox" data-gallery="planb" data-glightbox="title: One half fresh off the printer — cavity printed face-up, no supports"><img src="assets/img/projects/nosecone/mold-one-half.jpg" class="img-fluid rounded" alt="Single printed mold half showing the raw Von Karman cavity"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/mold-post-sanding.jpg" class="glightbox" data-gallery="planb" data-glightbox="title: Cavities after the wet-sand pass — 320 to 1200 grit, dowel-backed at the joint lines"><img src="assets/img/projects/nosecone/mold-post-sanding.jpg" class="img-fluid rounded" alt="Both mold halves after wet sanding the epoxy-skimmed cavities"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/mold-post-xcr.jpg" class="glightbox" data-gallery="planb" data-glightbox="title: After the second XCR epoxy skim coat — sealed, ready for finishing"><img src="assets/img/projects/nosecone/mold-post-xcr.jpg" class="img-fluid rounded" alt="Mold cavities after the second thin epoxy skim coat"></a></div>
+</div>
+
+<h3>One-shot closed-mold layup</h3>
+<p>Instead of laying up each half separately and bonding two cured shells, I wet-laid both halves open and closed the mold <em>while everything was still wet</em>, so fiber runs continuously across the seams and there is no secondary bond line. One half&rsquo;s plies were cut exactly to the cavity edge; the other half&rsquo;s carried 0.5&nbsp;in flaps that lap across the parting line onto the first half&rsquo;s inner surface &mdash; a detail rehearsed dry before any resin was mixed, because the flaps near the tip get placed blind. Consolidation came from an internal film-wrapped bladder at 2&ndash;3&nbsp;psi pressing the laminate into the cavity, with the mold bolted against roughly 60&nbsp;lb of opening force. Four plies of 193&nbsp;gsm twill (Levanta scrap stock &mdash; measured, not assumed), targeting the same ~0.035&nbsp;in wall the glass design used. Demolded the next morning: mold-surface finish outside, sandable bladder-side ridges inside, both accepted trades I&rsquo;d made on paper first.</p>
+<div class="row g-3 mb-2">
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/cf-wetout.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Wetting out the carbon in one mold half"><img src="assets/img/projects/nosecone/cf-wetout.jpg" class="img-fluid rounded" alt="Brush wetting out carbon fiber plies inside a mold half cavity"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/cf-layup-night.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Layup night — plies, films, and the two halves staged"><img src="assets/img/projects/nosecone/cf-layup-night.jpg" class="img-fluid rounded" alt="Working gloved over the staged mold halves, carbon fiber and release films on the table"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/bladder-in-mold.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Looking down the closed cavity — internal bladder against the wet carbon"><img src="assets/img/projects/nosecone/bladder-in-mold.jpg" class="img-fluid rounded" alt="View down the mold cavity showing the internal bladder pressed against wet carbon fiber"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mold-closed.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Closed and bolted while wet, bladder tails out both ends, curing overnight"><img src="assets/img/projects/nosecone/mold-closed.jpg" class="img-fluid rounded" alt="Bolted split mold with bladder film emerging from both ends during cure"></a></div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/layup-setup.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Layup night staged — plies cut, films ready, halves open"><img src="assets/img/projects/nosecone/layup-setup.jpg" class="img-fluid rounded" alt="Layup station staged with cut carbon plies, release films, and the open mold halves"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/bladder-expansion.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: The internal bladder expanding against the wet carbon — the consolidation mechanism, visible"><img src="assets/img/projects/nosecone/bladder-expansion.jpg" class="img-fluid rounded" alt="Internal pressure bladder expanded against the wet carbon fiber inside the mold cavity"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/nosecone/bag-tube-middle.jpg" class="glightbox" data-gallery="layup" data-glightbox="title: Envelope-bagged mold — the film is the vacuum barrier, not the print"><img src="assets/img/projects/nosecone/bag-tube-middle.jpg" class="img-fluid rounded" alt="The whole mold sealed inside an envelope vacuum bag with the bladder tube exiting the middle"></a></div>
+</div>
+
+<h3>Decisions that made it work</h3>
+<ul>
+  <li><strong>Envelope-bag logic:</strong> a printed mold is not a vacuum barrier &mdash; layer lines, infill, and twelve through-bolt holes all leak. Every consolidation scheme was designed so the film, not the print, holds pressure.</li>
+  <li><strong>Cured-ply arithmetic:</strong> wall = plies &times; cured thickness, and cured thickness depends on fiber volume fraction, which depends on consolidation pressure. At the bladder&rsquo;s 2&ndash;3&nbsp;psi the laminate runs resin-rich (~0.009&nbsp;in/ply), which is why the ply count stayed at four &mdash; a fifth would overshoot the metal tip&rsquo;s bore.</li>
+  <li><strong>Trim as the recovery lever:</strong> the tip station is cut after measuring the real cured wall &mdash; the cone&rsquo;s slope converts a 0.03&nbsp;in station shift into ~0.004&nbsp;in of radius, absorbing the process scatter the low-pressure cure creates.</li>
+</ul>
+
+<h3>The mass delta, on a scale</h3>
+<p>The payoff of the pivot shows up on a kitchen scale: the carbon shell weighs <strong>102.4&nbsp;g</strong> against <strong>194.0&nbsp;g</strong> for the try-1 fiberglass build &mdash; <strong>47% lighter</strong> for the same outer mold line, weighed on the same scale in the same session. The honest breakdown of that delta: one fewer ply (the female mold&rsquo;s smooth surface deleted the sanding-margin ply), carbon&rsquo;s lower areal weight for the same stiffness class, far less resin retained by the bladder-consolidated laminate than the 6&ndash;9&nbsp;inHg mandrel bag &mdash; and the fiberglass cone carries its paint, so the comparison is build-vs-build, not a pure materials number.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mass-carbon.jpg" class="glightbox" data-gallery="mass" data-glightbox="title: Carbon shell on the scale — 102.4 g"><img src="assets/img/projects/nosecone/mass-carbon.jpg" class="img-fluid rounded" alt="Bare carbon fiber nosecone shell on a digital scale reading 102.4 grams"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nosecone/mass-fiberglass.jpg" class="glightbox" data-gallery="mass" data-glightbox="title: The try-1 fiberglass cone (painted) — 194.0 g"><img src="assets/img/projects/nosecone/mass-fiberglass.jpg" class="img-fluid rounded" alt="Painted fiberglass nosecone from the first build on a digital scale reading 194.0 grams"></a></div>
+</div>
+
+<h3>Flown &mdash; twice in one afternoon</h3>
+<p>The shell flew both flights of the <a href="flights.html">instrumented campaign</a> on 15 Aug 2026, with the <a href="telemetry.html">flight computer</a> in the nosecone bay logging 100&nbsp;Hz IMU and 50&nbsp;Hz baro: boost repeatable to ~2% (6.0&nbsp;/&nbsp;6.1&nbsp;g), measured apogees of 84.6 and 76.9&nbsp;m, and &mdash; unplanned but informative &mdash; a structural proof: flight 1&rsquo;s parachute never deployed and the shell took a 17&nbsp;m/s ballistic landing <em>reflyable</em>, flying again an hour later. The OpenRocket-predicted apogee (~120&nbsp;m) came in well above the measured values; closing that predicted-vs-actual loop against the logged drag and the reconstructed weathercocking is the next analysis. One real trade came out of going carbon: the conductive shell blocks GPS from inside the cone, so the GPS moved out of the flight build and recovery tracking relocates to the fiberglass body tube.</p>
+
+<h3>What I&rsquo;d change</h3>
+<p>The cured-per-ply thickness is still an estimate bracketed by fiber-volume-fraction assumptions &mdash; the test coupon I keep planning would replace that assumption with a measurement. The bladder&rsquo;s 2&ndash;3&nbsp;psi is far below a proper vacuum consolidation, so the laminate carries more resin than it needs; a compaction scheme that safely reaches higher pressure (or an infusion setup like the ones I used <a href="composites.html">at my internship</a>) is the next process step. And the mandrel failure was avoidable on paper: I never sanity-checked the dissolution front rate against the geometry before committing a 4-hour print and a layup to it.</p>
+<p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Dominic Belyaev</strong></p>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

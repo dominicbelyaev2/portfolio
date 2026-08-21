@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>NUSTARS Payload Battery Sled — Dominic Belyaev</title>
+  <meta name="description" content="A 3D-printed battery retention sled for the NUSTARS ATLAS payload, designed in Onshape for the ESRA IREC 2025–26 competition rocket.">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="starter-page-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/db-emblem.svg" alt="DB emblem" style="height: 46px; margin-right: 12px;">
+        <h1 class="sitename" style="text-transform: uppercase; letter-spacing: 1px;">Dominic Belyaev&rsquo;s Portfolio</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#portfolio">Projects</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <section class="section">
+      <div class="container" data-aos="fade-up">
+
+<h1>Battery Retention Sled &mdash; NUSTARS ATLAS Payload</h1>
+<p class="text-muted">Role: I designed the battery retention sled. The payload as a whole is the work of the NUSTARS payload team &middot; Tools: Onshape, FDM 3D printing &middot; Timeline: Jan 2026 &ndash; present &middot; Northwestern University Space Technology &amp; Rocketry Society, ESRA IREC 2025&ndash;26</p>
+
+<div class="row g-3 mb-2">
+  <div class="col-md-5"><a href="assets/img/projects/nustars/payload-assembly.png" class="glightbox" data-gallery="hero" data-glightbox="title: ATLAS payload assembly — bulkheads, standoffs, TeleMega, cells and camera hardware"><img src="assets/img/projects/nustars/payload-assembly.png" class="img-fluid rounded border bg-white" alt="Onshape assembly view of the ATLAS payload showing two bulkheads on threaded standoffs with the flight computer, battery holders and camera hardware between them"></a>
+    <p class="text-muted small mt-1">The ATLAS payload bay &mdash; team assembly. Two bulkheads on threaded standoffs carry the TeleMega flight computer, the cells, camera hardware and the antenna stack.</p></div>
+  <div class="col-md-7"><a href="assets/img/projects/nustars/sled-closeup.png" class="glightbox" data-gallery="hero" data-glightbox="title: The sled installed — cross-shaped plate spanning the bay over the cells and flight computer"><img src="assets/img/projects/nustars/sled-closeup.png" class="img-fluid rounded border bg-white" alt="Close-up of the grey cross-shaped 3D printed retention sled installed over the battery holders and the green TeleMega board"></a>
+    <p class="text-muted small mt-1">My part, installed &mdash; the grey cross-shaped plate. Its long arm clamps the cells; the wide face passes over the TeleMega and holds it down as a secondary job.</p></div>
+</div>
+
+<p class="mt-3"><strong>Designed the battery retention sled for the ATLAS payload of NUSTARS&rsquo; ESRA IREC competition rocket &mdash; a 3D-printed cross-shaped plate that clamps the cells against flight loads on the way to roughly 7,500 ft, using heat-set threaded inserts in the printed body and nylon-insert lock nuts at the bulkhead so the joint cannot back itself off under sustained vibration.</strong></p>
+
+<h3>Problem</h3>
+<p>Everything in a rocket payload bay has to survive boost without moving. Loose cells are the worst version of that problem: they carry real mass, they sit directly against the flight computer, and if they shift under acceleration they can break a connection or damage the board next to them. The bay is also densely packed &mdash; the retention had to fit the volume left over between the TeleMega, the camera hardware and the antenna stack, without blocking access to anything the team needs to reach between flights.</p>
+
+<h3>Design</h3>
+<ul>
+  <li><strong>Cross-shaped footprint.</strong> The plate is only wide where it needs to press. The long arm runs across the battery holders; the broad face covers the flight computer. Everywhere else the material is cut away, which keeps the part light and leaves the neighbouring components reachable.</li>
+  <li><strong>Two jobs, one part.</strong> Its primary function is clamping the cells. Because it already spans that face of the bay, it also sits over the TeleMega and lightly restrains it &mdash; a secondary benefit rather than the board&rsquo;s main retention.</li>
+  <li><strong>Turned-down edges.</strong> The raised lips around the perimeter locate the plate against the components below it, so clamping load is reacted through the walls of the sled rather than by friction alone.</li>
+  <li><strong>Printed, not machined.</strong> FDM printing was the right call for a part this geometrically fussy in a team that iterates fast &mdash; a revision is an overnight print rather than a shop booking.</li>
+</ul>
+
+<h3>Retention and fastening</h3>
+<p><strong>Heat-set inserts, not tapped plastic.</strong> Screwing a machine screw straight into a printed hole means cutting threads into layer lines &mdash; they strip easily, and every disassembly makes them worse. On a part that comes out repeatedly between test fits and flights, that&rsquo;s a joint with a short life. Brass heat-set inserts melt into the print and give it real machine threads that carry load into the surrounding plastic instead of into a few layers, so the sled can be torn down and reinstalled without degrading.</p>
+<p>The sled lands on four fastening points at the lower bulkhead, circled below. All four use <strong>nylon-insert lock nuts</strong>. That matters more than it sounds: a rocket airframe under boost is a sustained broadband vibration environment, and a plain nut on a smooth thread will walk loose in it. The nylon collar deforms around the thread and gives a prevailing torque that doesn&rsquo;t depend on the joint staying in tension &mdash; so the retention survives the flight even if the clamped stack settles slightly.</p>
+<div class="row g-3 mb-4 justify-content-center">
+  <div class="col-md-7"><a href="assets/img/projects/nustars/fasteners.png" class="glightbox" data-glightbox="title: The four fastening points at the lower bulkhead"><img src="assets/img/projects/nustars/fasteners.png" class="img-fluid rounded border bg-white" alt="Front view of the payload bay with four fastener locations circled in red at the lower bulkhead"></a>
+    <p class="text-muted small mt-1">The four fastening points, circled &mdash; two outboard on the threaded standoffs, two inboard through the bulkhead.</p></div>
+</div>
+
+<h3>As built</h3>
+<p>The payload as assembled on the bench &mdash; team hardware, shown for context. It is a genuinely dense bay: a LoRa radio and BMP585 barometer stacked on the printed structure, a Raspberry Pi and camera behind them, power distribution and harness routed through the middle, all captured between two machined bulkhead rings on threaded standoffs. Fitting retention into what volume remains, without blocking access to any of it, is most of the design problem.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-detail.jpg" class="glightbox" data-gallery="built" data-glightbox="title: The assembled ATLAS payload — avionics stack, harness and bulkhead rings"><img src="assets/img/projects/nustars/payload-built-detail.jpg" class="img-fluid rounded" alt="The assembled ATLAS payload on a workbench, showing the avionics stack, wiring harness, camera and machined bulkhead rings"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/nustars/payload-built-bench.jpg" class="glightbox" data-gallery="built" data-glightbox="title: Payload on the bench during assembly"><img src="assets/img/projects/nustars/payload-built-bench.jpg" class="img-fluid rounded" alt="The payload during assembly on the NUSTARS workbench with tools and hardware around it"></a></div>
+</div>
+
+<h3>Status and what I&rsquo;d change</h3>
+<ul>
+  <li><strong>Loads are qualitative so far.</strong> The sled was sized by judgement and by what fits, not against a calculated boost load case. The honest next step is to take the vehicle&rsquo;s peak acceleration, work out the inertial load of the cells, and check the clamping arms against it &mdash; the kind of check I ran on the <a href="caliper.html">brake caliper</a>, applied here.</li>
+  <li><strong>Print orientation deserves a second look.</strong> The clamping arms are loaded in bending, and FDM parts are weakest across layer lines. Orienting the print so layers run along the arms rather than across them is free strength.</li>
+  <li><strong>No test data yet.</strong> Nothing here has been vibration-tested. A shaker or even a bench tap test before the next flight would turn this from a design into a verified one.</li>
+</ul>
+
+<p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Dominic Belyaev</strong></p>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

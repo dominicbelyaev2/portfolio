@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>DC Motor Control — Dominic Belyaev</title>
+  <meta name="description" content="Cascaded current + position PID control of a brushed DC motor in C on a Raspberry Pi Pico 2, with a Python client for tuning and trajectory tracking.">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="starter-page-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/db-emblem.svg" alt="DB emblem" style="height: 46px; margin-right: 12px;">
+        <h1 class="sitename" style="text-transform: uppercase; letter-spacing: 1px;">Dominic Belyaev&rsquo;s Portfolio</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#portfolio">Projects</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <section class="section">
+      <div class="container" data-aos="fade-up">
+
+<h1>Closed-Loop DC Motor Control</h1>
+<p class="text-muted">Role: sole author &mdash; firmware, control design, tuning, and Python client &middot; Tools: C (Pico SDK 2.2.0), Raspberry Pi Pico 2 (RP2350), PIO, DRV8833 H-bridge, INA219 current sensor, quadrature encoder, Python + matplotlib &middot; Timeline: Jan &ndash; Mar 2026 (ME 333, Intro to Mechatronics)</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/hero-setup.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Bench setup — motor with indicator arm, breadboarded Pico 2, DRV8833 and INA219"><img src="assets/img/projects/motor-control/hero-setup.jpg" class="img-fluid rounded" alt="Brushed DC motor with a wooden indicator arm held above a laptop, with the breadboarded Pico 2 and driver circuit alongside"></a></div>
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/system-sketch.png" class="glightbox" data-gallery="hero" data-glightbox="title: System layout — 6 V pack, DRV8833 H-bridge, Pico 2, INA219 on I²C, quadrature encoder"><img src="assets/img/projects/motor-control/system-sketch.png" class="img-fluid rounded border bg-white" alt="Hand-drawn system diagram showing the 6 V battery, H-bridge, Pico, INA219 current sensor, encoder and motor with pin assignments"></a></div>
+</div>
+<p class="text-muted small text-center mb-4">Bench setup &middot; System layout sketch</p>
+
+<p><strong>Built a cascaded motion controller for a brushed DC motor from scratch in C: a 1 kHz PI current loop nested inside a 200 Hz PID position loop, driven over an 18-command serial interface. Tracked smooth cubic trajectories to a mean absolute error of 5.56&deg; over a &plusmn;90&deg; sweep and 8.06&deg; over &plusmn;180&deg;, with the inner loop holding a &plusmn;100 mA square-wave current reference to 12.3 mA mean error.</strong></p>
+
+<h3>Problem</h3>
+<p>Drive a brushed DC motor to arbitrary angular trajectories with no off-the-shelf motion controller &mdash; only a microcontroller, an H-bridge, a current sensor, and an encoder. Torque in a brushed motor is proportional to current, so position cannot be controlled well by commanding duty cycle directly: the controller has to close a fast loop on <em>current</em> first, then wrap a slower loop around <em>position</em> that asks the current loop for the torque it needs.</p>
+
+<h3>Architecture</h3>
+<ul>
+  <li><strong>Inner loop &mdash; current (PI), 1 kHz</strong> in a repeating-timer ISR. Reads the INA219 over I&sup2;C, computes error against the commanded current, and writes a signed duty cycle to the H-bridge.</li>
+  <li><strong>Outer loop &mdash; position (PID), 200 Hz</strong> in a second ISR. Reads the encoder, and its output <em>is</em> the current setpoint handed to the inner loop &mdash; the two loops are genuinely cascaded, not independent.</li>
+  <li><strong>Motor drive:</strong> DRV8833 H-bridge, sign-magnitude PWM on both inputs so a single signed <code>&minus;100&hellip;+100</code> command covers both directions.</li>
+  <li><strong>Feedback:</strong> quadrature encoder decoded on the RP2350's <strong>PIO</strong> blocks, so counting never competes with the control ISRs for CPU time. 1336 counts/rev &rarr; 0.27&deg; resolution.</li>
+  <li><strong>Firmware structure:</strong> a five-state machine (<code>IDLE</code>, <code>PWM</code>, <code>ITEST</code>, <code>HOLD</code>, <code>TRACK</code>) that both ISRs switch on, so the same timers serve open-loop testing, current-loop testing, and trajectory tracking.</li>
+  <li><strong>Host link:</strong> Python client over USB serial &mdash; sets and reads gains, runs tests, uploads trajectories, and pulls logged arrays back for plotting.</li>
+  <li><strong>Power:</strong> 6 V battery pack for the motor rail, 3.3 V from the Pico for the sensors.</li>
+</ul>
+
+<h3>Firmware features</h3>
+<div class="row">
+  <div class="col-md-6"><ul>
+    <li>Encoder read in raw counts or degrees, with zeroing</li>
+    <li>Current read in mA, calibrated through the INA219</li>
+    <li>Open-loop PWM duty command for bring-up</li>
+    <li>Set / get gains independently for both loops</li>
+  </ul></div>
+  <div class="col-md-6"><ul>
+    <li><code>ITEST</code>: automated &plusmn;100 mA square-wave current-loop test</li>
+    <li>Step and cubic reference trajectories uploaded from the host</li>
+    <li>On-board logging of reference vs. actual, replayed to the host after each run</li>
+    <li>Motor de-energize and mode query for safe stops</li>
+  </ul></div>
+</div>
+
+<div class="row g-3 mb-2 justify-content-center">
+  <div class="col-md-7"><a href="assets/img/projects/motor-control/python-ui.jpg" class="glightbox" data-glightbox="title: Python client — 18 single-key commands over USB serial"><img src="assets/img/projects/motor-control/python-ui.jpg" class="img-fluid rounded" alt="Terminal showing the Pico motor driver interface menu with 18 single-letter commands"></a></div>
+</div>
+<p class="text-muted small text-center mb-4">Python client interface &mdash; 18 single-key commands over USB serial</p>
+
+<h3>Demonstrations</h3>
+<p>The wooden indicator arm makes the shaft angle visible. The first clip is a deliberately badly-tuned run &mdash; worth watching first, because it shows what the tuned runs after it are actually buying.</p>
+<style>
+  .demo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .demo-row video { display: block; width: 100%; height: auto; border-radius: 8px; background: #111; }
+  .demo-row p { margin: .5rem 0 0; }
+  @media (max-width: 767px) { .demo-row { grid-template-columns: 1fr; } }
+</style>
+<div class="demo-row mb-4">
+  <div>
+    <video controls playsinline preload="metadata" poster="assets/img/projects/motor-control/poster-detuned.jpg">
+      <source src="assets/video/motor-detuned.mp4" type="video/mp4">
+      Your browser doesn&rsquo;t support embedded video.
+    </video>
+    <p class="text-muted small"><strong>Badly tuned, on purpose.</strong> K<sub>p</sub> 100, K<sub>i</sub> 0, K<sub>d</sub> 0 &mdash; pure proportional control with no derivative damping. The arm slams past the target and oscillates instead of settling. This is the failure mode the tuned gains exist to avoid.</p>
+  </div>
+  <div>
+    <video controls playsinline preload="metadata" poster="assets/img/projects/motor-control/poster-step.jpg">
+      <source src="assets/video/motor-step.mp4" type="video/mp4">
+      Your browser doesn&rsquo;t support embedded video.
+    </video>
+    <p class="text-muted small"><strong>Step trajectory, tuned.</strong> Commanded 0&rarr;90&deg;&rarr;0 at K<sub>p</sub> 5 / K<sub>i</sub> 0.01 / K<sub>d</sub> 700. Still overshoots, but recovers and holds instead of ringing.</p>
+  </div>
+  <div>
+    <video controls playsinline preload="metadata" poster="assets/img/projects/motor-control/poster-cubic-180.jpg">
+      <source src="assets/video/motor-cubic-180.mp4" type="video/mp4">
+      Your browser doesn&rsquo;t support embedded video.
+    </video>
+    <p class="text-muted small"><strong>Cubic trajectory, tuned.</strong> A smooth reference the motor can physically follow &mdash; the arm sweeps and reverses without the snap of the step run, closing on the 1200-sample tracking plot.</p>
+  </div>
+</div>
+
+<h3>Tuning and results</h3>
+<p>Gains were tuned by hand, loop by loop: the current loop first against the square-wave <code>ITEST</code> until it tracked crisply, then the position loop on top of it. The oscillating run in the first clip above is what the position loop does at K<sub>p</sub> 100 with no derivative term; everything below is after tuning. The figure quoted on each plot is the <strong>mean absolute tracking error</strong> the Python client computed over that run &mdash; the mean of <em>|reference &minus; measured|</em> across every sample.</p>
+<p class="text-muted small">Reference trajectories are regenerated exactly from the trajectory generator; measured traces are recovered from the original run captures and re-plotted on labelled time axes. On the current-loop plot the shaded band is the true sample-to-sample spread, not a smoothed line.</p>
+
+<div class="row g-3 mb-2">
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/plot-itest.png" class="glightbox" data-gallery="plots" data-glightbox="title: Current loop — ±100 mA square wave, Kp 0.08 / Ki 0.1, 12.30 mA mean error"><img src="assets/img/projects/motor-control/plot-itest.png" class="img-fluid rounded border bg-white" alt="Current loop tracking a plus/minus 100 milliamp square wave with 12.3 milliamp mean absolute error"></a>
+    <p class="text-muted small mt-1"><strong>Current loop.</strong> 400 samples at 1 kHz. Tracking is noticeably noisier on the negative half of the square wave than the positive &mdash; a real asymmetry in the drive/sense path I never chased down.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/plot-step.png" class="glightbox" data-gallery="plots" data-glightbox="title: Step trajectory — 0→90°→0, Kp 5 / Ki 0.01 / Kd 700, 15.06° mean error"><img src="assets/img/projects/motor-control/plot-step.png" class="img-fluid rounded border bg-white" alt="Step trajectory tracking with overshoot to 127 degrees against a 90 degree reference"></a>
+    <p class="text-muted small mt-1"><strong>Step reference.</strong> 0&rarr;90&deg;&rarr;0 over 4 s. Overshoots to ~127&deg; (about 41%) and undershoots on the way back down &mdash; the clearest evidence of the missing anti-windup.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/plot-cubic-90.png" class="glightbox" data-gallery="plots" data-glightbox="title: Cubic trajectory ±90°, Kp 10 / Ki 0.01 / Kd 400, 5.56° mean error"><img src="assets/img/projects/motor-control/plot-cubic-90.png" class="img-fluid rounded border bg-white" alt="Cubic trajectory tracking across plus and minus 90 degrees with 5.56 degree mean absolute error"></a>
+    <p class="text-muted small mt-1"><strong>Cubic, &plusmn;90&deg;.</strong> 6 s, 1200 samples. Error is almost entirely lag on the steep segments &mdash; the measured trace is the right shape, just slightly behind.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/motor-control/plot-cubic-180.png" class="glightbox" data-gallery="plots" data-glightbox="title: Cubic trajectory ±180°, same gains, 8.06° mean error"><img src="assets/img/projects/motor-control/plot-cubic-180.png" class="img-fluid rounded border bg-white" alt="Cubic trajectory tracking across plus and minus 180 degrees with 8.06 degree mean absolute error"></a>
+    <p class="text-muted small mt-1"><strong>Cubic, &plusmn;180&deg;.</strong> Same gains, double the sweep. Error grows by roughly the same factor as the demanded rate, which is what a lag-dominated error should do.</p></div>
+</div>
+
+<div class="table-responsive mb-4">
+<table class="table table-sm" style="max-width: 680px;">
+  <thead><tr><th>Run</th><th>Reference</th><th>Gains</th><th>Mean abs. error</th></tr></thead>
+  <tbody>
+    <tr><td>Current loop (<code>ITEST</code>)</td><td>&plusmn;100 mA square, 1 kHz</td><td>K<sub>p</sub> 0.08, K<sub>i</sub> 0.1</td><td><strong>12.30 mA</strong></td></tr>
+    <tr><td>Position &mdash; step</td><td>0&rarr;90&deg;&rarr;0</td><td>5 / 0.01 / 700</td><td>15.06&deg;</td></tr>
+    <tr><td>Position &mdash; cubic</td><td>&plusmn;90&deg; over 6 s</td><td>10 / 0.01 / 400</td><td><strong>5.56&deg;</strong></td></tr>
+    <tr><td>Position &mdash; cubic</td><td>&plusmn;180&deg; over 6 s</td><td>10 / 0.01 / 400</td><td><strong>8.06&deg;</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<p><em>Why the step number is worse:</em> a step reference demands an instantaneous jump the motor physically cannot make, so the error metric is dominated by rise time rather than by controller quality. It's a useful stress test of overshoot and settling, but the cubic runs are the fair measure of tracking performance &mdash; which is why the same controller reads 15&deg; on one and 5.6&deg; on the other.</p>
+
+<h3>What I&rsquo;d change</h3>
+<ul>
+  <li><strong>Add anti-windup.</strong> The integrator keeps accumulating while the duty-cycle command is saturated at &plusmn;100, so a long saturated move winds up error the loop then has to unwind. Conditional integration &mdash; or back-calculation from the clamped output &mdash; would kill most of the step overshoot.</li>
+  <li><strong>Fix the derivative term.</strong> It's a raw sample-to-sample error difference with no division by the timestep and no filtering, which makes K<sub>d</sub> unit-dependent on the loop rate and sensitive to encoder noise. A filtered derivative on <em>measurement</em> rather than error would be better behaved.</li>
+  <li><strong>Log to file, not to a live plot window.</strong> Data was plotted straight from the serial stream, so the runs above can't be re-analyzed. Writing timestamped CSV would let me report settling time and steady-state error properly instead of a single mean-error figure.</li>
+  <li><strong>Report better metrics.</strong> Mean absolute error flatters smooth references and punishes steps. Overshoot, 2% settling time, and steady-state error describe the controller far more honestly.</li>
+</ul>
+
+<h3>What I took away</h3>
+<p>This was my first time writing a control loop that runs against real hardware instead of a simulation, and the gap between the two is the lesson. The cascade only works because the inner loop is fast enough that the outer loop can treat commanded current as if it were achieved torque &mdash; a separation that's obvious on paper and easy to break in practice by mis-setting one timer. Most of the debugging time went to that boundary rather than to the gains.</p>
+
+<p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Dominic Belyaev</strong></p>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

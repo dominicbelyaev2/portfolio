@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>The Tele — Dominic Belyaev</title>
+  <meta name="description" content="An assistive diapering device that elevates an infant's legs so a parent with hemiplegia can change a diaper one-handed. Northwestern DTC, Segal Design Institute.">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="starter-page-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/db-emblem.svg" alt="DB emblem" style="height: 46px; margin-right: 12px;">
+        <h1 class="sitename" style="text-transform: uppercase; letter-spacing: 1px;">Dominic Belyaev&rsquo;s Portfolio</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#portfolio">Projects</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  <main class="main">
+    <section class="section">
+      <div class="container" data-aos="fade-up">
+
+<h1>The Tele &mdash; One-Handed Infant Diapering</h1>
+<p class="text-muted">Role: 4-person team (Kaival Shah, Chenchen Wan, Eric Oh, Dominic Belyaev) &mdash; I worked on the sidebar mechanism, hinge integration and prototype fabrication &middot; Tools: SOLIDWORKS, FDM 3D printing, woodshop fabrication &middot; Timeline: Sep &ndash; Dec 2024 &middot; Design Thinking &amp; Communication, Segal Design Institute, Northwestern</p>
+
+<div class="row g-3 mb-2">
+  <div class="col-md-7"><a href="assets/img/projects/tele/in-use-legs-raised.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: The Tele in use — sidebars raised, infant simulator's legs supported in the elastic loops"><img src="assets/img/projects/tele/in-use-legs-raised.jpg" class="img-fluid rounded" alt="The Tele holding an infant simulator's legs elevated in fabric loops, freeing one hand"></a></div>
+  <div class="col-md-5"><a href="assets/img/projects/tele/assembled.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Final prototype — HDPE base, changing pad, telescoping sidebars locked vertical"><img src="assets/img/projects/tele/assembled.jpg" class="img-fluid rounded" alt="The final Tele prototype with padded base and black telescoping sidebars locked upright"></a></div>
+</div>
+
+<p class="mt-3"><strong>Designed and built an assistive device that elevates an infant&rsquo;s legs during a diaper change, so a parent with hemiplegia &mdash; who has the use of only one arm &mdash; can do it independently. Telescoping sidebars set leg height, elastic loops hold the ankles without pinning them, and every mechanism is operable with one hand. Built for a physical therapist at a rehabilitation hospital, from a first-principles observation of what actually makes diapering a two-handed job.</strong></p>
+
+<h3>The problem</h3>
+<p>The brief came from <strong>Brianne Trainor, a physical therapist at Ascension Alexian Brothers Rehabilitation Hospital</strong>. Her patients with hemiplegia &mdash; paralysis down one side &mdash; have the use of one arm, and could not change their baby&rsquo;s diaper without help. Existing products either ignore the one-armed case entirely or are too bulky to take anywhere.</p>
+<p>Watching a conventional two-handed change is what made the constraint precise: <strong>one hand holds the infant&rsquo;s legs up while the other cleans and places the diaper &mdash; and those two tasks overlap in time.</strong> That&rsquo;s the whole reason one arm cannot do it. Naming that changed the project: we didn&rsquo;t need to reinvent diapering, we needed to give the leg-holding job to a device and hand the working arm back to the user.</p>
+
+<h3>Requirements</h3>
+<ul>
+  <li><strong>Every interaction one-handed</strong> &mdash; unfold, adjust, load legs, refold. A step needing two hands invalidates the device.</li>
+  <li><strong>Adjustable leg height</strong>, and enough range to cover a growing infant rather than one size.</li>
+  <li><strong>Portable</strong> &mdash; folds down and travels, since changes don&rsquo;t only happen at home.</li>
+  <li><strong>Cleanable</strong> &mdash; it will get soiled; that&rsquo;s a design input, not an afterthought.</li>
+  <li><strong>Safe under an unpredictable load</strong> &mdash; infants move, and the restraint must hold without hurting them.</li>
+</ul>
+
+<h3>Ideation</h3>
+<p>We generated against three &ldquo;how might we&rdquo; framings &mdash; hold the legs up, keep the baby from moving, make the whole thing usable one-handed &mdash; before converging on the leg problem as the binding one.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/tele/sketch-hmw-legs.jpg" class="glightbox" data-gallery="ideation" data-glightbox="title: 'How might we address the baby's legs?' — concept sketches"><img src="assets/img/projects/tele/sketch-hmw-legs.jpg" class="img-fluid rounded border bg-white" alt="Hand-drawn concept sketches exploring ways to hold an infant's legs, including wedges, buckles, straps and fold-out stands"></a>
+    <p class="text-muted small mt-1">Wedges, seatbelt buckles, snap-on leg bands, fold-out stands.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/tele/sketch-hmw-portability.jpg" class="glightbox" data-gallery="ideation" data-glightbox="title: 'How might we account for bigger babies?' and portability sketches"><img src="assets/img/projects/tele/sketch-hmw-portability.jpg" class="img-fluid rounded border bg-white" alt="Sketches exploring folding sequences, portability and accommodating larger infants"></a>
+    <p class="text-muted small mt-1">Folding sequences and accommodating larger infants.</p></div>
+</div>
+
+<h3>Three concepts, tested as mockups</h3>
+<p>Each concept got a cardboard-or-wood mockup and a written test protocol with the specific questions it had to answer.</p>
+<div class="table-responsive mb-4">
+<table class="table table-sm" style="max-width: 900px;">
+  <thead><tr><th style="width:22%">Concept</th><th>Idea</th><th>What we needed to find out</th></tr></thead>
+  <tbody>
+    <tr><td><strong>The Decline</strong></td><td>A declining ramp holding the legs at the top, with a divot under the diaper area for access.</td><td>Does the baby slide down? How much decline before it&rsquo;s unsafe? Is the divot big enough to clean through?</td></tr>
+    <tr><td><strong>The Clamp</strong></td><td>A tool that slides the diaper under the baby and clamps it, so the user only fastens the tabs.</td><td>What clamping force secures a diaper without hurting the baby? Does it work one-handed, at any size?</td></tr>
+    <tr><td><strong>Storage pad</strong></td><td>A foldable changing pad with built-in compartments for wipes and diapers.</td><td>Can it be folded one-handed? Does keeping supplies within reach actually help?</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="row g-3 mb-3">
+  <div class="col-md-4"><a href="assets/img/projects/tele/concept-decline.jpg" class="glightbox" data-gallery="concepts" data-glightbox="title: The Decline — front and right views, showing leg supports and the divot for access"><img src="assets/img/projects/tele/concept-decline.jpg" class="img-fluid rounded border bg-white" alt="Labelled sketch of the Decline concept showing leg supports and the divot for baby access"></a>
+    <p class="text-muted small mt-1"><strong>The Decline</strong> &mdash; leg supports at the top, divot for access.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/concept-clamp.jpg" class="glightbox" data-gallery="concepts" data-glightbox="title: The Clamp — sliding the diaper under the baby and clamping it"><img src="assets/img/projects/tele/concept-clamp.jpg" class="img-fluid rounded border bg-white" alt="Sketch of the Clamp concept showing the diaper held in a clamp and slid under the baby"></a>
+    <p class="text-muted small mt-1"><strong>The Clamp</strong> &mdash; diaper held, slid under, tabs fastened.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/concept-storage.jpg" class="glightbox" data-gallery="concepts" data-glightbox="title: Storage pad — diaper and wet-wipe compartments either side"><img src="assets/img/projects/tele/concept-storage.jpg" class="img-fluid rounded border bg-white" alt="Sketch of the storage changing pad with diaper and wet wipe compartments"></a>
+    <p class="text-muted small mt-1"><strong>Storage pad</strong> &mdash; supplies within one-handed reach.</p></div>
+</div>
+
+<p><strong>The Decline won on function and then failed on mechanism.</strong> We built it with wooden slides to set leg height &mdash; and testing found two problems immediately: the slides had <strong>too much friction to move one-handed</strong>, and the notches used to hold height were <strong>fiddly to engage</strong>. User testing surfaced a third, more fundamental issue: the ramp <strong>blocked access to the baby&rsquo;s back</strong>, which is exactly where you need to reach.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/tele/decline-mockup.jpg" class="glightbox" data-gallery="mockup" data-glightbox="title: The Decline mockup under test with an infant simulator"><img src="assets/img/projects/tele/decline-mockup.jpg" class="img-fluid rounded" alt="The Decline ramp mockup with an infant simulator lying on it, legs raised and strapped at the top"></a>
+    <p class="text-muted small mt-1"><strong>The Decline, built and loaded.</strong> The ramp holds the legs &mdash; and blocks the access you need underneath.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/tele/decline-in-use.jpg" class="glightbox" data-gallery="mockup" data-glightbox="title: Operating the Decline's leg holder by hand"><img src="assets/img/projects/tele/decline-in-use.jpg" class="img-fluid rounded" alt="A hand operating the Decline mockup's leg holder strap"></a>
+    <p class="text-muted small mt-1">Operating it by hand during testing.</p></div>
+</div>
+
+<h3>The pivot</h3>
+<p>Design review made the choice obvious. Reviewers pushed on the locking mechanism being insecure, on pinch points from too many moving parts, on materials that couldn&rsquo;t be cleaned, and on not knowing the maximum infant weight the device could take.</p>
+<p><strong>So we stopped building a height mechanism and bought one.</strong> A rolling-suitcase handle already solves this exact problem &mdash; low-friction telescoping tubes, a button-actuated spring pin, discrete locking heights, engineered for one-handed use and millions of duty cycles. We bought a $55 suitcase and harvested its handle. The auto-locking hinges are folding table-leg brackets, chosen the same way: an off-the-shelf mechanism that already locks under load and releases on a button.</p>
+<p>That decision is the one I&rsquo;d defend hardest. Reusing a proven mechanism let a four-person team in a ten-week course spend its remaining time on the parts nobody sells &mdash; the leg loops, the geometry, the cleanability &mdash; instead of re-solving low-friction telescoping badly.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><a href="assets/img/projects/tele/suitcase-harvest.jpg" class="glightbox" data-gallery="pivot" data-glightbox="title: The suitcase stripped for parts — handle mechanism, brackets and hinges"><img src="assets/img/projects/tele/suitcase-harvest.jpg" class="img-fluid rounded" alt="The gutted suitcase shell with its salvaged handle mechanism, brackets, hinges and casters laid out on the bench"></a>
+    <p class="text-muted small mt-1">The $55 suitcase, stripped for its handle mechanism and hardware.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/proto-luggage-string.jpg" class="glightbox" data-gallery="pivot" data-glightbox="title: First build with the suitcase handle mechanism, using string loops"><img src="assets/img/projects/tele/proto-luggage-string.jpg" class="img-fluid rounded" alt="The first prototype built around the salvaged suitcase telescoping handle, with string leg loops"></a>
+    <p class="text-muted small mt-1">First build on the suitcase handle &mdash; string loops.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/proto-string-loops.jpg" class="glightbox" data-gallery="pivot" data-glightbox="title: String loops — too thin, dug into the legs"><img src="assets/img/projects/tele/proto-string-loops.jpg" class="img-fluid rounded" alt="Close-up of the thin string leg loops on the early prototype"></a>
+    <p class="text-muted small mt-1">String cut in &mdash; replaced with fabric-covered elastic.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/assembly-base.jpg" class="glightbox" data-gallery="pivot" data-glightbox="title: Hinges and sidebars mounted to the HDPE base"><img src="assets/img/projects/tele/assembly-base.jpg" class="img-fluid rounded" alt="The hinges and sidebars mounted onto the HDPE base during assembly"></a>
+    <p class="text-muted small mt-1">Hinges mounted to the HDPE base.</p></div>
+</div>
+
+<h3>Final design</h3>
+<div class="row g-3 mb-2">
+  <div class="col-md-4"><a href="assets/img/projects/tele/telescoping-button.jpg" class="glightbox" data-gallery="design" data-glightbox="title: Spring pin engaged in one of the height-adjustment holes"><img src="assets/img/projects/tele/telescoping-button.jpg" class="img-fluid rounded" alt="Close-up of the spring-loaded pin engaged in a row of height adjustment holes"></a>
+    <p class="text-muted small mt-1"><strong>Height adjustment.</strong> Press to release, slide, let go &mdash; the pin drops into the next hole.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/locking-hinge.jpg" class="glightbox" data-gallery="design" data-glightbox="title: Auto-locking hinge at the base of the sidebar"><img src="assets/img/projects/tele/locking-hinge.jpg" class="img-fluid rounded" alt="Hand operating the auto-locking hinge that holds the sidebar vertical"></a>
+    <p class="text-muted small mt-1"><strong>Auto-locking hinge.</strong> Clicks vertical under load, button-releases to fold.</p></div>
+  <div class="col-md-4"><a href="assets/img/projects/tele/handle-loops.jpg" class="glightbox" data-gallery="design" data-glightbox="title: Horizontal handle with both fabric-covered elastic loops"><img src="assets/img/projects/tele/handle-loops.jpg" class="img-fluid rounded" alt="The handle spanning the sidebars with two fabric-covered elastic loops hanging"></a>
+    <p class="text-muted small mt-1"><strong>Leg loops.</strong> Spaced apart, so the legs spread and the rear is reachable.</p></div>
+</div>
+<p>The loops are the piece that took the most iteration. String was tried first and cut into the legs. Fabric-covered elastic solved three things at once: it stretches enough to get a leg in one-handed, it distributes pressure over the ankle, and it leaves the infant enough movement not to fight the restraint. Spacing them apart across the handle spreads the legs and opens up the access that killed the ramp concept. The base is <strong>3/8&Prime; HDPE</strong> with a velcro-attached, machine-washable changing pad.</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a href="assets/img/projects/tele/base-pad-velcro.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Fitting the washable changing pad to the HDPE base"><img src="assets/img/projects/tele/base-pad-velcro.jpg" class="img-fluid rounded" alt="Fitting the quilted changing pad onto the white HDPE base, held by velcro at the corners"></a>
+    <p class="text-muted small mt-1">The HDPE base, with the washable pad going on over velcro corners.</p></div>
+  <div class="col-md-6"><a href="assets/img/projects/tele/testing-early-prototype.jpg" class="glightbox" data-gallery="build" data-glightbox="title: Functional testing with the infant simulator"><img src="assets/img/projects/tele/testing-early-prototype.jpg" class="img-fluid rounded" alt="Functional testing of the sidebar prototype with an infant simulator"></a>
+    <p class="text-muted small mt-1">Functional testing against an infant simulator &mdash; leg reach, loop spacing, clearance to the rear.</p></div>
+</div>
+
+<h3>One-handed operation</h3>
+<p>The central claim is that the whole device works with one arm. This is the unfold and height-adjust sequence, done one-handed, start to finish.</p>
+<div class="row g-3 mb-4 justify-content-center">
+  <div class="col-md-5">
+    <video controls playsinline preload="metadata" class="rounded w-100" poster="assets/img/projects/tele/poster-onehanded.jpg">
+      <source src="assets/video/tele-onehanded.mp4" type="video/mp4">
+      Your browser doesn&rsquo;t support embedded video.
+    </video>
+    <p class="text-muted small mt-1">Folded flat &rarr; sidebars raised and locked &rarr; height extended. One hand throughout.</p>
+  </div>
+  <div class="col-md-5"><a href="assets/img/projects/tele/folded-flat.jpg" class="glightbox" data-glightbox="title: Folded flat for transport"><img src="assets/img/projects/tele/folded-flat.jpg" class="img-fluid rounded" alt="The Tele with sidebars folded flat against the padded base"></a>
+    <p class="text-muted small mt-1">Folded, the device is roughly the thickness of the pad.</p></div>
+</div>
+
+<h3>Known limitations</h3>
+<p>Three came straight out of writing the instructions for use &mdash; documenting how something is operated is a good way to find what&rsquo;s wrong with it.</p>
+<ul>
+  <li><strong>Height is discrete, not continuous.</strong> The pin only locks where there&rsquo;s a hole, so the user has to land on a set position. Inherited from the suitcase mechanism &mdash; the cost of reusing it.</li>
+  <li><strong>Refolding needs both hinges released, one at a time.</strong> Each is a press-and-push, so folding down is the least one-handed part of the device and the first thing I&rsquo;d redesign.</li>
+  <li><strong>The loops need care on removal.</strong> The legs must be supported while the loops come off, or they drop. That&rsquo;s a procedure step where it should be a design property.</li>
+  <li><strong>Maximum infant weight was never established.</strong> Design review asked; we never answered it with a number. The device has no rated load.</li>
+</ul>
+
+<h3>What I&rsquo;d change</h3>
+<ul>
+  <li><strong>Load-rate it.</strong> Take a 95th-percentile infant mass, apply it at the loops, and check the sidebars and hinge brackets in bending. Without that the safety case rests on the parts feeling sturdy.</li>
+  <li><strong>Single-action fold.</strong> Link the two hinge releases so one press folds both, closing the last two-handed step.</li>
+  <li><strong>Thinner base, lighter hinges.</strong> The HDPE is thicker than it needs to be and the locking table-leg brackets are heavy for the job.</li>
+  <li><strong>Mould the handle.</strong> Printed was right for one-off; it&rsquo;s the weakest part and the slowest to reproduce.</li>
+  <li><strong>Test with the real users.</strong> Everything here was validated with an infant simulator. Until a parent with hemiplegia uses it unaided on a real infant, the central claim is unproven &mdash; and that&rsquo;s the only test that settles it.</li>
+</ul>
+
+<h3>What I took away</h3>
+<p>Two things. The first is that the observation did more work than any of the engineering: we nearly designed a better diaper, and watching one real change is what redirected us to the leg problem. The second is that <strong>knowing when not to design something is a skill</strong>. The wooden slide was our own work and it didn&rsquo;t function; a $55 suitcase handle did the job better than we were going to. Recognising that early bought us the weeks we needed for the parts that actually had to be invented.</p>
+
+<p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Dominic Belyaev</strong></p>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
