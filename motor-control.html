@@ -54,7 +54,7 @@
 <p class="text-muted small mb-4">Bench setup with the wooden indicator arm, and the system layout sketch.</p>
 
 <h3>Overview</h3>
-<p>For ME 333 I built closed-loop control of a brushed DC motor from the bare metal up &mdash; no off-the-shelf motion controller, just a Pico 2, an H-bridge, a current sensor, and an encoder. Torque in a brushed motor is proportional to current, not duty cycle, so the controller is a cascade: a fast current loop inside a slower position loop. I was the sole author of the firmware, control design, tuning, and host software. I:</p>
+<p>For ME 333 I built closed-loop control of a brushed DC motor with a Pico 2, an H-bridge, a current sensor, and an encoder. Torque in a brushed motor is proportional to current, not duty cycle, so the controller is a cascade: a fast current loop inside a slower position loop. I was the sole author of the firmware, control design, tuning, and host software. I:</p>
 <ul>
   <li>Wrote the firmware in C: a 1 kHz PI current loop nested inside a 200 Hz PID position loop</li>
   <li>Decoded the quadrature encoder on the RP2350&rsquo;s PIO blocks &mdash; 1336 counts/rev, 0.27&deg; resolution</li>
@@ -101,7 +101,7 @@
     <p class="text-muted small">Cubic trajectory, tuned &mdash; a smooth reference the motor can physically follow.</p>
   </div>
 </div>
-<p>Tracking is measured as mean absolute error across every sample of a run. A cubic sweep of &plusmn;90&deg; over 6 s (1200 samples) tracked to 5.56&deg; at K<sub>p</sub> 10 / K<sub>i</sub> 0.01 / K<sub>d</sub> 400; doubling the sweep to &plusmn;180&deg; at the same gains grew the error to 8.06&deg; &mdash; roughly in proportion to the demanded rate, as a lag-dominated error should. The step reference (0&rarr;90&deg;&rarr;0) read 15.06&deg; and overshot to about 127&deg;, roughly 41% &mdash; the controller has no anti-windup and an unfiltered, un-normalised derivative, and a step demands a jump the motor physically cannot make, so the cubic runs are the fair measure.</p>
+<p>Tracking is measured as mean absolute error across every sample of a run. A cubic sweep of ±90° over 6 s (1200 samples) tracked to 5.56° at K<sub>p</sub> 10 / K<sub>i</sub> 0.01 / K<sub>d</sub> 400; doubling the sweep to ±180° at the same gains grew the error to 8.06°. The step reference (0→90°→0) read 15.06° and overshot to about 127°.</p>
 <div class="row g-3 mb-3">
   <div class="col-md-6"><a href="assets/img/projects/motor-control/plot-itest.png" class="glightbox" data-gallery="plots" data-glightbox="title: Current loop — ±100 mA square wave, Kp 0.08 / Ki 0.1, 12.30 mA mean error"><img src="assets/img/projects/motor-control/plot-itest.png" class="img-fluid rounded border bg-white" alt="Current loop tracking a plus/minus 100 milliamp square wave with 12.3 milliamp mean absolute error"></a>
     <p class="text-muted small mt-1 mb-0">Current loop &mdash; 12.30 mA mean error; noisier on the negative half, a real asymmetry I never chased down</p></div>
@@ -120,7 +120,7 @@
   <li>Step: 15.06&deg; with ~41% overshoot &mdash; both known defects (no anti-windup, raw derivative) visible in one number</li>
   <li>Every number is a measured run on the 6 V bench setup; nothing came from simulation</li>
 </ul>
-<p class="text-muted">Scope note: plots are re-plotted from the original run captures, with references regenerated exactly from the trajectory generator; the shaded band on the current-loop plot is the true sample-to-sample spread, not a smoothed line.</p>
+<p class="text-muted"><br></p>
 <p class="mt-4"><a href="index.html#portfolio">&larr; Back to all projects</a></p>
       </div>
     </section>
