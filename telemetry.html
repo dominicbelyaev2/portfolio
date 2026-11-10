@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Flight Telemetry Computer — Dominic Belyaev</title>
+  <title>Flight Telemetry Computer &amp; Avionics Housing — Dominic Belyaev</title>
   <meta name="description" content="">
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -15,6 +15,9 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <style>
+    .telemetry-hero-image { width: 100%; height: clamp(20rem, 42vw, 34rem); object-fit: contain; background: #fff; }
+  </style>
 </head>
 <body class="starter-page-page">
   <header id="header" class="header d-flex align-items-center sticky-top">
@@ -37,14 +40,15 @@
   <main class="main">
     <section class="section">
       <div class="container" data-aos="fade-up">
-<h1>Flight Telemetry Computer</h1>
+<h1>Flight Telemetry Computer &amp; Avionics Housing</h1>
 <p class="text-muted">Personal Project &middot; Jul &ndash; Aug 2026</p>
 
 <div class="row g-3 mb-1">
-  <div class="col-md-6"><a href="assets/img/projects/telemetry/board-sensors.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: The flight board — Pico 2 with both sensors socketed on the soldered perfboard"><img src="assets/img/projects/telemetry/board-sensors.jpg" class="img-fluid rounded" alt="Soldered perfboard flight computer with Raspberry Pi Pico 2 and socketed IMU and barometer breakouts"></a></div>
-  <div class="col-md-6"><a href="assets/img/projects/telemetry/firmware-bench.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Hardware-validating the flight firmware over the USB console"><img src="assets/img/projects/telemetry/firmware-bench.jpg" class="img-fluid rounded" alt="Flight board connected to a laptop running the firmware validation session"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/housing-exploded-iso.png" class="glightbox" data-gallery="hero" data-glightbox="title: Full exploded assembly — nosecone, mounting hardware, flight computer, and printed housing"><img src="assets/img/projects/telemetry/housing-exploded-iso.png" class="img-fluid rounded telemetry-hero-image" alt="Full exploded avionics assembly showing the carbon nosecone, coupler, mounting hardware, flight computer, and printed housing"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/board-sensors.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: The flight board — Pico 2 with both sensors socketed on the soldered perfboard"><img src="assets/img/projects/telemetry/board-sensors.jpg" class="img-fluid rounded telemetry-hero-image" alt="Soldered perfboard flight computer with Raspberry Pi Pico 2 and socketed IMU and barometer breakouts"></a></div>
+  <div class="col-md-4"><a href="assets/img/projects/telemetry/firmware-bench.jpg" class="glightbox" data-gallery="hero" data-glightbox="title: Hardware-validating the flight firmware over the USB console"><img src="assets/img/projects/telemetry/firmware-bench.jpg" class="img-fluid rounded telemetry-hero-image" alt="Flight board connected to a laptop running the firmware validation session"></a></div>
 </div>
-<p class="text-muted small mb-4">The soldered flight board with both sensors socketed, and the hardware-validation session over the USB console.</p>
+<p class="text-muted small mb-4">The full exploded avionics assembly, soldered flight computer, and hardware-validation session over USB.</p>
 
 <h3>Overview</h3>
 <p>I built a flight computer from scratch so my rocket&rsquo;s top speed and apogee would come from measurement rather than simulation: a Raspberry Pi Pico 2 with an IMU and a barometer, hand-soldered on perfboard, logging to onboard flash. Over this project I:</p>
